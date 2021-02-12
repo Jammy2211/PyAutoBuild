@@ -3,7 +3,7 @@ name: Autolens Workspace Test Integration Test
 on: [push]
 
 jobs:
-  build:
+  integration_test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -11,6 +11,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Checkout autolens_workspace_test
+      uses: actions/checkout@v2
+      with:
+        #repository: rhayes777/autolens_workspace_test
+        repository: jonathanfrawley/autolens_workspace_test
+        ref: feature/release-process
+        path: autolens_workspace_test
     - name: Checkout PyAutoFit
       uses: actions/checkout@v2
       with:
@@ -64,5 +71,6 @@ jobs:
         export PYTHONPATH=$PYTHONPATH:$ROOT_DIR/PyAutoGalaxy
         export PYTHONPATH=$PYTHONPATH:$ROOT_DIR/PyAutoLens
         export PYTHONPATH=$PYTHONPATH:$ROOT_DIR/PyAutoFit
+        pushd autolens_workspace_test
 
         python slam/imaging/no_lens_light/source_parametric/mass_total/no_hyper.py
