@@ -66,7 +66,7 @@ jobs:
         pip install -r PyAutoArray/requirements.txt
         pip install -r PyAutoGalaxy/requirements.txt
         pip install -r PyAutoLens/requirements.txt
-        pip install -r requirements.txt
+        pip install -r build/requirements.txt
     #- name: Integration test
     #  run: |
     #    export ROOT_DIR=`pwd`
