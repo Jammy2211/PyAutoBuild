@@ -17,8 +17,8 @@ def py_to_notebook(filename):
     if filename == 'temp.py':
         return
     #print(f'py_to_notebook: {filename}')
-    subprocess.run(['python3', f'{BUILD_PATH}/add_notebook_quotes/add_notebook_quotes.py', filename, 'temp.py'])
-    subprocess.run(["ipynb-py-convert", 'temp.py', f'{filename.split(".py")[0]}.ipynb'])
+    subprocess.run(['python3', f'{BUILD_PATH}/add_notebook_quotes/add_notebook_quotes.py', filename, 'temp.py'], check=True)
+    subprocess.run(["ipynb-py-convert", 'temp.py', f'{filename.split(".py")[0]}.ipynb'], check=True)
     os.remove('temp.py')
 
 def uncomment_jupyter_magic(f):

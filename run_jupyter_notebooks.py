@@ -12,7 +12,7 @@ NOTEBOOKS_ROOT_PATH = f'{WORKSPACE_PATH}/notebooks'
 
 def execute_notebook(f):
     #subprocess.run(['jupyter', 'nbconvert', '--to', 'notebook', '--execute', '--output', f'"{f}"', f'"{f}"'])
-    subprocess.run(['jupyter', 'nbconvert', '--to', 'notebook', '--execute', f'{f}'])
+    subprocess.run(['jupyter', 'nbconvert', '--to', 'notebook', '--execute', f'{f}'], check=True)
 
 
 def main():
