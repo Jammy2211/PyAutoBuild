@@ -74,7 +74,7 @@ def main():
             if not os.path.exists(f'{notebooks_path}'):
                 print(f'Skipping {notebooks_path}/{f} as dest dir does not exist')
                 continue
-            print(f'{scripts_path}/{f} -> {notebooks_path}/{f}')
+            #print(f'{scripts_path}/{f} -> {notebooks_path}/{f}')
             shutil.move(f'{scripts_path}/{f}', f'{notebooks_path}/{f}')
         if os.path.exists(f'{notebooks_path}/__init__.ipynb'):
             os.remove(f'{notebooks_path}/__init__.ipynb')
