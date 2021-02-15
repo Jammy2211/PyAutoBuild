@@ -90,6 +90,11 @@ jobs:
         python gen_ipynb_from_py.py
     - name: Run jupyter notebooks
       run: |
+        export ROOT_DIR=`pwd`
+        export PYTHONPATH=$PYTHONPATH:$ROOT_DIR/PyAutoArray
+        export PYTHONPATH=$PYTHONPATH:$ROOT_DIR/PyAutoGalaxy
+        export PYTHONPATH=$PYTHONPATH:$ROOT_DIR/PyAutoLens
+        export PYTHONPATH=$PYTHONPATH:$ROOT_DIR/PyAutoFit
         pushd build
         python run_jupyter_notebooks.py
 
