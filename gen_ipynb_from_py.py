@@ -16,7 +16,7 @@ import subprocess
 def py_to_notebook(filename):
     if filename == 'temp.py':
         return
-    print(f'py_to_notebook: {filename}')
+    #print(f'py_to_notebook: {filename}')
     subprocess.run(['python3', f'{BUILD_PATH}/add_notebook_quotes/add_notebook_quotes.py', filename, 'temp.py'])
     subprocess.run(["ipynb-py-convert", 'temp.py', f'{filename.split(".py")[0]}.ipynb'])
     os.remove('temp.py')
@@ -33,59 +33,55 @@ def uncomment_jupyter_magic(f):
             line = re.sub(r'# print\(f', 'print(f', line)
             sources.write(line)
 
-def execute_notebook(f):
-    #subprocess.run(['jupyter', 'nbconvert', '--to', 'notebook', '--execute', '--output', f'"{f}"', f'"{f}"'])
-    subprocess.run(['jupyter', 'nbconvert', '--to', 'notebook', '--execute', f'{f}'])
 
 
-print("Setting up Environment variables.")
 BUILD_PATH = os.getcwd()
 WORKSPACE_PATH = f'{os.getcwd()}/../autolens_workspace'
+SCRIPTS_ROOT_PATH = f'{WORKSPACE_PATH}/scripts'
+NOTEBOOKS_ROOT_PATH = f'{WORKSPACE_PATH}/notebooks'
 
-SCRIPTS_PATH = f'{WORKSPACE_PATH}/scripts/database'
 
-NOTEBOOKS_PATH = f'{WORKSPACE_PATH}/notebooks/database'
+def main():
+    os.chdir(SCRIPTS_ROOT_PATH)
 
-print("Removing old notebooks.")
-for f in glob.glob(f'{NOTEBOOKS_PATH}/*.ipynb'):
-    os.remove(f)
-for f in glob.glob(f'{NOTEBOOKS_PATH}/*.ipynb_checkpoints'):
-    shutil.rmtree(f)
+    for x in [t[0] for t in os.walk('.')]:
+        scripts_path = f'{SCRIPTS_ROOT_PATH}/{x}'
+        notebooks_path = f'{NOTEBOOKS_ROOT_PATH}/{x}'
+        print(f'Processing dir <{x}>, {scripts_path} -> {notebooks_path}')
 
-print("Converting scripts to notebooks.")
-print(SCRIPTS_PATH)
-os.chdir(SCRIPTS_PATH)
-print(glob.glob(f'*.py'))
-for f in glob.glob(f'*.py'):
-    py_to_notebook(f)
-#cd $WORKSPACE_PATH/generate
+        #print("Removing old notebooks.")
+        for f in glob.glob(f'{notebooks_path}/*.ipynb'):
+            os.remove(f)
+        for f in glob.glob(f'{notebooks_path}/*.ipynb_checkpoints'):
+            shutil.rmtree(f)
 
-print(glob.glob(f'*.ipynb'))
-for f in glob.glob(f'*.ipynb'):
-    print(f'uncomment_jupyter_magic({f})')
-    uncomment_jupyter_magic(f)
+        #print("Converting scripts to notebooks.")
+        #print(scripts_path)
+        os.chdir(scripts_path)
+        #print(glob.glob(f'*.py'))
+        for f in glob.glob(f'*.py'):
+            py_to_notebook(f)
+        #cd $WORKSPACE_PATH/generate
 
-print("Copying Notebooks to notebooks folder.")
-print(glob.glob(f'*.ipynb'))
-for f in glob.glob(f'*.ipynb'):
-    print(f'{f} -> {NOTEBOOKS_PATH}/{f}')
-    shutil.move(f, f'{NOTEBOOKS_PATH}/{f}')
-os.remove(f'{NOTEBOOKS_PATH}/__init__.ipynb')
+        #print(glob.glob(f'*.ipynb'))
+        for f in glob.glob(f'*.ipynb'):
+            #print(f'uncomment_jupyter_magic({f})')
+            uncomment_jupyter_magic(f)
 
-print("Running notebooks")
-os.chdir(NOTEBOOKS_PATH)
-for f in glob.glob(f'*.ipynb'):
-    execute_notebook(f)
+        #print("Copying Notebooks to notebooks folder.")
+        #print(glob.glob(f'*.ipynb'))
+        for f in glob.glob(f'*.ipynb'):
+            print(f'{scripts_path}/{f} -> {notebooks_path}/{f}')
+            shutil.move(f'{scripts_path}/{f}', f'{notebooks_path}/{f}')
+        if os.path.exists(f'{notebooks_path}/__init__.ipynb'):
+            os.remove(f'{notebooks_path}/__init__.ipynb')
 
-#echo "Renaming notebook methods"
-#find $NOTEBOOKS_PATH/*.ipynb -type f -exec sed -i 's/# %matplotlib/%matplotlib/g' {} +
-#find $NOTEBOOKS_PATH/*.ipynb -type f -exec sed -i 's/# from pyproj/from pyproj/g' {} +
-#find $NOTEBOOKS_PATH/*.ipynb -type f -exec sed -i 's/# workspace_path/workspace_path/g' {} +
-#find $NOTEBOOKS_PATH/*.ipynb -type f -exec sed -i 's/# %cd/%cd/g' {} +
-#find $NOTEBOOKS_PATH/*.ipynb -type f -exec sed -i 's/# print(f/print(f/g' {} +
-#
-# TODO Next, convert these.
-#echo "Running notebooks."
-#cd $NOTEBOOKS_PATH
-#for f in $NOTEBOOKS_PATH/*.ipynb; do jupyter nbconvert --to notebook --execute --output ""$f"" "$f"; done
-#cd $WORKSPACE_PATH/generate
+        #print("Running notebooks")
+        '''
+        os.chdir(notebooks_path)
+        for f in glob.glob(f'*.ipynb'):
+            execute_notebook(f)
+        '''
+
+if __name__ == '__main__':
+    main()
