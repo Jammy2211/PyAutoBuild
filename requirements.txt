@@ -1,3 +1,4 @@
 jupyterlab
 ipynb-py-convert
 ipykernel
+numpy==1.19
