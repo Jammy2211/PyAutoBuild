@@ -80,6 +80,9 @@ jobs:
     - name: Generate jupyter notebooks
       run: |
         pushd build
+        ls -l
+        ls -l ../
+        ls -l ../../
         python gen_ipynb_from_py.py
     - name: Run jupyter notebooks
       run: |
