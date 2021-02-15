@@ -21,7 +21,7 @@ def add_notebook_quotes(
     out = list()
     is_in_quotes = False
 
-    for line in lines[:-1]:
+    for line in lines:
         if line.startswith('"""') or line.startswith("'''"):
             if is_in_quotes:
                 out.extend(["'''", "\n\n", "# %%\n"])

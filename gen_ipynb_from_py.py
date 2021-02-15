@@ -39,6 +39,7 @@ BUILD_PATH = os.getcwd()
 WORKSPACE_PATH = f'{os.getcwd()}/../autolens_workspace'
 SCRIPTS_ROOT_PATH = f'{WORKSPACE_PATH}/scripts'
 NOTEBOOKS_ROOT_PATH = f'{WORKSPACE_PATH}/notebooks'
+COPY_VERBATIM_FOLDERS = ['./howtolens/chapter_3_pipelines/pipelines']
 
 
 def main():
@@ -47,6 +48,8 @@ def main():
     for x in [t[0] for t in os.walk('.')]:
         scripts_path = f'{SCRIPTS_ROOT_PATH}/{x}'
         notebooks_path = f'{NOTEBOOKS_ROOT_PATH}/{x}'
+        if '__pycache__' in x:
+            continue
         print(f'Processing dir <{x}>, {scripts_path} -> {notebooks_path}')
 
         #print("Removing old notebooks.")
@@ -85,6 +88,33 @@ def main():
         for f in glob.glob(f'*.ipynb'):
             execute_notebook(f)
         '''
+
+    for x in COPY_VERBATIM_FOLDERS:
+        scripts_path = f'{SCRIPTS_ROOT_PATH}/{x}'
+        notebooks_path = f'{NOTEBOOKS_ROOT_PATH}/{x}'
+        if '__pycache__' in x:
+            continue
+        print(f'Processing dir <{x}>, {scripts_path} -> {notebooks_path}')
+
+        #print("Removing old notebooks.")
+        for f in glob.glob(f'{notebooks_path}/*.ipynb'):
+            os.remove(f)
+        for f in glob.glob(f'{notebooks_path}/*.ipynb_checkpoints'):
+            shutil.rmtree(f)
+
+        os.chdir(scripts_path)
+        for f in glob.glob(f'*.py'):
+            shutil.copy(f'{scripts_path}/{f}', f'{notebooks_path}/{f}')
+        if os.path.exists(f'{notebooks_path}/__init__.ipynb'):
+            os.remove(f'{notebooks_path}/__init__.ipynb')
+
+        #print("Running notebooks")
+        '''
+        os.chdir(notebooks_path)
+        for f in glob.glob(f'*.ipynb'):
+            execute_notebook(f)
+        '''
+
 
 if __name__ == '__main__':
     main()
