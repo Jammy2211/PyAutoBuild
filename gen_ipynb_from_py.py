@@ -39,7 +39,11 @@ BUILD_PATH = os.getcwd()
 WORKSPACE_PATH = f'{os.getcwd()}/../autolens_workspace'
 SCRIPTS_ROOT_PATH = f'{WORKSPACE_PATH}/scripts'
 NOTEBOOKS_ROOT_PATH = f'{WORKSPACE_PATH}/notebooks'
-COPY_VERBATIM_FOLDERS = ['./howtolens/chapter_3_pipelines/pipelines']
+COPY_VERBATIM_FOLDERS = [
+        './howtolens/chapter_3_pipelines/pipelines',
+        './howtolens/chapter_4_inversions/pipelines',
+        './howtolens/chapter_5_hyper_mode/pipelines',
+        ]
 
 
 def main():

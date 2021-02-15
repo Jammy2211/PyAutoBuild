@@ -1,5 +1,6 @@
-import os
+import datetime
 import glob
+import os
 import re
 import shutil
 import subprocess
@@ -11,6 +12,7 @@ NOTEBOOKS_ROOT_PATH = f'{WORKSPACE_PATH}/notebooks'
 
 
 def execute_notebook(f):
+    print(f'Running <{f}> at {datetime.datetime.now().isoformat()}')
     subprocess.run(['jupyter', 'nbconvert', '--to', 'notebook', '--execute', '--output', f, f], check=True)
     #subprocess.run(['jupyter', 'nbconvert', '--to', 'notebook', '--execute', f'{f}'], check=True)
 
