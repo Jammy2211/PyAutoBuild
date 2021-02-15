@@ -1,2 +1,3 @@
+jupyterlab
 ipynb-py-convert
 ipykernel
