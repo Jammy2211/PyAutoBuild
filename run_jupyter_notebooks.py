@@ -14,8 +14,11 @@ TIMEOUT_SECS = 60
 
 def execute_notebook(f):
     print(f'Running <{f}> at {datetime.datetime.now().isoformat()}')
-    subprocess.run(['jupyter', 'nbconvert', '--to', 'notebook', '--execute', '--output', f, f], check=True, timeout=TIMEOUT_SECS)
-    #subprocess.run(['jupyter', 'nbconvert', '--to', 'notebook', '--execute', f'{f}'], check=True)
+    try:
+        subprocess.run(['jupyter', 'nbconvert', '--to', 'notebook', '--execute', '--output', f, f], check=True, timeout=TIMEOUT_SECS)
+    except subprocess.TimeoutExpired as e:
+        print(f'Timed out executing <{f}>')
+        #subprocess.run(['jupyter', 'nbconvert', '--to', 'notebook', '--execute', f'{f}'], check=True)
 
 
 def main():
