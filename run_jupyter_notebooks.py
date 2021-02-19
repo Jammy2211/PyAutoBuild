@@ -9,11 +9,12 @@ import subprocess
 BUILD_PATH = os.getcwd()
 WORKSPACE_PATH = f'{os.getcwd()}/../autolens_workspace'
 NOTEBOOKS_ROOT_PATH = f'{WORKSPACE_PATH}/notebooks'
+TIMEOUT_SECS = 60 * 60
 
 
 def execute_notebook(f):
     print(f'Running <{f}> at {datetime.datetime.now().isoformat()}')
-    subprocess.run(['jupyter', 'nbconvert', '--to', 'notebook', '--execute', '--output', f, f], check=True)
+    subprocess.run(['jupyter', 'nbconvert', '--to', 'notebook', '--execute', '--output', f, f], check=True, timeout=TIMEOUT_SECS)
     #subprocess.run(['jupyter', 'nbconvert', '--to', 'notebook', '--execute', f'{f}'], check=True)
 
 
