@@ -9,7 +9,7 @@ import subprocess
 BUILD_PATH = os.getcwd()
 WORKSPACE_PATH = f'{os.getcwd()}/../autolens_workspace'
 NOTEBOOKS_ROOT_PATH = f'{WORKSPACE_PATH}/notebooks'
-TIMEOUT_SECS = 60 * 60
+TIMEOUT_SECS = 60
 
 
 def execute_notebook(f):
