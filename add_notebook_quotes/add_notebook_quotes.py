@@ -15,8 +15,4 @@ if __name__ == "__main__":
         lines = f.readlines()
 
     with open(out_filename, "w+") as f:
-        f.writelines(
-            add_notebook_quotes(
-                lines
-            )
-        )
+        f.writelines(add_notebook_quotes(lines))

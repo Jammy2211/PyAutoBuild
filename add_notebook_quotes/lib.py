@@ -1,9 +1,7 @@
 from typing import Iterable
 
 
-def add_notebook_quotes(
-        lines: Iterable[str]
-):
+def add_notebook_quotes(lines: Iterable[str]):
     """
     Add %% above and below docs quotes with triple quotes.
 
