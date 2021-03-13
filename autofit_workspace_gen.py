@@ -13,9 +13,7 @@ WORKSPACE_PATH = f"{os.getcwd()}/../autofit_workspace"
 SCRIPTS_ROOT_PATH = f"{WORKSPACE_PATH}/scripts"
 NOTEBOOKS_ROOT_PATH = f"{WORKSPACE_PATH}/notebooks"
 FOLDERS_OMIT = ["overview/simple", "overview/complex"]
-COPY_VERBATIM_FOLDERS = [
-    "./howtofit/chapter_phase_api/src",
-]
+COPY_VERBATIM_FOLDERS = ["./howtofit/chapter_phase_api/src"]
 COPY_VEBATIM_FILES = [
     "./features/analysis.py",
     "./features/model.py",
@@ -24,7 +22,7 @@ COPY_VEBATIM_FILES = [
     "./howtofit/chapter_database/profiles.py",
     "./howtofit/chapter_graphical_models/analysis.py",
     "./howtofit/chapter_graphical_models/gaussian.py",
-    "./howtofit/chapter_graphical_models/profiles.py"
+    "./howtofit/chapter_graphical_models/profiles.py",
 ]
 NOTEBOOKS_REMOVE = [
     "./features/analysis.ipynb",
@@ -46,6 +44,7 @@ NOTEBOOKS_REMOVE_RECURSIVE = [
     "./howtofit/chapter_phase_api/src/phase",
     "./howtofit/chapter_phase_api/src/plot",
 ]
+
 
 def main():
 
@@ -138,6 +137,7 @@ def main():
         for f in glob.glob(f"{notebooks_path}/*.ipynb"):
             print(f)
             os.remove(f)
+
 
 if __name__ == "__main__":
     main()

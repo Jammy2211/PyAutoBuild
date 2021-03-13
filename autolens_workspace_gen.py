@@ -23,12 +23,9 @@ COPY_VERBATIM_FOLDERS = [
     "./howtolens/chapter_4_inversions/pipelines",
     "./howtolens/chapter_5_hyper_mode/pipelines",
 ]
-COPY_VEBATIM_FILES = [
-    "./imaging/preprocess/gui/scribbler.py"
-]
-NOTEBOOKS_REMOVE = [
-    "./imaging/preprocess/gui/scribbler.ipynb"
-]
+COPY_VEBATIM_FILES = ["./imaging/preprocess/gui/scribbler.py"]
+NOTEBOOKS_REMOVE = ["./imaging/preprocess/gui/scribbler.ipynb"]
+
 
 def main():
 
@@ -110,6 +107,7 @@ def main():
     for x in NOTEBOOKS_REMOVE:
         notebooks_path = f"{NOTEBOOKS_ROOT_PATH}/{x}"
         os.remove(notebooks_path)
+
 
 if __name__ == "__main__":
     main()

@@ -10,6 +10,7 @@ BUILD_PATH = os.getcwd()
 WORKSPACE_PATH = f"{os.getcwd()}/../autolens_workspace"
 NOTEBOOKS_ROOT_PATH = f"{WORKSPACE_PATH}/notebooks"
 
+
 def main():
 
     if os.path.exists(f"{WORKSPACE_PATH}/config_temp"):
@@ -48,6 +49,7 @@ def main():
 
     shutil.rmtree(f"{WORKSPACE_PATH}/config")
     os.rename(f"{WORKSPACE_PATH}/config_temp", f"{WORKSPACE_PATH}/config")
+
 
 if __name__ == "__main__":
     main()

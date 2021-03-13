@@ -6,6 +6,7 @@ import subprocess
 TIMEOUT_SECS = 60
 BUILD_PATH = os.getcwd()
 
+
 def py_to_notebook(filename):
     if filename == "temp.py":
         return
@@ -36,7 +37,6 @@ def uncomment_jupyter_magic(f):
             line = re.sub(r"# %cd", "%cd", line)
             line = re.sub(r"# print\(f", "print(f", line)
             sources.write(line)
-
 
 
 def execute_notebook(f):
