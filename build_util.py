@@ -1,3 +1,4 @@
+import glob
 import datetime
 import os
 import re
@@ -37,6 +38,28 @@ def uncomment_jupyter_magic(f):
             line = re.sub(r"# %cd", "%cd", line)
             line = re.sub(r"# print\(f", "print(f", line)
             sources.write(line)
+
+
+def exexcute_notebooks_in_folder(ROOT_PATH, NOTEBOOKS_NO_RUN=None):
+
+    NOTEBOOKS_NO_RUN = NOTEBOOKS_NO_RUN or []
+
+    os.chdir(ROOT_PATH)
+
+    for x in [t[0] for t in os.walk(".")]:
+
+        notebooks_path = f"{ROOT_PATH}/{x}"
+        os.chdir(notebooks_path)
+
+        for f in glob.glob(f"*.ipynb"):
+
+            run_notebook = True
+            for no_run in NOTEBOOKS_NO_RUN:
+                if no_run in f:
+                    run_notebook = False
+
+            if run_notebook:
+                execute_notebook(f)
 
 
 def execute_notebook(f):
