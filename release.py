@@ -48,8 +48,6 @@ def update_version(repo_name, lib_name, version):
 def build(repo_name):
     old_dir = os.getcwd()
     os.chdir(f'{WORKSPACE}/{repo_name.split("/")[1]}')
-    #. ~/miniconda3/bin/activate
-    #conda activate PyAutoLens
     subprocess.run(['python3', '-m', 'pip', 'install', '--upgrade', 'build'])
     subprocess.run(['python3', '-m', 'build'])
     os.chdir(old_dir)
