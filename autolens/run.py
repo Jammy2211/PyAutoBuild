@@ -1,8 +1,5 @@
-import glob
 import os
-import re
 import shutil
-import subprocess
 from distutils.dir_util import copy_tree
 import build_util
 
@@ -20,6 +17,9 @@ NOTEBOOKS_NO_RUN = [
     "tutorial_8_model_fit.ipynb",
     "tutorial_6_model_fit.ipynb",
     "tutorial_2_samples.ipynb",
+    "tutorial_4_lens_models.ipynb",
+    "tutorial_5_data_fitting.ipynb",
+    "tutorial_6_derived.ipynb",
     "hyper_mode.ipynb",
     "pipeline.ipynb",
     "light_parametric__mass_total__source_inversion.ipynb",
@@ -33,24 +33,24 @@ def main():
     os.chdir(WORKSPACE_PATH)
     build_util.execute_notebook("introduction.ipynb")
 
-  #  os.system("git clone https://github.com/Jammy2211/auto_files --depth 1")
+    os.system("git clone https://github.com/Jammy2211/auto_files --depth 1")
 
-    # if os.path.exists(f"{WORKSPACE_PATH}/output/database"):
-    #     shutil.rmtree(f"{WORKSPACE_PATH}/output/database")
+    # if os.path.exists(f"{WORKSPACE_PATH}/database.sqlite"):
+    #     os.remove(f"{WORKSPACE_PATH}/database.sqlite")
     #
-    # shutil.move("auto_files/output/database", f"{WORKSPACE_PATH}/output")
-    #
-    # if os.path.exists(f"{WORKSPACE_PATH}/output/howtolens"):
-    #     shutil.rmtree(f"{WORKSPACE_PATH}/output/howtolens")
-    #
-    # shutil.move("auto_files/output/howtolens", f"{WORKSPACE_PATH}/output")
-    #
-    # shutil.rmtree("auto_files")
+    # shutil.move("auto_files/database.sqlite", f"{WORKSPACE_PATH}")
+
+    if os.path.exists(f"{WORKSPACE_PATH}/output/howtolens/chapter_2"):
+        shutil.rmtree(f"{WORKSPACE_PATH}/output/howtolens/chapter_2")
+
+    shutil.move("auto_files/howtolens/chapter_2", f"{WORKSPACE_PATH}/output/howtolens")
+
+    shutil.rmtree("auto_files")
 
     os.chdir(NOTEBOOKS_ROOT_PATH)
 
     for folder in [
-    #    "howtolens",
+        "howtolens",
         "database"
     ]:
 
