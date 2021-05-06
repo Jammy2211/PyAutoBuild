@@ -23,8 +23,6 @@ jobs:
       run: |
         python3 -m pip install -r PyAutoBuild/requirements.txt
     - name: Release all packages
-    needs: [build_wheels, build_sdist]
-    runs-on: ubuntu-latest
       run: |
         pushd PyAutoBuild
         python3 release.py
