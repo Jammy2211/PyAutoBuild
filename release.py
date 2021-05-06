@@ -83,7 +83,7 @@ def upload_all(minor_version):
             #os.chdir(old_dir)
             #shutil.rmtree(f'{WORKSPACE}/{repo_name.split("/")[1]}')
             #upload_all(minor_version + 1)
-            return
+            raise Exception("Upload failed")
 
 if __name__ == '__main__':
     try:

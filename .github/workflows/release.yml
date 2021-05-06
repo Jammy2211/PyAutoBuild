@@ -6,10 +6,11 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    environment: testpypi
     env:
-      TWINE_USERNAME: __token__
-      TWINE_PASSWORD: ${{ secrets.TEST_PYPI }}
       TWINE_REPOSITORY: testpypi
+      TWINE_USERNAME: __token__
+      TWINE_PASSWORD: ${{ secrets.PYPI }}
     strategy:
       matrix:
         python-version: [3.8]  # 3.9 not supported on numba as of 2020-02-11
