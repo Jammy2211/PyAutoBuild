@@ -22,4 +22,6 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Release all packages
       run: |
+        echo "tw: $TWINE_USERNAME"
+        echo "tp: $TWINE_PASSWORD"
         python3 release.py
