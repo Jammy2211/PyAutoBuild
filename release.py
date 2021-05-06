@@ -86,4 +86,8 @@ def upload_all(minor_version):
             return
 
 if __name__ == '__main__':
+    try:
+        os.mkdir(WORKSPACE)
+    except OSError:
+        print ("Creation of the directory %s failed" % path)
     upload_all(1)
