@@ -98,8 +98,5 @@ if __name__ == '__main__':
                         help='"test" or "prod"')
 
     args = parser.parse_args()
-    try:
-        os.mkdir(WORKSPACE)
-    except OSError:
-        print(f"Creation of the directory {path} failed")
+    os.makedirs(WORKSPACE, exist_ok=True)
     upload_all(args.mode, 1)
