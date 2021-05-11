@@ -1,3 +1,4 @@
+import argparse
 from datetime import date
 import os
 import re
@@ -5,7 +6,7 @@ import shutil
 import subprocess
 
 
-WORKSPACE = 'build_workspace'
+WORKSPACE = '../'
 #MAX_MINOR_VERSION = 1
 PROJECTS = [
         #('rhayes777/PyAutoConf', 'autoconf'),
@@ -53,15 +54,21 @@ def build(repo_name):
     os.chdir(old_dir)
 
 
-def push_to_pypi(repo_name):
+def push_to_pypi(mode, repo_name):
     old_dir = os.getcwd()
     os.chdir(f'{WORKSPACE}/{repo_name.split("/")[1]}')
-    subprocess.run(['python3', '-m', 'pip', 'install', '--user', '--upgrade', 'twine'])
-    subprocess.check_output(['python3', '-m', 'twine', 'upload', '--repository', 'testpypi', 'dist/*'])
+    if mode == 'test':
+        subprocess.run(['python3', '-m', 'pip', 'install', '--user', '--upgrade', 'twine'])
+        subprocess.check_output(['python3', '-m', 'twine', 'upload', '--repository', 'testpypi', 'dist/*'])
+    elif mode == 'prod':
+        subprocess.run(['python3', '-m', 'pip', 'install', '--user', '--upgrade', 'twine'])
+        subprocess.check_output(['python3', '-m', 'twine', 'upload', 'dist/*'])
+    else:
+        raise ValueError('mode has to be one of "test", "prod"')
     os.chdir(old_dir)
 
 
-def upload_all(minor_version):
+def upload_all(mode, minor_version):
     old_dir = os.getcwd()
     #if minor_version > MAX_MINOR_VERSION:
     #    print('Tried all versions...')
@@ -75,9 +82,9 @@ def upload_all(minor_version):
             clone_repo(repo_name)
             update_version(repo_name, lib_name, version)
             build(repo_name)
-            push_to_pypi(repo_name)
+            push_to_pypi(repo_name, mode)
             #push_to_git()
-            shutil.rmtree(f'{WORKSPACE}/{repo_name.split("/")[1]}')
+            #shutil.rmtree(f'{WORKSPACE}/{repo_name.split("/")[1]}')
         except subprocess.CalledProcessError:
             print(f'Upload of {repo_name} with version {version} failed, retrying with minor_version {minor_version+1}')
             #os.chdir(old_dir)
@@ -86,8 +93,13 @@ def upload_all(minor_version):
             raise Exception("Upload failed")
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Build all projects')
+    parser.add_argument('--mode', type=str,
+                        help='"test" or "prod"')
+
+    args = parser.parse_args()
     try:
         os.mkdir(WORKSPACE)
     except OSError:
         print(f"Creation of the directory {path} failed")
-    upload_all(1)
+    upload_all(args.mode, 1)

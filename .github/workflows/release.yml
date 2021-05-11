@@ -16,10 +16,101 @@ jobs:
         python-version: [3.8]  # 3.9 not supported on numba as of 2020-02-11
     steps:
     - uses: actions/checkout@v2
+      with:
+        path: PyAutoBuild
+    - name: Checkout autolens_workspace
+      uses: actions/checkout@v2
+      with:
+        #repository: Jammy2211/autolens_workspace
+        repository: jonathanfrawley/autolens_workspace
+        ref: master
+        path: autolens_workspace
+    - name: Checkout autofit_workspace
+      uses: actions/checkout@v2
+      with:
+        #repository: Jammy2211/autofit_workspace
+        repository: jonathanfrawley/autofit_workspace
+        ref: master
+        path: autofit_workspace
+    - name: Checkout autolens_workspace_test
+      uses: actions/checkout@v2
+      with:
+        #repository: rhayes777/autolens_workspace_test
+        repository: jonathanfrawley/autolens_workspace_test
+        ref: master
+        path: autolens_workspace_test
+    - name: Checkout PyAutoConf
+      uses: actions/checkout@v2
+      with:
+        #repository: rhayes777/PyAutoConf
+        repository: jonathanfrawley/PyAutoConf
+        ref: master
+        path: PyAutoConf
+    - name: Checkout PyAutoArray
+      uses: actions/checkout@v2
+      with:
+        #repository: Jammy2211/PyAutoArray
+        repository: jonathanfrawley/PyAutoArray
+        ref: master
+        path: PyAutoArray
+    - name: Checkout PyAutoFit
+      uses: actions/checkout@v2
+      with:
+        #repository: rhayes777/PyAutoFit
+        repository: jonathanfrawley/PyAutoFit
+        ref: master
+        path: PyAutoFit
+    - name: Checkout PyAutoGalaxy
+      uses: actions/checkout@v2
+      with:
+        #repository: Jammy2211/PyAutoGalaxy
+        repository: jonathanfrawley/PyAutoGalaxy
+        ref: master
+        path: PyAutoGalaxy
+    - name: Checkout PyAutoLens
+      uses: actions/checkout@v2
+      with:
+        #repository: Jammy2211/PyAutoLens
+        repository: jonathanfrawley/PyAutoLens
+        ref: master
+        path: PyAutoLens
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Release all packages
+    - name: Test release all packages
       run: |
-        python3 release.py
+        cd PyAutoBuild
+        python3 release.py --mode=test
+    - name: Install all packages
+      run: |
+        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple autoconf
+        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple autoarray
+        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple autofit
+        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple autogalaxy
+        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple autolens
+    - name: Unit tests for all projects 
+      run: |
+        export PROJECTS=("PyAutoConf" "PyAutoArray" "PyAutoFit" "PyAutoGalaxy" "PyAutoLens"):w
+        for project in ${PROJECTS[@]}; do
+          pushd $project
+          python3 -m pytest
+          popd
+        done
+    #- name: Run Python scripts
+    #- name: Generate jupyter notebooks
+    #  run: |
+    #    pushd build
+    #    python gen_ipynb_from_py.py
+    #- name: Run Autofit Integration tests
+    #- name: Run Autolens Integration tests
+    #- name: Run Autofit Integration notebook tests
+    #- name: Run Autolens Integration notebook tests
+    #- name: Git commit, tag, merge and release everything
+    #  # Commit changes to version numbers and filled-in notebooks
+    #  # Tag all repos (including workspaces with current version)
+    #  # Push all of these to master
+    #  # Merge master to release for workspace repos (Also maybe for others if this is straightforward)
+    #- name: Prod release all packages
+    #  run: |
+    #    python3 release.py --mode=prod
