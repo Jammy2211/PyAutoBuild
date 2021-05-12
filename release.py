@@ -54,7 +54,7 @@ def build(repo_name):
     os.chdir(old_dir)
 
 
-def push_to_pypi(mode, repo_name):
+def push_to_pypi(repo_name, mode):
     old_dir = os.getcwd()
     os.chdir(f'{WORKSPACE}/{repo_name.split("/")[1]}')
     if mode == 'test':
