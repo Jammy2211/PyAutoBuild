@@ -91,7 +91,7 @@ jobs:
         python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple autolens
     - name: Unit tests for all projects 
       run: |
-        export PROJECTS=("PyAutoConf" "PyAutoArray" "PyAutoFit" "PyAutoGalaxy" "PyAutoLens"):w
+        export PROJECTS=("PyAutoConf" "PyAutoArray" "PyAutoFit" "PyAutoGalaxy" "PyAutoLens")
         for project in ${PROJECTS[@]}; do
           pushd $project
           python3 -m pytest
