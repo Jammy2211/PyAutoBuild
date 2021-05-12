@@ -91,7 +91,7 @@ jobs:
       run: |
         echo "Waiting for packages to upload to test.pypi..."
         sleep 15
-        export DATE_FORMATTED=`date +"%Y-%-m-%-d"`
+        export DATE_FORMATTED=`date +"%Y.%-m.%-d"`
         export VERSION="${DATE_FORMATTED}.${{ github.event.inputs.minor_version }}"
         python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple -Iv autoconf==$VERSION
         python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple -Iv autoarray==$VERSION
