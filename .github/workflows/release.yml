@@ -129,7 +129,16 @@ jobs:
           python3 -m pytest
           popd
         done
-    #- name: Run Python scripts
+    - name: Run Python scripts autolens
+      run: |
+        pushd PyAutoBuild
+        export PYTHONPATH=$PYTHONPATH:../
+        python3 autolens/run_python.py
+    - name: Run Python scripts autofit
+      run: |
+        pushd PyAutoBuild
+        export PYTHONPATH=$PYTHONPATH:../
+        python3 autofit/run_python.py
     #- name: Generate jupyter notebooks
     #  run: |
     #    pushd build
