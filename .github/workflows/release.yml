@@ -87,14 +87,17 @@ jobs:
       run: |
         cd PyAutoBuild
         python3 release.py --mode=test --minor-version=${{ github.event.inputs.minor_version }}
-
     - name: Install all packages
       run: |
-        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple autoconf
-        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple autoarray
-        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple autofit
-        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple autogalaxy
-        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple autolens
+        echo "Waiting for packages to upload to test.pypi..."
+        sleep 15
+        export DATE_FORMATTED=`date +"%Y-%-m-%-d"`
+        export VERSION="${DATE_FORMATTED}.${{ github.event.inputs.minor_version }}"
+        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple -Iv autoconf==$VERSION
+        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple -Iv autoarray==$VERSION
+        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple -Iv autofit==$VERSION
+        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple -Iv autogalaxy==$VERSION
+        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple -Iv autolens==$VERSION
         python3 -m pip freeze
     - name: Unit tests for all projects 
       run: |
