@@ -1,12 +1,12 @@
 name: Autolens Release process
 
 on: 
-  workflow_dispatch
-  inputs:
-    minor_version:
-      description: 'Minor version to release'
-      required: true
-      default: '1'
+  workflow_dispatch:
+    inputs:
+      minor_version:
+        description: 'Minor version to release'
+        required: true
+        default: '1'
 
 jobs:
   release:
