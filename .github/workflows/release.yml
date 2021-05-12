@@ -88,10 +88,15 @@ jobs:
         pushd PyAutoBuild
         python3 release.py --mode=test --minor-version=${{ github.event.inputs.minor_version }}
         popd
-    - name: Wait for packages to upload to Pypi
+    - name: Compute version number
       run: |
         export DATE_FORMATTED=`date +"%Y.%-m.%-d"`
         export VERSION="${DATE_FORMATTED}.${{ github.event.inputs.minor_version }}"
+        echo "::set-output name=version-number::$(VERSION)"
+      id: version_number
+    - name: Wait for packages to upload to Pypi
+      run: |
+        export VERSION="${{ steps.version_number.outputs.version-number }}"
         python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple autogalaxy==$VERSION
         test_condition=$?
         cnt=0
@@ -105,8 +110,7 @@ jobs:
         done
     - name: Install all packages
       run: |
-        export DATE_FORMATTED=`date +"%Y.%-m.%-d"`
-        export VERSION="${DATE_FORMATTED}.${{ github.event.inputs.minor_version }}"
+        export VERSION="${{ steps.version_number.outputs.version-number }}"
         python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple autoconf==$VERSION
         python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple autoarray==$VERSION
         python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple autofit==$VERSION
