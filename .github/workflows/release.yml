@@ -2,12 +2,11 @@ name: Autolens Release process
 
 on: 
   workflow_dispatch
-
-inputs:
-  minor_version:
-    description: 'Minor version to release'
-    required: true
-    default: '1'
+  inputs:
+    minor_version:
+      description: 'Minor version to release'
+      required: true
+      default: '1'
 
 jobs:
   release:
@@ -87,7 +86,8 @@ jobs:
     - name: Test release all packages
       run: |
         cd PyAutoBuild
-        python3 release.py --mode=test --minor-version={{ args.minor_version }}
+        python3 release.py --mode=test --minor-version=${{ github.event.inputs.minor_version }}
+
     - name: Install all packages
       run: |
         python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple autoconf
@@ -119,4 +119,4 @@ jobs:
     #  # Merge master to release for workspace repos (Also maybe for others if this is straightforward)
     #- name: Prod release all packages
     #  run: |
-    #    python3 release.py --mode=prod  --minor-version={{ args.minor_version }}
+    #    python3 release.py --mode=prod  --minor-version=${{ github.event.inputs.minor_version }}
