@@ -97,7 +97,7 @@ if __name__ == '__main__':
     parser.add_argument('--mode', type=str,
                         help='"test" or "prod"')
 
-    parser.add_argument('--minor_version', type=int, default=1,
+    parser.add_argument('--minor-version', type=int, default=1,
                         help='Minor version to use')
 
     args = parser.parse_args()
