@@ -102,4 +102,4 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     os.makedirs(WORKSPACE, exist_ok=True)
-    upload_all(args.mode, int(arg.minor_version))
+    upload_all(args.mode, int(args.minor_version))
