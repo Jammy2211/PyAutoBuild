@@ -79,7 +79,7 @@ def upload_all(mode, minor_version):
     for repo_name, lib_name in PROJECTS:
         try:
             print(f'Uploading version of {repo_name}: {version}')
-            clone_repo(repo_name)
+            #clone_repo(repo_name)
             update_version(repo_name, lib_name, version)
             build(repo_name)
             push_to_pypi(repo_name, mode)
