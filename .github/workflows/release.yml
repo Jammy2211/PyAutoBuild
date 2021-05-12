@@ -85,8 +85,9 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Test release all packages
       run: |
-        cd PyAutoBuild
+        pushd PyAutoBuild
         python3 release.py --mode=test --minor-version=${{ github.event.inputs.minor_version }}
+        popd
     - name: Install all packages
       run: |
         echo "Waiting for packages to upload to test.pypi..."
@@ -98,10 +99,13 @@ jobs:
         python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple autofit==$VERSION
         python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple autogalaxy==$VERSION
         python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple autolens==$VERSION
+    - name: Pip freeze
+      run: |
         python3 -m pip freeze
     - name: Unit tests for all projects 
       run: |
-        export PROJECTS=("PyAutoConf" "PyAutoArray" "PyAutoFit" "PyAutoGalaxy" "PyAutoLens")
+        #export PROJECTS=("PyAutoConf" "PyAutoArray" "PyAutoFit" "PyAutoGalaxy" "PyAutoLens")
+        export PROJECTS=("PyAutoGalaxy")
         for project in ${PROJECTS[@]}; do
           pushd $project
           python3 -m pytest
