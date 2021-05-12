@@ -104,7 +104,8 @@ jobs:
         python3 -m pip freeze
     - name: Unit tests for all projects 
       run: |
-        export PROJECTS=("PyAutoConf" "PyAutoArray" "PyAutoFit" "PyAutoGalaxy" "PyAutoLens")
+        #export PROJECTS=("PyAutoConf" "PyAutoArray" "PyAutoFit" "PyAutoGalaxy" "PyAutoLens")
+        export PROJECTS=("PyAutoLens")
         for project in ${PROJECTS[@]}; do
           pushd $project
           python3 -m pytest
