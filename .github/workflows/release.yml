@@ -90,6 +90,8 @@ jobs:
         popd
     - name: Wait for packages to upload to Pypi
       run: |
+        export DATE_FORMATTED=`date +"%Y.%-m.%-d"`
+        export VERSION="${DATE_FORMATTED}.${{ github.event.inputs.minor_version }}"
         python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple autogalaxy==$VERSION
         test_condition=$?
         cnt=0
