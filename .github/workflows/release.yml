@@ -93,11 +93,11 @@ jobs:
         sleep 15
         export DATE_FORMATTED=`date +"%Y.%-m.%-d"`
         export VERSION="${DATE_FORMATTED}.${{ github.event.inputs.minor_version }}"
-        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple -Iv autoconf==$VERSION
-        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple -Iv autoarray==$VERSION
-        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple -Iv autofit==$VERSION
-        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple -Iv autogalaxy==$VERSION
-        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple -Iv autolens==$VERSION
+        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple autoconf==$VERSION
+        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple autoarray==$VERSION
+        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple autofit==$VERSION
+        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple autogalaxy==$VERSION
+        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple autolens==$VERSION
         python3 -m pip freeze
     - name: Unit tests for all projects 
       run: |
