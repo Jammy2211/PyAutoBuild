@@ -92,7 +92,7 @@ jobs:
       run: |
         export DATE_FORMATTED=`date +"%Y.%-m.%-d"`
         export VERSION="${DATE_FORMATTED}.${{ github.event.inputs.minor_version }}"
-        echo "::set-output name=version-number::$(VERSION)"
+        echo "::set-output name=version-number::${VERSION}"
       id: version_number
     - name: Wait for packages to upload to Pypi
       run: |
