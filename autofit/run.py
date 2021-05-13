@@ -8,13 +8,12 @@ WORKSPACE_PATH = f"{os.getcwd()}/../autofit_workspace"
 NOTEBOOKS_ROOT_PATH = f"{WORKSPACE_PATH}/notebooks"
 
 NOTEBOOKS_NO_RUN = [
-    "tutorial_2_graphical_model.ipynb",
-    "tutorial_2_aggregator.ipynb",
-    "tutorial_3_querying.ipynb",
-    "tutorial_4_data_and_models.ipynb",
+    "database.ipynb",
     "graphical_models.ipynb",
+    "tutorial_2_graphical_model.ipynb",
     "MultiNest.ipynb",
     "UltraNest.ipynb"
+
 ]
 
 def main():
@@ -22,12 +21,24 @@ def main():
     os.chdir(WORKSPACE_PATH)
  #   build_util.execute_notebook("introduction.ipynb")
 
+    if os.path.exists(f"{WORKSPACE_PATH}/auto_files"):
+        shutil.rmtree(f"{WORKSPACE_PATH}/auto_files")
+
     os.system("git clone https://github.com/Jammy2211/auto_files --depth 1")
 
     if os.path.exists(f"{WORKSPACE_PATH}/output/howtofit"):
         shutil.rmtree(f"{WORKSPACE_PATH}/output/howtofit")
 
-    shutil.move("auto_files/howtofit", f"{WORKSPACE_PATH}/output")
+    if os.path.exists(f"{WORKSPACE_PATH}/output/database.sqlite"):
+        os.remove(f"{WORKSPACE_PATH}/output/database.sqlite")
+
+    if os.path.exists(f"{WORKSPACE_PATH}/output/database_howtofit.sqlite"):
+        os.remove(f"{WORKSPACE_PATH}/output/database_howtofit.sqlite")
+
+    shutil.move("auto_files/autofit/output/howtofit", f"{WORKSPACE_PATH}/output")
+    shutil.move("auto_files/autofit/output/database.sqlite", f"{WORKSPACE_PATH}/output")
+    shutil.move("auto_files/autofit/output/database_howtofit.sqlite", f"{WORKSPACE_PATH}/output")
+
     shutil.rmtree("auto_files")
 
     os.chdir(BUILD_PATH)
