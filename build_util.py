@@ -99,7 +99,7 @@ def execute_scripts_in_folder(root_path, scripts_no_run=None):
         scripts_path = f"{root_path}/{x}"
         os.chdir(scripts_path)
 
-        for f in glob.glob(f"*.ipy"):
+        for f in glob.glob(f"*.py"):
 
             run_script = True
             for no_run in scripts_no_run:

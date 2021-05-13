@@ -30,8 +30,6 @@ def main():
     copy_tree(f"autolens/configs/default", f"{WORKSPACE_PATH}/config")
 
     os.chdir(WORKSPACE_PATH)
-    build_util.execute_script("introduction.py")
-
     os.system("git clone https://github.com/Jammy2211/auto_files --depth 1")
 
     # if os.path.exists(f"{WORKSPACE_PATH}/database.sqlite"):
