@@ -27,22 +27,22 @@ SCRIPTS_NO_RUN = [
 ]
 
 def main():
-    copy_tree(f"autolens/configs/default", f"{workspace_path}/config")
+    copy_tree(f"autolens/configs/default", f"{WORKSPACE_PATH}/config")
 
-    os.chdir(workspace_path)
+    os.chdir(WORKSPACE_PATH)
     build_util.execute_script("introduction.py")
 
     os.system("git clone https://github.com/Jammy2211/auto_files --depth 1")
 
-    # if os.path.exists(f"{workspace_path}/database.sqlite"):
-    #     os.remove(f"{workspace_path}/database.sqlite")
+    # if os.path.exists(f"{WORKSPACE_PATH}/database.sqlite"):
+    #     os.remove(f"{WORKSPACE_PATH}/database.sqlite")
     #
-    # shutil.move("auto_files/database.sqlite", f"{workspace_path}")
+    # shutil.move("auto_files/database.sqlite", f"{WORKSPACE_PATH}")
 
-    if os.path.exists(f"{workspace_path}/output/howtolens/chapter_2"):
-        shutil.rmtree(f"{workspace_path}/output/howtolens/chapter_2")
+    if os.path.exists(f"{WORKSPACE_PATH}/output/howtolens/chapter_2"):
+        shutil.rmtree(f"{WORKSPACE_PATH}/output/howtolens/chapter_2")
 
-    shutil.move("auto_files/howtolens/chapter_2", f"{workspace_path}/output/howtolens")
+    shutil.move("auto_files/howtolens/chapter_2", f"{WORKSPACE_PATH}/output/howtolens")
 
     shutil.rmtree("auto_files")
 
