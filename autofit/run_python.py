@@ -12,7 +12,7 @@ SCRIPTS_ROOT_PATH = f"{WORKSPACE_PATH}/scripts"
 def run_python_script(f):
     args = ['python3', f]
     print(f'Running <{args}>')
-    subprocess.run(args)
+    subprocess.run(args, check=True)
 
 
 def main():
