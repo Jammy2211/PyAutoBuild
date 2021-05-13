@@ -99,7 +99,7 @@ jobs:
       run: |
         export PACKAGES=("autoconf" "autoarray" "autofit" "autogalaxy" "autolens")
         export VERSION="${{ steps.version_number.outputs.version-number }}"
-        for project in ${PROJECTS[@]}; do
+        for PACKAGE in ${PACKAGES[@]}; do
           python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple $PACKAGE==$VERSION
           test_condition=$?
           cnt=0
@@ -115,15 +115,15 @@ jobs:
     - name: Pip freeze
       run: |
         python3 -m pip freeze
-    - name: Unit tests for all projects 
-      run: |
-        export PROJECTS=("PyAutoConf" "PyAutoArray" "PyAutoFit" "PyAutoGalaxy" "PyAutoLens")
-        #export PROJECTS=("PyAutoLens")
-        for project in ${PROJECTS[@]}; do
-          pushd $project
-          python3 -m pytest
-          popd
-        done
+    #- name: Unit tests for all projects 
+    #  run: |
+    #    export PROJECTS=("PyAutoConf" "PyAutoArray" "PyAutoFit" "PyAutoGalaxy" "PyAutoLens")
+    #    #export PROJECTS=("PyAutoLens")
+    #    for PROJECT in ${PROJECTS[@]}; do
+    #      pushd $PROJECT
+    #      python3 -m pytest
+    #      popd
+    #    done
     - name: Run Python scripts autolens
       run: |
         pushd PyAutoBuild
