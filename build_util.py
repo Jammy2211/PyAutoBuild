@@ -76,6 +76,7 @@ def execute_notebook(f):
 
 
 def execute_script(f):
+    args = ['python3', f]
     print(f'Running <{args}>')
     subprocess.run(args, check=True)
     try:
