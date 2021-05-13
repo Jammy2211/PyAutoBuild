@@ -134,14 +134,29 @@ jobs:
         pushd PyAutoBuild
         export PYTHONPATH=$PYTHONPATH:../
         python3 autofit/run_python.py
-    #- name: Generate jupyter notebooks
-    #  run: |
-    #    pushd build
-    #    python gen_ipynb_from_py.py
-    #- name: Run Autofit Integration tests
-    #- name: Run Autolens Integration tests
-    #- name: Run Autofit Integration notebook tests
-    #- name: Run Autolens Integration notebook tests
+    - name: Install Jupyter dependency
+      run: |
+        pip install jupyter ipynb-py-convert
+    - name: Generate jupyter notebooks (autofit)
+      run: |
+        pushd PyAutoBuild
+        export PYTHONPATH=$PYTHONPATH:../
+        python3 autofit/generate.py
+    - name: Generate jupyter notebooks (autolens)
+      run: |
+        pushd PyAutoBuild
+        export PYTHONPATH=$PYTHONPATH:../
+        python3 autolens/generate.py
+    - name: Run jupyter notebooks (autofit)
+      run: |
+        pushd PyAutoBuild
+        export PYTHONPATH=$PYTHONPATH:../
+        python3 autofit/run.py
+    - name: Generate jupyter notebooks (autolens)
+      run: |
+        pushd PyAutoBuild
+        export PYTHONPATH=$PYTHONPATH:../
+        python3 autolens/run.py
     #- name: Git commit, tag, merge and release everything
     #  # Commit changes to version numbers and filled-in notebooks
     #  # Tag all repos (including workspaces with current version)
