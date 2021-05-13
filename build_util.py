@@ -73,3 +73,29 @@ def execute_notebook(f):
     except subprocess.TimeoutExpired as e:
         print(f"Timed out executing <{f}>")
         # subprocess.run(['jupyter', 'nbconvert', '--to', 'notebook', '--execute', f'{f}'], check=True)
+
+
+def execute_python_script(f):
+    args = ['python3', f]
+    print(f'Running <{args}>')
+    subprocess.run(args, check=True)
+
+
+def execute_python_scripts(workspace_path):
+    build_path = os.getcwd()
+    scripts_root_path = f"{workspace_path}/scripts"
+
+    os.chdir(scripts_root_path)
+    script_dirs = [t[0] for t in os.walk(".")]
+    os.chdir(workspace_path)
+    for script_dir in script_dirs:
+        scripts_path = f"scripts/{script_dir}"
+        if "__pycache__" in script_dir:
+            continue
+        print(f"Processing dir <{script_dir}>, {scripts_path}")
+
+        os.chdir(scripts_path)
+        files = glob.glob(f"*.py")
+        os.chdir(workspace_path)  # Scripts need to be run from here
+        for f in files:
+            execute_python_script(os.path.join(scripts_path, f))
