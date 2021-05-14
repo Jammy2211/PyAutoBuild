@@ -16,6 +16,7 @@ SCRIPTS_NO_RUN = [
     "tutorial_5_complex_source.py",
     "tutorial_8_model_fit.py",
     "tutorial_6_model_fit.py",
+    "tutorial_searches.py",
     "tutorial_2_samples.py",
     "tutorial_4_lens_models.py",
     "tutorial_5_data_fitting.py",
@@ -23,7 +24,14 @@ SCRIPTS_NO_RUN = [
     "hyper_mode.py",
     "pipeline.py",
     "light_parametric__mass_total__source_inversion.py",
-    "non_linear_searches.py"
+    "Emcee.py",
+    "PySwarms.py",
+    "Zeus.py",
+    "EmceePlotter.py",
+    "PySwarmsPlotter.py",
+    "ZeusPlotter.py",
+    "UltraNestPlotter.py",
+    "DynestyPlotter.py",
 ]
 
 def main():
@@ -39,10 +47,14 @@ def main():
     if os.path.exists(f"{WORKSPACE_PATH}/output/howtolens/chapter_2"):
         shutil.rmtree(f"{WORKSPACE_PATH}/output/howtolens/chapter_2")
 
+    if os.path.exists(f"{WORKSPACE_PATH}/output/howtolens/chapter_3"):
+        shutil.rmtree(f"{WORKSPACE_PATH}/output/howtolens/chapter_3")
+
     if os.path.exists(f"{WORKSPACE_PATH}/output/database.sqlite"):
         os.remove(f"{WORKSPACE_PATH}/output/database.sqlite")
 
     shutil.move("auto_files/autolens/output/howtolens/chapter_2", f"{WORKSPACE_PATH}/output/howtolens")
+    shutil.move("auto_files/autolens/output/howtolens/chapter_3", f"{WORKSPACE_PATH}/output/howtolens")
     shutil.move("auto_files/autolens/output/database.sqlite", f"{WORKSPACE_PATH}/output")
 
     shutil.rmtree("auto_files")
