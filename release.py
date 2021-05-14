@@ -40,7 +40,8 @@ def update_version(repo_name, lib_name, version):
     os.chdir(f'{WORKSPACE}/{repo_name.split("/")[1]}')
     with open (f'{lib_name}/__init__.py', 'r' ) as f:
         file_content = f.read()
-    file_content_with_version = re.sub(r'__version__\s*=\s*("|\')\d*\.\d*\.\d*("|\')', f'__version__ = "{version}"', file_content)
+    file_content_with_version = re.sub(r'__version__\s*=\s*("|\')\d*\.\d*\.\d*(\.\d*)?("|\')', f'__version__ = "{version}"', file_content)
+    
     with open (f'{lib_name}/__init__.py', 'w' ) as f:
         f.write(file_content_with_version)
     os.chdir(old_dir)

@@ -158,10 +158,9 @@ jobs:
         export PYTHONPATH=$PYTHONPATH:../
         python3 autolens/run.py
     #- name: Git commit, tag, merge and release everything
-    #  # Commit changes to version numbers and filled-in notebooks
-    #  # Tag all repos (including workspaces with current version)
-    #  # Push all of these to master
-    #  # Merge master to release for workspace repos (Also maybe for others if this is straightforward)
+    #  run: |
+    #    pushd PyAutoBuild
+    #    python3 tag_and_merge.py --version ${{ github.event.inputs.minor_version }}
     #- name: Prod release all packages
     #  run: |
     #    python3 release.py --mode=prod  --minor-version=${{ github.event.inputs.minor_version }}

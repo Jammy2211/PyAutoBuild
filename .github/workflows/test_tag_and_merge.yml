@@ -1,0 +1,95 @@
+name: Autolens Test of version tagging
+
+on: 
+  workflow_dispatch:
+    inputs:
+      minor_version:
+        description: 'Minor version to release'
+        required: true
+        default: '1'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.8]  # 3.9 not supported on numba as of 2020-02-11
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        path: PyAutoBuild
+    - name: Checkout autolens_workspace
+      uses: actions/checkout@v2
+      with:
+        #repository: Jammy2211/autolens_workspace
+        repository: jonathanfrawley/autolens_workspace
+        ref: master
+        path: autolens_workspace
+    - name: Checkout autofit_workspace
+      uses: actions/checkout@v2
+      with:
+        #repository: Jammy2211/autofit_workspace
+        repository: jonathanfrawley/autofit_workspace
+        ref: master
+        path: autofit_workspace
+    - name: Checkout autolens_workspace_test
+      uses: actions/checkout@v2
+      with:
+        #repository: rhayes777/autolens_workspace_test
+        repository: jonathanfrawley/autolens_workspace_test
+        ref: master
+        path: autolens_workspace_test
+    - name: Checkout PyAutoConf
+      uses: actions/checkout@v2
+      with:
+        #repository: rhayes777/PyAutoConf
+        repository: jonathanfrawley/PyAutoConf
+        ref: master
+        path: PyAutoConf
+    - name: Checkout PyAutoArray
+      uses: actions/checkout@v2
+      with:
+        #repository: Jammy2211/PyAutoArray
+        repository: jonathanfrawley/PyAutoArray
+        ref: master
+        path: PyAutoArray
+    - name: Checkout PyAutoFit
+      uses: actions/checkout@v2
+      with:
+        #repository: rhayes777/PyAutoFit
+        repository: jonathanfrawley/PyAutoFit
+        ref: master
+        path: PyAutoFit
+    - name: Checkout PyAutoGalaxy
+      uses: actions/checkout@v2
+      with:
+        #repository: Jammy2211/PyAutoGalaxy
+        repository: jonathanfrawley/PyAutoGalaxy
+        ref: master
+        path: PyAutoGalaxy
+    - name: Checkout PyAutoLens
+      uses: actions/checkout@v2
+      with:
+        #repository: Jammy2211/PyAutoLens
+        repository: jonathanfrawley/PyAutoLens
+        ref: master
+        path: PyAutoLens
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Test release all packages
+      run: |
+        pushd PyAutoBuild
+        python3 update_version.py --minor-version 11 --mode test
+        popd
+    - name: Compute version number
+      run: |
+        export DATE_FORMATTED=`date +"%Y.%-m.%-d"`
+        export VERSION="${DATE_FORMATTED}.${{ github.event.inputs.minor_version }}"
+        echo "::set-output name=version-number::${VERSION}"
+      id: version_number
+    - name: Git commit, tag, merge and release everything
+      run: |
+        pushd PyAutoBuild
+        python3 tag_and_merge.py --version ${{ github.event.inputs.minor_version }}

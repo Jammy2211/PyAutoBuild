@@ -3,14 +3,15 @@ import os
 import subprocess
 
 #WORKSPACE = '../'
-WORKSPACE = './workspace_tmp'
+WORKSPACE = '../workspace_tmp2'
 
 LIB_PROJECTS = [
     'PyAutoConf', 'PyAutoFit', 'PyAutoArray', 'PyAutoLens', 'PyAutoGalaxy'
     ]
 
 WORKSPACE_PROJECTS = [
-    'autolens_workspace', 'autolens_test_workspace'
+    #'autolens_workspace', 'autofit_workspace', 'autolens_workspace_test'
+    'autolens_workspace', 'autofit_workspace'
     ]
 
 def main(version):
@@ -18,22 +19,23 @@ def main(version):
         print(f'Tagging {project}')
         old_dir = os.getcwd()
         os.chdir(os.path.join(WORKSPACE, project))
-        subprocess.run(['git', 'commit', '-a', '-m', 'Update version to {version}'], check=True)
+        subprocess.run(['git', 'commit', '-a', '-m', f'Update version to {version}'], check=True)
         subprocess.run(['git', 'tag', f'v{version}'], check=True)
-        #subprocess.run(['git', 'push', 'origin', 'master', '--tags'], check=True)
+        subprocess.run(['git', 'push', 'origin', 'master', '--tags'], check=True)
         os.chdir(old_dir)
 
     for project in WORKSPACE_PROJECTS:
         print(f'Tagging {project}')
         old_dir = os.getcwd()
         os.chdir(os.path.join(WORKSPACE, project))
-        subprocess.run(['git', 'commit', '-a', '-m', f'Update version to {version}'], check=True)
+        subprocess.run(['git', 'checkout', 'master'], check=True)
+        #subprocess.run(['git', 'commit', '-a', '-m', f'Update version to {version}'], check=True)
         subprocess.run(['git', 'tag', f'v{version}'], check=True)
-        #subprocess.run(['git', 'push', 'origin', 'master', '--tags'], check=True)
+        subprocess.run(['git', 'push', 'origin', 'master', '--tags'], check=True)
         subprocess.run(['git', 'fetch'], check=True)
         subprocess.run(['git', 'checkout', 'release'], check=True)
         subprocess.run(['git', 'merge', 'master'], check=True)
-        #subprocess.run(['git', 'push', 'origin', 'release'], check=True)
+        subprocess.run(['git', 'push', 'origin', 'release', '--tags'], check=True)
         os.chdir(old_dir)
 
 
