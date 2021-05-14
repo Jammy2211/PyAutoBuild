@@ -2,8 +2,7 @@ import argparse
 import os
 import subprocess
 
-#WORKSPACE = '../'
-WORKSPACE = '../workspace_tmp2'
+WORKSPACE = '../'
 
 LIB_PROJECTS = [
     'PyAutoConf', 'PyAutoFit', 'PyAutoArray', 'PyAutoLens', 'PyAutoGalaxy'
