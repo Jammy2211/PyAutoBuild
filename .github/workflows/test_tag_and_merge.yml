@@ -100,6 +100,6 @@ jobs:
     - name: Git commit, tag, merge and release everything
       run: |
         pushd PyAutoBuild
-        git config --global user.name "Jonathan Frawley"
-        git config --global user.email 'jonathan.frawley@users.noreply.github.com'
+        git config --global user.name github-actions
+        git config --global user.email github-actions@github.com
         python3 tag_and_merge.py --version ${{ github.event.inputs.minor_version }}
