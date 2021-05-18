@@ -74,8 +74,8 @@ def main():
     copy_tree(f"autolens/configs/test", f"{WORKSPACE_PATH}/config")
 
     for folder in [
-        "imaging",
-        "interferometer",
+      #  "imaging",
+     #   "interferometer",
         "point_source",
         "misc",
         "plot"
