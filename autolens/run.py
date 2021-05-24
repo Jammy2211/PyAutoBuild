@@ -17,9 +17,6 @@ NOTEBOOKS_NO_RUN = [
     "tutorial_8_model_fit.ipynb",
     "tutorial_6_model_fit.ipynb",
     "tutorial_2_samples.ipynb",
-    "tutorial_4_lens_models.ipynb",
-    "tutorial_5_data_fitting.ipynb",
-    "tutorial_6_derived.ipynb",
     "tutorial_searches.ipynb",
     "hyper_mode.ipynb",
     "pipeline.ipynb",
@@ -44,19 +41,15 @@ def main():
     if os.path.exists(f"{WORKSPACE_PATH}/auto_files"):
         shutil.rmtree(f"{WORKSPACE_PATH}/auto_files")
 
+    if os.path.exists(f"{WORKSPACE_PATH}/output"):
+        try:
+            os.rename(f"{WORKSPACE_PATH}/output", f"{WORKSPACE_PATH}/output_backup")
+        except OSError:
+            shutil.rmtree(f"{WORKSPACE_PATH}/output")
+
     os.system("git clone https://github.com/Jammy2211/auto_files --depth 1")
 
-    if os.path.exists(f"{WORKSPACE_PATH}/output/howtolens/chapter_2"):
-        shutil.rmtree(f"{WORKSPACE_PATH}/output/howtolens/chapter_2")
-
-    if os.path.exists(f"{WORKSPACE_PATH}/output/howtolens/chapter_3"):
-        shutil.rmtree(f"{WORKSPACE_PATH}/output/howtolens/chapter_3")
-
-    if os.path.exists(f"{WORKSPACE_PATH}/output/database.sqlite"):
-        os.remove(f"{WORKSPACE_PATH}/output/database.sqlite")
-
-    shutil.move("auto_files/autolens/output/howtolens/chapter_2", f"{WORKSPACE_PATH}/output/howtolens")
-    shutil.move("auto_files/autolens/output/howtolens/chapter_3", f"{WORKSPACE_PATH}/output/howtolens")
+    os.system(f"cp -r {WORKSPACE_PATH}/auto_files/autolens/output/howtolens {WORKSPACE_PATH}/output")
     shutil.move("auto_files/autolens/output/database.sqlite", f"{WORKSPACE_PATH}/output")
 
     shutil.rmtree("auto_files")
@@ -75,12 +68,6 @@ def main():
 
     os.chdir(BUILD_PATH)
     copy_tree(f"autolens/configs/test", f"{WORKSPACE_PATH}/config")
-
-    if os.path.exists(f"{WORKSPACE_PATH}/output"):
-        try:
-            os.rename(f"{WORKSPACE_PATH}/output", f"{WORKSPACE_PATH}/output_backup")
-        except OSError:
-            shutil.rmtree(f"{WORKSPACE_PATH}/output")
 
     for folder in [
         "imaging",
