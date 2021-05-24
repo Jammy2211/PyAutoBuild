@@ -11,6 +11,7 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    environment: testpypi
     strategy:
       matrix:
         python-version: [3.8]  # 3.9 not supported on numba as of 2020-02-11
@@ -106,14 +107,14 @@ jobs:
     - name: Push changes PyAutoFit master
       uses: ad-m/github-push-action@master
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.AUTH_TOKEN }}
         branch: master
         directory: PyAutoFit
         tags: true
     - name: Push changes PyAutoFit release
       uses: ad-m/github-push-action@master
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.AUTH_TOKEN }}
         branch: release
         directory: PyAutoFit
         tags: true
