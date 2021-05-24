@@ -20,7 +20,7 @@ def main(version):
         os.chdir(os.path.join(WORKSPACE, project))
         subprocess.run(['git', 'commit', '-a', '-m', f'Update version to {version}'], check=True)
         subprocess.run(['git', 'tag', f'v{version}'], check=True)
-        subprocess.run(['git', 'push', 'origin', 'master', '--tags'], check=True)
+        #subprocess.run(['git', 'push', 'origin', 'master', '--tags'], check=True)
         os.chdir(old_dir)
 
     for project in WORKSPACE_PROJECTS:
@@ -30,11 +30,11 @@ def main(version):
         subprocess.run(['git', 'checkout', 'master'], check=True)
         #subprocess.run(['git', 'commit', '-a', '-m', f'Update version to {version}'], check=True)
         subprocess.run(['git', 'tag', f'v{version}'], check=True)
-        subprocess.run(['git', 'push', 'origin', 'master', '--tags'], check=True)
+        #subprocess.run(['git', 'push', 'origin', 'master', '--tags'], check=True)
         subprocess.run(['git', 'fetch'], check=True)
         subprocess.run(['git', 'checkout', 'release'], check=True)
         subprocess.run(['git', 'merge', 'master'], check=True)
-        subprocess.run(['git', 'push', 'origin', 'release', '--tags'], check=True)
+        #subprocess.run(['git', 'push', 'origin', 'release', '--tags'], check=True)
         os.chdir(old_dir)
 
 

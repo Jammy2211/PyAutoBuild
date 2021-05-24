@@ -103,3 +103,17 @@ jobs:
         git config --global user.name github-actions
         git config --global user.email github-actions@github.com
         python3 tag_and_merge.py --version ${{ github.event.inputs.minor_version }}
+    - name: Push changes PyAutoFit master
+      uses: ad-m/github-push-action@master
+      directory: PyAutoFit
+      tags: true
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: master
+    - name: Push changes PyAutoFit release
+      uses: ad-m/github-push-action@master
+      directory: PyAutoFit
+      tags: true
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: release
