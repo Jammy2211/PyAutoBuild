@@ -23,6 +23,7 @@ def main(version):
         #subprocess.run(['git', 'push', 'origin', 'master', '--tags'], check=True)
         os.chdir(old_dir)
 
+    '''
     for project in WORKSPACE_PROJECTS:
         print(f'Tagging {project}')
         old_dir = os.getcwd()
@@ -36,6 +37,7 @@ def main(version):
         subprocess.run(['git', 'merge', 'master'], check=True)
         #subprocess.run(['git', 'push', 'origin', 'release', '--tags'], check=True)
         os.chdir(old_dir)
+    '''
 
 
 if __name__ == '__main__':
