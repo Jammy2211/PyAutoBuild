@@ -105,15 +105,15 @@ jobs:
         python3 tag_and_merge.py --version ${{ github.event.inputs.minor_version }}
     - name: Push changes PyAutoFit master
       uses: ad-m/github-push-action@master
-      directory: PyAutoFit
-      tags: true
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: master
+        directory: PyAutoFit
+        tags: true
     - name: Push changes PyAutoFit release
       uses: ad-m/github-push-action@master
-      directory: PyAutoFit
-      tags: true
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: release
+        directory: PyAutoFit
+        tags: true
