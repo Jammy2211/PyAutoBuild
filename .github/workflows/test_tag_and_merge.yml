@@ -111,6 +111,7 @@ jobs:
         branch: master
         directory: PyAutoFit
         tags: true
+        repository: jonathanfrawley/PyAutoFit_copy
     - name: Push changes PyAutoFit release
       uses: ad-m/github-push-action@master
       with:
@@ -118,3 +119,4 @@ jobs:
         branch: release
         directory: PyAutoFit
         tags: true
+        repository: jonathanfrawley/PyAutoFit_copy
