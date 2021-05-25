@@ -64,6 +64,7 @@ jobs:
       with:
         #repository: rhayes777/PyAutoFit
         #repository: jonathanfrawley/PyAutoFit
+        token: ${{ secrets.AUTH_TOKEN }}
         repository: jonathanfrawley/PyAutoFit_copy
         ref: master
         path: PyAutoFit
