@@ -73,3 +73,38 @@ def execute_notebook(f):
     except subprocess.TimeoutExpired as e:
         print(f"Timed out executing <{f}>")
         # subprocess.run(['jupyter', 'nbconvert', '--to', 'notebook', '--execute', f'{f}'], check=True)
+
+
+def execute_script(f):
+    args = ['python3', f]
+    print(f'Running <{args}>')
+    subprocess.run(args, check=True)
+    try:
+        subprocess.run(
+            args,
+            check=True,
+            timeout=TIMEOUT_SECS,
+        )
+    except subprocess.TimeoutExpired as e:
+        print(f"Timed out executing <{args}>")
+        # subprocess.run(['jupyter', 'nbconvert', '--to', 'notebook', '--execute', f'{f}'], check=True)
+
+
+def execute_scripts_in_folder(workspace_path, folder, root_path, scripts_no_run=None):
+    scripts_no_run = scripts_no_run or []
+    os.chdir(root_path)
+
+    for script_dir in [t[0] for t in os.walk(".")]:
+        scripts_path = f"{root_path}/{script_dir}"
+        os.chdir(scripts_path)
+        files = glob.glob(f"*.py")
+        os.chdir(workspace_path)
+
+        for f in files:
+            run_script = True
+            for no_run in scripts_no_run:
+                if no_run in f:
+                    run_script = False
+
+            if run_script:
+                execute_script(os.path.join('scripts', folder, script_dir, f))

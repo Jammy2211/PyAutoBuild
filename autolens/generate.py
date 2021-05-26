@@ -22,7 +22,6 @@ NOTEBOOKS_REMOVE = [
 
 
 def main():
-
     os.chdir(SCRIPTS_ROOT_PATH)
 
     for x in [t[0] for t in os.walk(".")]:

@@ -1,12 +1,38 @@
 {
-    "Redshift": {
-        "redshift": {
+    "Gaussian": {
+        "centre": {
             "type": "Uniform",
             "lower_limit": 0.0,
-            "upper_limit": 3.0,
+            "upper_limit": 100.0,
             "width_modifier": {
                 "type": "Absolute",
-                "value": 1.0
+                "value": 20.0
+            },
+            "gaussian_limits": {
+                "lower": "-inf",
+                "upper": "inf"
+            }
+        },
+        "intensity": {
+            "type": "LogUniform",
+            "lower_limit": 1e-06,
+            "upper_limit": 1000000.0,
+            "width_modifier": {
+                "type": "Relative",
+                "value": 0.5
+            },
+            "gaussian_limits": {
+                "lower": 0.0,
+                "upper": "inf"
+            }
+        },
+        "sigma": {
+            "type": "Uniform",
+            "lower_limit": 0.0,
+            "upper_limit": 25.0,
+            "width_modifier": {
+                "type": "Relative",
+                "value": 0.5
             },
             "gaussian_limits": {
                 "lower": 0.0,
@@ -14,24 +40,24 @@
             }
         }
     },
-    "HyperGalaxy": {
-        "contribution_factor": {
+    "Exponential": {
+        "centre": {
             "type": "Uniform",
             "lower_limit": 0.0,
-            "upper_limit": 20.0,
+            "upper_limit": 100.0,
             "width_modifier": {
-                "type": "Relative",
-                "value": 0.5
+                "type": "Absolute",
+                "value": 20.0
             },
             "gaussian_limits": {
-                "lower": 0.0,
+                "lower": "-inf",
                 "upper": "inf"
             }
         },
-        "noise_factor": {
+        "intensity": {
             "type": "LogUniform",
-            "lower_limit": 1e-4,
-            "upper_limit": 1000.0,
+            "lower_limit": 1e-06,
+            "upper_limit": 1000000.0,
             "width_modifier": {
                 "type": "Relative",
                 "value": 0.5
@@ -41,16 +67,16 @@
                 "upper": "inf"
             }
         },
-        "noise_power": {
+        "rate": {
             "type": "Uniform",
-            "lower_limit": -10.0,
+            "lower_limit": 0.0,
             "upper_limit": 10.0,
             "width_modifier": {
                 "type": "Relative",
                 "value": 0.5
             },
             "gaussian_limits": {
-                "lower": "-inf",
+                "lower": 0.0,
                 "upper": "inf"
             }
         }
