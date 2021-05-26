@@ -46,6 +46,7 @@ def main():
     os.chdir(NOTEBOOKS_ROOT_PATH)
 
     for folder in [
+        "../projects",
         "simulators",
         "howtofit",
         "overview",
