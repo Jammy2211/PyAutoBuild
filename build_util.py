@@ -72,6 +72,7 @@ def execute_notebook(f):
         )
     except subprocess.TimeoutExpired as e:
         print(f"Timed out executing <{f}>")
+        raise e
         # subprocess.run(['jupyter', 'nbconvert', '--to', 'notebook', '--execute', f'{f}'], check=True)
 
 
@@ -87,6 +88,7 @@ def execute_script(f):
         )
     except subprocess.TimeoutExpired as e:
         print(f"Timed out executing <{args}>")
+        raise e
         # subprocess.run(['jupyter', 'nbconvert', '--to', 'notebook', '--execute', f'{f}'], check=True)
 
 
