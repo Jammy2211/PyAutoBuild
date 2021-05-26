@@ -12,6 +12,7 @@ BUILD_PATH = os.getcwd()
 WORKSPACE_PATH = f"{os.getcwd()}/../autofit_workspace"
 SCRIPTS_ROOT_PATH = f"{WORKSPACE_PATH}/scripts"
 NOTEBOOKS_ROOT_PATH = f"{WORKSPACE_PATH}/notebooks"
+PROJECTS_ROOT_PATH = f"{WORKSPACE_PATH}/projects"
 FOLDERS_OMIT = ["overview/simple", "overview/complex"]
 COPY_VEBATIM_FILES = [
     "./features/analysis.py",
@@ -47,12 +48,50 @@ NOTEBOOKS_REMOVE = [
     "./overview/new_model_component/linear_fit.ipynb",
 ]
 
+PROJECTS_FOLDERS_OMIT = ["config", "dataset", "src"]
 
 def main():
+
+    os.chdir(PROJECTS_ROOT_PATH)
+
+    for x in [t[0] for t in os.walk(".")]:
+
+        ### PROJECTS FOLDER ###
+
+        projects_path = f"{PROJECTS_ROOT_PATH}/{x}"
+
+        if not sum([folder in projects_path for folder in PROJECTS_FOLDERS_OMIT]):
+
+            # print("Removing old notebooks.")
+            for f in glob.glob(f"{projects_path}/*.ipynb"):
+                os.remove(f)
+            for f in glob.glob(f"{projects_path}/*.ipynb_checkpoints"):
+                shutil.rmtree(f)
+
+            os.chdir(projects_path)
+
+            for f in glob.glob(f"*.py"):
+                build_util.py_to_notebook(f)
+
+            for f in glob.glob(f"*.ipynb"):
+                build_util.uncomment_jupyter_magic(f)
+                os.system(f"git add -f {projects_path}/{f}")
+
+            if os.path.exists(f"{projects_path}/__init__.ipynb"):
+                os.remove(f"{projects_path}/__init__.ipynb")
+
+            print(PROJECTS_ROOT_PATH)
+
+            if os.path.exists(f"{PROJECTS_ROOT_PATH}/__init__.ipynb"):
+                os.remove(f"{PROJECTS_ROOT_PATH}/__init__.ipynb")
+
+            for f in glob.glob(f"*.ipynb"):
+                os.system(f"git add -f {projects_path}/{f}")
 
     os.chdir(SCRIPTS_ROOT_PATH)
 
     for x in [t[0] for t in os.walk(".")]:
+
         scripts_path = f"{SCRIPTS_ROOT_PATH}/{x}"
         notebooks_path = f"{NOTEBOOKS_ROOT_PATH}/{x}"
 

@@ -37,6 +37,7 @@ def main():
 
     os.chdir(WORKSPACE_PATH)
 
+
     if os.path.exists(f"{WORKSPACE_PATH}/auto_files"):
         shutil.rmtree(f"{WORKSPACE_PATH}/auto_files")
 
