@@ -28,13 +28,6 @@ def get_version_num(minor_version):
     return f'{today_str}.{minor_version}'
 
 
-def clone_repo(repo_name):
-    old_dir = os.getcwd()
-    os.chdir(WORKSPACE)
-    subprocess.run(['git', 'clone', f'https://github.com/{repo_name}'])
-    os.chdir(old_dir)
-
-
 def update_version(repo_name, lib_name, version):
     old_dir = os.getcwd()
     os.chdir(f'{WORKSPACE}/{repo_name.split("/")[1]}')
@@ -71,26 +64,17 @@ def push_to_pypi(repo_name, mode):
 
 def upload_all(mode, minor_version):
     old_dir = os.getcwd()
-    #if minor_version > MAX_MINOR_VERSION:
-    #    print('Tried all versions...')
-    #    raise Exception('Max version tries reached')
     version = get_version_num(minor_version)
     os.environ["VERSION"] = version
 
     for repo_name, lib_name in PROJECTS:
         try:
             print(f'Uploading version of {repo_name}: {version}')
-            #clone_repo(repo_name)
             update_version(repo_name, lib_name, version)
             build(repo_name)
             push_to_pypi(repo_name, mode)
-            #push_to_git()
-            #shutil.rmtree(f'{WORKSPACE}/{repo_name.split("/")[1]}')
         except subprocess.CalledProcessError:
             print(f'Upload of {repo_name} with version {version} failed, retrying with minor_version {minor_version+1}')
-            #os.chdir(old_dir)
-            #shutil.rmtree(f'{WORKSPACE}/{repo_name.split("/")[1]}')
-            #upload_all(minor_version + 1)
             raise Exception("Upload failed")
 
 if __name__ == '__main__':
