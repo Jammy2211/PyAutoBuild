@@ -1,0 +1,165 @@
+name: Autolens Release process
+
+on: 
+  workflow_dispatch:
+    inputs:
+      minor_version:
+        description: 'Minor version to release'
+        required: true
+        default: '1'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      TWINE_REPOSITORY: testpypi
+      TWINE_USERNAME: __token__
+      TWINE_PASSWORD: ${{ secrets.TEST_PYPI }}
+    strategy:
+      matrix:
+        python-version: [3.8]  # 3.9 not supported on numba as of 2020-02-11
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        path: PyAutoBuild
+    - name: Checkout autolens_workspace
+      uses: actions/checkout@v2
+      with:
+        #repository: Jammy2211/autolens_workspace
+        repository: jonathanfrawley/autolens_workspace
+        ref: master
+        path: autolens_workspace
+    - name: Checkout autofit_workspace
+      uses: actions/checkout@v2
+      with:
+        #repository: Jammy2211/autofit_workspace
+        repository: jonathanfrawley/autofit_workspace
+        ref: master
+        path: autofit_workspace
+    - name: Checkout autolens_workspace_test
+      uses: actions/checkout@v2
+      with:
+        #repository: rhayes777/autolens_workspace_test
+        repository: jonathanfrawley/autolens_workspace_test
+        ref: master
+        path: autolens_workspace_test
+    - name: Checkout PyAutoConf
+      uses: actions/checkout@v2
+      with:
+        #repository: rhayes777/PyAutoConf
+        repository: jonathanfrawley/PyAutoConf
+        ref: master
+        path: PyAutoConf
+    - name: Checkout PyAutoArray
+      uses: actions/checkout@v2
+      with:
+        #repository: Jammy2211/PyAutoArray
+        repository: jonathanfrawley/PyAutoArray
+        ref: master
+        path: PyAutoArray
+    - name: Checkout PyAutoFit
+      uses: actions/checkout@v2
+      with:
+        #repository: rhayes777/PyAutoFit
+        repository: jonathanfrawley/PyAutoFit
+        ref: master
+        path: PyAutoFit
+    - name: Checkout PyAutoGalaxy
+      uses: actions/checkout@v2
+      with:
+        #repository: Jammy2211/PyAutoGalaxy
+        repository: jonathanfrawley/PyAutoGalaxy
+        ref: master
+        path: PyAutoGalaxy
+    - name: Checkout PyAutoLens
+      uses: actions/checkout@v2
+      with:
+        #repository: Jammy2211/PyAutoLens
+        repository: jonathanfrawley/PyAutoLens
+        ref: master
+        path: PyAutoLens
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Test release all packages
+      run: |
+        pushd PyAutoBuild
+        python3 release.py --mode=test --minor-version=${{ github.event.inputs.minor_version }}
+        popd
+    - name: Compute version number
+      run: |
+        export DATE_FORMATTED=`date +"%Y.%-m.%-d"`
+        export VERSION="${DATE_FORMATTED}.${{ github.event.inputs.minor_version }}"
+        echo "::set-output name=version-number::${VERSION}"
+      id: version_number
+    - name: Wait for packages to upload to Pypi
+      shell: bash {0}   # So that we do not exit if a command gives a bad exit code
+      run: |
+        export PACKAGES=("autoconf" "autoarray" "autofit" "autogalaxy" "autolens")
+        export VERSION="${{ steps.version_number.outputs.version-number }}"
+        for PACKAGE in ${PACKAGES[@]}; do
+          python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple $PACKAGE==$VERSION
+          test_condition=$?
+          cnt=0
+          while [[ $test_condition != "0" ]]; do
+            echo "Failed to find package, retrying in 10 seconds.."
+            sleep 10
+            ((cnt=cnt+1))
+            [[ $cnt == "100" ]] && echo "Timed out, tried 100 times" && break
+            python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple $PACKAGE==$VERSION
+            test_condition=$?
+          done
+        done
+    - name: Pip freeze
+      run: |
+        python3 -m pip freeze
+    #- name: Unit tests for all projects 
+    #  run: |
+    #    export PROJECTS=("PyAutoConf" "PyAutoArray" "PyAutoFit" "PyAutoGalaxy" "PyAutoLens")
+    #    #export PROJECTS=("PyAutoLens")
+    #    for PROJECT in ${PROJECTS[@]}; do
+    #      pushd $PROJECT
+    #      python3 -m pytest
+    #      popd
+    #    done
+    - name: Run Python scripts autolens
+      run: |
+        pushd PyAutoBuild
+        export PYTHONPATH=$PYTHONPATH:../
+        python3 autolens/run_python.py
+    - name: Run Python scripts autofit
+      run: |
+        pushd PyAutoBuild
+        export PYTHONPATH=$PYTHONPATH:../
+        python3 autofit/run_python.py
+    - name: Install Jupyter dependency
+      run: |
+        pip install jupyter ipynb-py-convert
+    - name: Generate jupyter notebooks (autofit)
+      run: |
+        pushd PyAutoBuild
+        export PYTHONPATH=$PYTHONPATH:../
+        python3 autofit/generate.py
+    - name: Generate jupyter notebooks (autolens)
+      run: |
+        pushd PyAutoBuild
+        export PYTHONPATH=$PYTHONPATH:../
+        python3 autolens/generate.py
+    - name: Run jupyter notebooks (autofit)
+      run: |
+        pushd PyAutoBuild
+        export PYTHONPATH=$PYTHONPATH:../
+        python3 autofit/run.py
+    - name: Generate jupyter notebooks (autolens)
+      run: |
+        pushd PyAutoBuild
+        export PYTHONPATH=$PYTHONPATH:../
+        python3 autolens/run.py
+    #- name: Git commit, tag, merge and release everything
+    #  run: |
+    #    pushd PyAutoBuild
+    #    python3 tag_and_merge.py --version ${{ github.event.inputs.minor_version }}
+    #- name: Prod release all packages
+    #  run: |
+    #    python3 release.py --mode=prod  --minor-version=${{ github.event.inputs.minor_version }}

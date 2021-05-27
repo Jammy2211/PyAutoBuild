@@ -5,17 +5,17 @@ import build_util
 
 BUILD_PATH = os.getcwd()
 WORKSPACE_PATH = f"{os.getcwd()}/../autofit_workspace"
-NOTEBOOKS_ROOT_PATH = f"{WORKSPACE_PATH}/notebooks"
+SCRIPTS_ROOT_PATH = f"{WORKSPACE_PATH}/scripts"
 
-NOTEBOOKS_NO_RUN = [
-    "graphical_models.ipynb",
-    "search_grid_search.ipynb",
-    "search_chaining.ipynb",
-    "sensitivity_mapping.ipynb",
-    "tutorial_1_global_model.ipynb",
-    "tutorial_2_graphical_model.ipynb",
-    "MultiNest.ipynb",
-    "UltraNest.ipynb",
+SCRIPTS_NO_RUN = [
+    "graphical_models.py",
+    "search_grid_search.py",
+    "search_chaining.py",
+    "sensitivity_mapping.py",
+    "tutorial_1_global_model.py",
+    "tutorial_2_graphical_model.py",
+    "MultiNest.py",
+    "UltraNest.py"
 ]
 
 def main():
@@ -23,14 +23,14 @@ def main():
     os.chdir(WORKSPACE_PATH)
  #   build_util.execute_notebook("introduction.ipynb")
 
-    if os.path.exists(f"{WORKSPACE_PATH}/auto_files"):
-        shutil.rmtree(f"{WORKSPACE_PATH}/auto_files")
-
     if os.path.exists(f"{WORKSPACE_PATH}/output"):
         try:
             os.rename(f"{WORKSPACE_PATH}/output", f"{WORKSPACE_PATH}/output_backup")
         except OSError:
             shutil.rmtree(f"{WORKSPACE_PATH}/output")
+
+    if os.path.exists(f"{WORKSPACE_PATH}/auto_files"):
+        shutil.rmtree(f"{WORKSPACE_PATH}/auto_files")
 
     os.system("git clone https://github.com/Jammy2211/auto_files --depth 1")
 
@@ -43,10 +43,9 @@ def main():
     os.chdir(BUILD_PATH)
     copy_tree(f"autofit/configs/default", f"{WORKSPACE_PATH}/config")
 
-    os.chdir(NOTEBOOKS_ROOT_PATH)
+    os.chdir(SCRIPTS_ROOT_PATH)
 
     for folder in [
-        "../projects",
         "simulators",
         "howtofit",
         "overview",
@@ -54,9 +53,11 @@ def main():
         "searches"
     ]:
 
-        build_util.exexcute_notebooks_in_folder(
-            ROOT_PATH=f"{NOTEBOOKS_ROOT_PATH}/{folder}",
-            NOTEBOOKS_NO_RUN=NOTEBOOKS_NO_RUN
+        build_util.execute_scripts_in_folder(
+            workspace_path=WORKSPACE_PATH,
+            folder=folder,
+            root_path=f"{SCRIPTS_ROOT_PATH}/{folder}",
+            scripts_no_run=SCRIPTS_NO_RUN
         )
 
     shutil.rmtree(f"{WORKSPACE_PATH}/output")
