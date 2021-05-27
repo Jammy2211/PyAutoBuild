@@ -1,5 +1,5 @@
 {
-    "PointSource": {
+    "Point": {
         "centre_0": {
             "type": "Gaussian",
             "lower_limit": "-inf",
@@ -23,7 +23,7 @@
             "sigma": 0.3
         }
     },
-    "PointSourceFlux": {
+    "PointFlux": {
         "centre_0": {
             "type": "Gaussian",
             "lower_limit": "-inf",

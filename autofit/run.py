@@ -10,10 +10,10 @@ NOTEBOOKS_ROOT_PATH = f"{WORKSPACE_PATH}/notebooks"
 NOTEBOOKS_NO_RUN = [
     "database.ipynb",
     "graphical_models.ipynb",
+    "tutorial_1_global_model.ipynb",
     "tutorial_2_graphical_model.ipynb",
     "MultiNest.ipynb",
     "UltraNest.ipynb"
-
 ]
 
 def main():
