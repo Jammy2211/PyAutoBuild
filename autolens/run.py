@@ -57,8 +57,8 @@ def main():
     os.chdir(NOTEBOOKS_ROOT_PATH)
 
     for folder in [
-        "howtolens",
-        "database"
+   #     "howtolens",
+    #   "database"
     ]:
 
         build_util.exexcute_notebooks_in_folder(
@@ -70,10 +70,10 @@ def main():
     copy_tree(f"autolens/configs/test", f"{WORKSPACE_PATH}/config")
 
     for folder in [
-        "imaging",
-        "interferometer",
+     #   "imaging",
+     #   "interferometer",
         "point_source",
-        "misc",
+     #   "misc",
         "plot"
     ]:
 

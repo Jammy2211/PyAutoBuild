@@ -47,9 +47,9 @@ def main():
 
     for folder in [
         "simulators",
-        "howtofit",
+     #   "howtofit",
         "overview",
-        "features",
+     #   "features",
         "searches"
     ]:
 

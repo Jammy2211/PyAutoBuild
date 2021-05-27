@@ -16,6 +16,8 @@ NOTEBOOKS_NO_RUN = [
     "tutorial_2_graphical_model.ipynb",
     "MultiNest.ipynb",
     "UltraNest.ipynb",
+    "fit.ipynb", # timed out
+    "result.ipynb" # timed out
 ]
 
 def main():
@@ -46,11 +48,11 @@ def main():
     os.chdir(NOTEBOOKS_ROOT_PATH)
 
     for folder in [
-        "../projects",
+     #   "../projects",
         "simulators",
-        "howtofit",
+     #   "howtofit",
         "overview",
-        "features",
+     #   "features",
         "searches"
     ]:
 
