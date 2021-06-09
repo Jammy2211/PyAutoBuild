@@ -14,10 +14,10 @@ NOTEBOOKS_NO_RUN = [
     "sensitivity_mapping.ipynb",
     "tutorial_1_global_model.ipynb",
     "tutorial_2_graphical_model.ipynb",
+    "tutorial_3_expectation_propagation.ipynb",
     "MultiNest.ipynb",
     "UltraNest.ipynb",
     "fit.ipynb", # timed out
-    "result.ipynb" # timed out
 ]
 
 def main():
@@ -25,22 +25,16 @@ def main():
     os.chdir(WORKSPACE_PATH)
  #   build_util.execute_notebook("introduction.ipynb")
 
-    if os.path.exists(f"{WORKSPACE_PATH}/auto_files"):
-        shutil.rmtree(f"{WORKSPACE_PATH}/auto_files")
-
     if os.path.exists(f"{WORKSPACE_PATH}/output"):
         try:
             os.rename(f"{WORKSPACE_PATH}/output", f"{WORKSPACE_PATH}/output_backup")
         except OSError:
             shutil.rmtree(f"{WORKSPACE_PATH}/output")
 
-    os.system("git clone https://github.com/Jammy2211/auto_files --depth 1")
+    if not os.path.exists(f"{WORKSPACE_PATH}/auto_files"):
+        os.system("git clone https://github.com/Jammy2211/auto_files --depth 1")
 
-    shutil.move("auto_files/autofit/output/howtofit", f"{WORKSPACE_PATH}/output")
-    shutil.move("auto_files/autofit/output/database.sqlite", f"{WORKSPACE_PATH}/output")
-    shutil.move("auto_files/autofit/output/database_howtofit.sqlite", f"{WORKSPACE_PATH}/output")
-
-    shutil.rmtree("auto_files")
+    os.system(f"cp -r {WORKSPACE_PATH}/auto_files/autofit/output {WORKSPACE_PATH}")
 
     os.chdir(BUILD_PATH)
     copy_tree(f"autofit/configs/default", f"{WORKSPACE_PATH}/config")
@@ -48,11 +42,11 @@ def main():
     os.chdir(NOTEBOOKS_ROOT_PATH)
 
     for folder in [
-     #   "../projects",
+        "../projects",
         "simulators",
-     #   "howtofit",
+        "howtofit",
         "overview",
-     #   "features",
+        "features",
         "searches"
     ]:
 
@@ -70,6 +64,8 @@ def main():
     os.system(f"git add -f config")
     os.chdir(BUILD_PATH)
 
+    os.chdir(WORKSPACE_PATH)
+    shutil.rmtree("auto_files")
 
 if __name__ == "__main__":
     main()
