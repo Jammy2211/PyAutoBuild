@@ -5,7 +5,7 @@ import shutil
 import subprocess
 
 
-import build_util
+from . import build_util
 
 
 BUILD_PATH = os.getcwd()

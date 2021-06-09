@@ -3,7 +3,7 @@ import glob
 import shutil
 
 
-import build_util
+from . import build_util
 
 
 BUILD_PATH = os.getcwd()
