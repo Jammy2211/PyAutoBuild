@@ -89,7 +89,7 @@ jobs:
     - name: Generate jupyter notebooks
       run: |
         pushd build
-        python gen_ipynb_from_py.py
+        python autolens/generate.py
     - name: Run jupyter notebooks
       run: |
         export ROOT_DIR=`pwd`
@@ -98,5 +98,5 @@ jobs:
         export PYTHONPATH=$PYTHONPATH:$ROOT_DIR/PyAutoLens
         export PYTHONPATH=$PYTHONPATH:$ROOT_DIR/PyAutoFit
         pushd build
-        python run_jupyter_notebooks.py
+        python autolens/run_jupyter_notebooks.py
 
