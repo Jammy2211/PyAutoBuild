@@ -89,11 +89,12 @@ jobs:
     - name: Generate jupyter notebooks
       run: |
         pushd build
+        export ROOT_DIR=`pwd`
+        export PYTHONPATH=$PYTHONPATH:$ROOT_DIR
         python autolens/generate.py
     - name: Run jupyter notebooks
       run: |
         export ROOT_DIR=`pwd`
-        export PYTHONPATH=$PYTHONPATH:$ROOT_DIR
         export PYTHONPATH=$PYTHONPATH:$ROOT_DIR/PyAutoArray
         export PYTHONPATH=$PYTHONPATH:$ROOT_DIR/PyAutoGalaxy
         export PYTHONPATH=$PYTHONPATH:$ROOT_DIR/PyAutoLens
