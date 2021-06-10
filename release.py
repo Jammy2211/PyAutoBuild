@@ -9,16 +9,11 @@ import subprocess
 WORKSPACE = '../'
 #MAX_MINOR_VERSION = 1
 PROJECTS = [
-        #('rhayes777/PyAutoConf', 'autoconf'),
-        #('rhayes777/PyAutoFit', 'autofit'),
-        #('Jammy2211/PyAutoArray', 'autoarray'),
-        #('Jammy2211/PyAutoLens', 'autolens'),
-        #('Jammy2211/PyAutoGalaxy', 'autogalaxy'),
-        ('jonathanfrawley/PyAutoConf', 'autoconf'),
-        ('jonathanfrawley/PyAutoFit', 'autofit'),
-        ('jonathanfrawley/PyAutoArray', 'autoarray'),
-        ('jonathanfrawley/PyAutoLens', 'autolens'),
-        ('jonathanfrawley/PyAutoGalaxy', 'autogalaxy'),
+        ('rhayes777/PyAutoConf', 'autoconf'),
+        ('rhayes777/PyAutoFit', 'autofit'),
+        ('Jammy2211/PyAutoArray', 'autoarray'),
+        ('Jammy2211/PyAutoLens', 'autolens'),
+        ('Jammy2211/PyAutoGalaxy', 'autogalaxy'),
         ]
 
 
