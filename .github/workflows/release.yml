@@ -25,57 +25,49 @@ jobs:
     - name: Checkout autolens_workspace
       uses: actions/checkout@v2
       with:
-        #repository: Jammy2211/autolens_workspace
-        repository: jonathanfrawley/autolens_workspace
+        repository: Jammy2211/autolens_workspace
         ref: master
         path: autolens_workspace
     - name: Checkout autofit_workspace
       uses: actions/checkout@v2
       with:
-        #repository: Jammy2211/autofit_workspace
-        repository: jonathanfrawley/autofit_workspace
+        repository: Jammy2211/autofit_workspace
         ref: master
         path: autofit_workspace
     - name: Checkout autolens_workspace_test
       uses: actions/checkout@v2
       with:
-        #repository: rhayes777/autolens_workspace_test
-        repository: jonathanfrawley/autolens_workspace_test
+        repository: Jammy2211/autolens_workspace_test
         ref: master
         path: autolens_workspace_test
     - name: Checkout PyAutoConf
       uses: actions/checkout@v2
       with:
-        #repository: rhayes777/PyAutoConf
-        repository: jonathanfrawley/PyAutoConf
+        repository: rhayes777/PyAutoConf
         ref: master
         path: PyAutoConf
-    - name: Checkout PyAutoArray
-      uses: actions/checkout@v2
-      with:
-        #repository: Jammy2211/PyAutoArray
-        repository: jonathanfrawley/PyAutoArray
-        ref: master
-        path: PyAutoArray
     - name: Checkout PyAutoFit
       uses: actions/checkout@v2
       with:
-        #repository: rhayes777/PyAutoFit
-        repository: jonathanfrawley/PyAutoFit
+        repository: rhayes777/PyAutoFit
         ref: master
         path: PyAutoFit
+    - name: Checkout PyAutoArray
+      uses: actions/checkout@v2
+      with:
+        repository: Jammy2211/PyAutoArray
+        ref: master
+        path: PyAutoArray
     - name: Checkout PyAutoGalaxy
       uses: actions/checkout@v2
       with:
-        #repository: Jammy2211/PyAutoGalaxy
-        repository: jonathanfrawley/PyAutoGalaxy
+        repository: Jammy2211/PyAutoGalaxy
         ref: master
         path: PyAutoGalaxy
     - name: Checkout PyAutoLens
       uses: actions/checkout@v2
       with:
-        #repository: Jammy2211/PyAutoLens
-        repository: jonathanfrawley/PyAutoLens
+        repository: Jammy2211/PyAutoLens
         ref: master
         path: PyAutoLens
     - name: Set up Python ${{ matrix.python-version }}

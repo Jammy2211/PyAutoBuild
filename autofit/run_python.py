@@ -1,7 +1,7 @@
 import os
 import shutil
 from distutils.dir_util import copy_tree
-from . import build_util
+import build_util
 
 BUILD_PATH = os.getcwd()
 WORKSPACE_PATH = f"{os.getcwd()}/../autofit_workspace"

@@ -18,43 +18,43 @@ jobs:
     - name: Checkout autolens_workspace
       uses: actions/checkout@v2
       with:
-        #repository: Jammy2211/autolens_workspace
-        repository: jonathanfrawley/autolens_workspace
+        repository: Jammy2211/autolens_workspace
         ref: master
         path: autolens_workspace
     - name: Checkout autolens_workspace_test
       uses: actions/checkout@v2
       with:
-        #repository: rhayes777/autolens_workspace_test
-        repository: jonathanfrawley/autolens_workspace_test
+        repository: Jammy2211/autolens_workspace_test
         ref: feature/release-process
         path: autolens_workspace_test
+    - name: Checkout PyAutoConf
+      uses: actions/checkout@v2
+      with:
+        repository: rhayes777/PyAutoConf
+        ref: feature/release-process
+        path: PyAutoConf
     - name: Checkout PyAutoFit
       uses: actions/checkout@v2
       with:
-        #repository: rhayes777/PyAutoFit
-        repository: jonathanfrawley/PyAutoFit
+        repository: rhayes777/PyAutoFit
         ref: feature/release-process
         path: PyAutoFit
     - name: Checkout PyAutoArray
       uses: actions/checkout@v2
       with:
-        #repository: Jammy2211/PyAutoArray
-        repository: jonathanfrawley/PyAutoArray
+        repository: Jammy2211/PyAutoArray
         ref: feature/release-process
         path: PyAutoArray
     - name: Checkout PyAutoGalaxy
       uses: actions/checkout@v2
       with:
-        #repository: Jammy2211/PyAutoGalaxy
-        repository: jonathanfrawley/PyAutoGalaxy
+        repository: Jammy2211/PyAutoGalaxy
         ref: feature/release-process
         path: PyAutoGalaxy
     - name: Checkout PyAutoLens
       uses: actions/checkout@v2
       with:
-        #repository: Jammy2211/PyAutoLens
-        repository: jonathanfrawley/PyAutoLens
+        repository: Jammy2211/PyAutoLens
         ref: feature/release-process
         path: PyAutoLens
     - name: Set up Python ${{ matrix.python-version }}
@@ -71,6 +71,7 @@ jobs:
     - name: Install dependencies
       if: steps.cache-pip.outputs.cache-hit != 'true'
       run: |
+        pip install -r PyAutoConf/requirements.txt
         pip install -r PyAutoFit/requirements.txt
         pip install -r PyAutoArray/requirements.txt
         pip install -r PyAutoGalaxy/requirements.txt
