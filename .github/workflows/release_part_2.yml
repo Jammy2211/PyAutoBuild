@@ -1,4 +1,4 @@
-name: Autolens Release process
+name: Autolens Release Part 2 (Destructive)
 
 on: 
   workflow_dispatch:
@@ -12,9 +12,8 @@ jobs:
   release:
     runs-on: ubuntu-latest
     env:
-      TWINE_REPOSITORY: testpypi
       TWINE_USERNAME: __token__
-      TWINE_PASSWORD: ${{ secrets.TEST_PYPI }}
+      TWINE_PASSWORD: ${{ secrets.PYPI }}
     strategy:
       matrix:
         python-version: [3.8]  # 3.9 not supported on numba as of 2020-02-11
@@ -77,7 +76,7 @@ jobs:
     - name: Test release all packages
       run: |
         pushd PyAutoBuild
-        python3 release.py --mode=test --minor-version=${{ github.event.inputs.minor_version }}
+        python3 release.py --mode=prod --minor-version=${{ github.event.inputs.minor_version }}
         popd
     - name: Compute version number
       run: |
@@ -91,7 +90,7 @@ jobs:
         export PACKAGES=("autoconf" "autoarray" "autofit" "autogalaxy" "autolens")
         export VERSION="${{ steps.version_number.outputs.version-number }}"
         for PACKAGE in ${PACKAGES[@]}; do
-          python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple $PACKAGE==$VERSION
+          python3 -m pip install --index-url https://pypi.org/simple/ $PACKAGE==$VERSION
           test_condition=$?
           cnt=0
           while [[ $test_condition != "0" ]]; do
@@ -99,7 +98,7 @@ jobs:
             sleep 10
             ((cnt=cnt+1))
             [[ $cnt == "100" ]] && echo "Timed out, tried 100 times" && break
-            python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple $PACKAGE==$VERSION
+            python3 -m pip install --index-url https://pypi.org/simple/ $PACKAGE==$VERSION
             test_condition=$?
           done
         done
@@ -148,10 +147,97 @@ jobs:
         pushd PyAutoBuild
         export PYTHONPATH=$PYTHONPATH:../
         python3 autolens/run.py
-    #- name: Git commit, tag, merge and release everything
-    #  run: |
-    #    pushd PyAutoBuild
-    #    python3 tag_and_merge.py --version ${{ github.event.inputs.minor_version }}
-    #- name: Prod release all packages
-    #  run: |
-    #    python3 release.py --mode=prod  --minor-version=${{ github.event.inputs.minor_version }}
+    - name: Git commit, tag, merge and release everything
+      run: |
+        pushd PyAutoBuild
+        python3 tag_and_merge.py --version ${{ github.event.inputs.minor_version }}
+    - name: Git commit, tag and merge everything
+      run: |
+        pushd PyAutoBuild
+        git config --global user.name github-actions
+        git config --global user.email github-actions@github.com
+        python3 tag_and_merge.py --version ${{ github.event.inputs.minor_version }}
+
+    # autolens_workspace
+    - name: Push changes to autolens_workspace master
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.AUTH_TOKEN }}
+        branch: master
+        directory: autolens_workspace
+        repository: Jammy2211/autolens_workspace
+
+    - name: Push changes to autolens_workspace release
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.AUTH_TOKEN }}
+        branch: release
+        directory: autolens_workspace
+        repository: Jammy2211/autolens_workspace
+
+    # autolens_workspace_test
+    - name: Push changes to autolens_workspace_test master
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.AUTH_TOKEN }}
+        branch: master
+        directory: autolens_workspace_test
+        repository: Jammy2211/autolens_workspace_test
+
+    - name: Push changes to autolens_workspace_test release
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.AUTH_TOKEN }}
+        branch: release
+        directory: autolens_workspace_test
+        repository: Jammy2211/autolens_workspace_test
+
+    # PyAutoConf
+    - name: Push changes PyAutoConf master
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.AUTH_TOKEN }}
+        branch: master
+        directory: PyAutoConf
+        tags: true
+        repository: rhayes777/PyAutoConf
+
+    # PyAutoArray
+    - name: Push changes PyAutoArray master
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.AUTH_TOKEN }}
+        branch: master
+        directory: PyAutoArray
+        tags: true
+        repository: Jammy2211/PyAutoArray
+
+    # PyAutoFit
+    - name: Push changes PyAutoFit master
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.AUTH_TOKEN }}
+        branch: master
+        directory: PyAutoFit
+        tags: true
+        repository: rhayes777/PyAutoFit
+
+    # PyAutoGalaxy
+    - name: Push changes PyAutoGalaxy master
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.AUTH_TOKEN }}
+        branch: master
+        directory: PyAutoGalaxy
+        tags: true
+        repository: Jammy2211/PyAutoGalaxy
+
+    # PyAutoLens
+    - name: Push changes PyAutoLens master
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.AUTH_TOKEN }}
+        branch: master
+        directory: PyAutoLens
+        tags: true
+        repository: Jammy2211/PyAutoLens

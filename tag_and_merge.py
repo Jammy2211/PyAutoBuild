@@ -9,8 +9,7 @@ LIB_PROJECTS = [
     ]
 
 WORKSPACE_PROJECTS = [
-    #'autolens_workspace', 'autofit_workspace', 'autolens_workspace_test'
-    'autolens_workspace', 'autofit_workspace'
+    'autolens_workspace', 'autolens_workspace_test', 'autofit_workspace'
     ]
 
 def main(version):
@@ -20,24 +19,17 @@ def main(version):
         os.chdir(os.path.join(WORKSPACE, project))
         subprocess.run(['git', 'commit', '-a', '-m', f'Update version to {version}'], check=True)
         subprocess.run(['git', 'tag', f'v{version}'], check=True)
-        #subprocess.run(['git', 'push', 'origin', 'master', '--tags'], check=True)
         os.chdir(old_dir)
 
-    '''
     for project in WORKSPACE_PROJECTS:
         print(f'Tagging {project}')
         old_dir = os.getcwd()
         os.chdir(os.path.join(WORKSPACE, project))
         subprocess.run(['git', 'checkout', 'master'], check=True)
-        #subprocess.run(['git', 'commit', '-a', '-m', f'Update version to {version}'], check=True)
         subprocess.run(['git', 'tag', f'v{version}'], check=True)
-        #subprocess.run(['git', 'push', 'origin', 'master', '--tags'], check=True)
-        subprocess.run(['git', 'fetch'], check=True)
         subprocess.run(['git', 'checkout', 'release'], check=True)
         subprocess.run(['git', 'merge', 'master'], check=True)
-        #subprocess.run(['git', 'push', 'origin', 'release', '--tags'], check=True)
         os.chdir(old_dir)
-    '''
 
 
 if __name__ == '__main__':
