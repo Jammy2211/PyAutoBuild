@@ -17,7 +17,7 @@ SCRIPTS_NO_RUN = [
     "tutorial_8_model_fit.py",
     "tutorial_6_model_fit.py",
     "tutorial_searches.py",
-    "tutorial_2_samples.py",
+    "tutorial_6_derived.py",
     "hyper_mode.py",
     "pipeline.py",
     "light_parametric__mass_total__source_inversion.py",

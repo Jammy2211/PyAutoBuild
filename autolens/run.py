@@ -16,7 +16,7 @@ NOTEBOOKS_NO_RUN = [
     "tutorial_5_complex_source.ipynb",
     "tutorial_8_model_fit.ipynb",
     "tutorial_6_model_fit.ipynb",
-    "tutorial_2_samples.ipynb",
+    "tutorial_6_derived.ipynb",
     "tutorial_searches.ipynb",
     "hyper_mode.ipynb",
     "pipeline.ipynb",
