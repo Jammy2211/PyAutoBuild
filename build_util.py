@@ -3,6 +3,8 @@ import datetime
 import os
 import re
 import subprocess
+import sys
+import traceback
 
 TIMEOUT_SECS = 60
 BUILD_PATH = os.getcwd()
@@ -70,24 +72,30 @@ def execute_notebook(f):
             check=True,
             timeout=TIMEOUT_SECS,
         )
-    except subprocess.TimeoutExpired:
-        pass
+    except (subprocess.TimeoutExpired, subprocess.CalledProcessError) as e:
+        if e is subprocess.CalledProcessError:
+            if "InversionException" in traceback.format_exc():
+                return
+            sys.exit()
+            raise e
         # subprocess.run(['jupyter', 'nbconvert', '--to', 'notebook', '--execute', f'{f}'], check=True)
 
 
 def execute_script(f):
     args = ['python3', f]
     print(f'Running <{args}>')
-    subprocess.run(args, check=True)
     try:
         subprocess.run(
             args,
             check=True,
             timeout=TIMEOUT_SECS,
         )
-    except subprocess.TimeoutExpired:
-        pass
-        # subprocess.run(['jupyter', 'nbconvert', '--to', 'notebook', '--execute', f'{f}'], check=True)
+    except (subprocess.TimeoutExpired, subprocess.CalledProcessError) as e:
+       if  e is subprocess.CalledProcessError:
+            if "InversionException" in traceback.format_exc():
+                return
+            sys.exit()
+            raise e
 
 
 def execute_scripts_in_folder(workspace_path, folder, root_path, scripts_no_run=None):

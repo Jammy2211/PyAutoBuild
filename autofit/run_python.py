@@ -8,13 +8,14 @@ WORKSPACE_PATH = f"{os.getcwd()}/../autofit_workspace"
 SCRIPTS_ROOT_PATH = f"{WORKSPACE_PATH}/scripts"
 
 SCRIPTS_NO_RUN = [
-    "graphical_models.py",
     "search_grid_search.py",
-    "search_chaining.py",
-    "sensitivity_mapping.py",
     "tutorial_1_global_model.py",
     "tutorial_2_graphical_model.py",
     "tutorial_3_expectation_propagation.py",
+    "tutorial_4_hierachical.py",
+    "tutorial_4_data_and_models.py",
+    "graphical_models.py",
+    "sensitivity_mapping.py",
     "MultiNest.py",
     "UltraNest.py",
 ]
@@ -22,7 +23,6 @@ SCRIPTS_NO_RUN = [
 def main():
 
     os.chdir(WORKSPACE_PATH)
- #   build_util.execute_notebook("introduction.ipynb")
 
     if os.path.exists(f"{WORKSPACE_PATH}/output"):
         try:

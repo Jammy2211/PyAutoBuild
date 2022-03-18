@@ -11,24 +11,9 @@ SCRIPTS_NO_RUN = [
     "positions.py",
     "lens_light_centre.py",
     "scaled_dataset.py",
-    "tutorial_3_lens_and_source.py",
-    "tutorial_4_x2_lens_galaxies.py",
-    "tutorial_5_complex_source.py",
-    "tutorial_8_model_fit.py",
-    "tutorial_6_model_fit.py",
-    "tutorial_searches.py",
-    "tutorial_6_derived.py",
-    "hyper_mode.py",
+    "scribbler.py",
     "pipeline.py",
-    "light_parametric__mass_total__source_inversion.py",
-    "Emcee.py",
-    "PySwarms.py",
-    "Zeus.py",
-    "EmceePlotter.py",
-    "PySwarmsPlotter.py",
-    "ZeusPlotter.py",
-    "UltraNestPlotter.py",
-    "DynestyPlotter.py",
+    "tutorial_6_model_fit.py",
 ]
 
 def main():
@@ -37,25 +22,14 @@ def main():
 
     os.chdir(WORKSPACE_PATH)
 
-    if os.path.exists(f"{WORKSPACE_PATH}/output"):
-        try:
-            os.rename(f"{WORKSPACE_PATH}/output", f"{WORKSPACE_PATH}/output_backup")
-        except OSError:
-            shutil.rmtree(f"{WORKSPACE_PATH}/output")
-
-    if not os.path.exists(f"{WORKSPACE_PATH}/auto_files"):
-        os.system("git clone https://github.com/Jammy2211/auto_files --depth 1")
-
     if not os.path.exists(f"{WORKSPACE_PATH}/output"):
         os.mkdir(f"{WORKSPACE_PATH}/output")
-
-    os.system(f"cp -r {WORKSPACE_PATH}/auto_files/autolens/output {WORKSPACE_PATH}")
 
     os.chdir(SCRIPTS_ROOT_PATH)
 
     for folder in [
        "howtolens",
-    #   "database"
+       "results"
     ]:
 
         build_util.execute_scripts_in_folder(
@@ -63,16 +37,16 @@ def main():
             folder=folder,
             root_path=f"{SCRIPTS_ROOT_PATH}/{folder}",
             scripts_no_run=SCRIPTS_NO_RUN
-        )
+       )
 
     os.chdir(BUILD_PATH)
     copy_tree(f"autolens/configs/test", f"{WORKSPACE_PATH}/config")
 
     for folder in [
-      #  "imaging",
-    #    "interferometer",
-   #     "point_source",
-   #     "misc",
+        "imaging",
+        "interferometer",
+        "point_source",
+        "misc",
         "plot"
     ]:
 
@@ -84,7 +58,10 @@ def main():
         )
 
     shutil.rmtree(f"{WORKSPACE_PATH}/output")
-    os.rename(f"{WORKSPACE_PATH}/output_backup", f"{WORKSPACE_PATH}/output")
+    try:
+        os.rename(f"{WORKSPACE_PATH}/output_backup", f"{WORKSPACE_PATH}/output")
+    except FileNotFoundError:
+        os.mkdir(f"{WORKSPACE_PATH}/output")
 
     os.chdir(BUILD_PATH)
     copy_tree(f"autolens/configs/default", f"{WORKSPACE_PATH}/config")
@@ -93,7 +70,11 @@ def main():
     os.chdir(BUILD_PATH)
 
     os.chdir(WORKSPACE_PATH)
-    shutil.rmtree("auto_files")
+
+    try:
+        shutil.rmtree("auto_files")
+    except FileNotFoundError:
+        pass
 
 
 if __name__ == "__main__":
