@@ -7,13 +7,20 @@ BUILD_PATH = os.getcwd()
 WORKSPACE_PATH = f"{os.getcwd()}/../autolens_workspace"
 SCRIPTS_ROOT_PATH = f"{WORKSPACE_PATH}/scripts"
 SCRIPTS_NO_RUN = [
-    "mask.py",
-    "positions.py",
-    "lens_light_centre.py",
-    "scaled_dataset.py",
-    "scribbler.py",
-    "pipeline.py",
-    "tutorial_6_model_fit.py",
+   # "mask.py",
+   # "positions.py",
+   # "lens_light_centre.py",
+   # "scaled_dataset.py",
+   # "pipeline.py",
+    "profiling.py",
+    "overview_10_clusters.py",
+    "tutorial_4_hierarchical_models.py",
+    "tutorial_5_expectation_propagation.py",
+    "Zeus.py",
+    "EmceePlotter.py",
+    "tutorial_searches.py",
+    "example_0.py",
+    "example_1.py"
 ]
 
 def main():
@@ -28,7 +35,6 @@ def main():
     os.chdir(SCRIPTS_ROOT_PATH)
 
     for folder in [
-       "howtolens",
        "results"
     ]:
 
@@ -43,18 +49,21 @@ def main():
     copy_tree(f"autolens/configs/test", f"{WORKSPACE_PATH}/config")
 
     for folder in [
-        "imaging",
-        "interferometer",
-        "point_source",
-        "misc",
-        "plot"
+        "howtolens",
+         "overview",
+         "imaging",
+         "interferometer",
+         "multi",
+         "point_source",
+         "misc",
+         "plot"
     ]:
 
         build_util.execute_scripts_in_folder(
             workspace_path=WORKSPACE_PATH,
             folder=folder,
             root_path=f"{SCRIPTS_ROOT_PATH}/{folder}",
-            scripts_no_run=SCRIPTS_NO_RUN
+            scripts_no_run=SCRIPTS_NO_RUN,
         )
 
     shutil.rmtree(f"{WORKSPACE_PATH}/output")

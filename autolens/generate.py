@@ -12,12 +12,10 @@ SCRIPTS_ROOT_PATH = f"{WORKSPACE_PATH}/scripts"
 NOTEBOOKS_ROOT_PATH = f"{WORKSPACE_PATH}/notebooks"
 COPY_VERBATIM_FOLDERS = []
 COPY_VEBATIM_FILES = [
-    "./imaging/preprocess/gui/scribbler.py",
-    "./imaging/chaining/hyper_mode/extensions.py"
+    "./imaging/advanced/chaining/hyper_mode/extensions.py"
 ]
 NOTEBOOKS_REMOVE = [
-    "./imaging/preprocess/gui/scribbler.ipynb",
-    "./imaging/chaining/hyper_mode/extensions.ipynb"
+    "./imaging/advanced/chaining/hyper_mode/extensions.ipynb"
 ]
 
 
@@ -54,6 +52,7 @@ def main():
         ### Copy notebooks to notebooks folder ###
 
         for f in glob.glob(f"*.ipynb"):
+            os.makedirs(f"{notebooks_path}", exist_ok=True)
             shutil.move(f"{scripts_path}/{f}", f"{notebooks_path}/{f}")
             os.system(f"git add -f {notebooks_path}/{f}")
         if os.path.exists(f"{notebooks_path}/__init__.ipynb"):

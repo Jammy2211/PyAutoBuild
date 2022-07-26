@@ -11,9 +11,16 @@ NOTEBOOKS_NO_RUN = [
     "positions.ipynb",
     "lens_light_centre.ipynb",
     "scaled_dataset.ipynb",
-    "scribbler.ipynb",
     "pipeline.ipynb",
     "tutorial_6_model_fit.ipynb",
+    "overview_10_clusters.ipynb",
+    "tutorial_5_expectation_propagation.ipynb",
+    "hyper_mode.ipynb",
+    "Zeus.ipynb",
+    "EmceePlotter.ipynb",
+    "tutorial_searches.ipynb",
+    "example_1.ipynb",
+    "example_1.ipynb"
 ]
 
 def main():
@@ -23,14 +30,6 @@ def main():
     os.chdir(WORKSPACE_PATH)
     build_util.execute_notebook("introduction.ipynb")
 
-    # if os.path.exists(f"{WORKSPACE_PATH}/output"):
-    #     try:
-    #         os.rename(f"{WORKSPACE_PATH}/output", f"{WORKSPACE_PATH}/output_backup")
-    #     except OSError:
-    #         shutil.rmtree(f"{WORKSPACE_PATH}/output")
-
-    # if not os.path.exists(f"{WORKSPACE_PATH}/auto_files"):
-    #     os.system("git clone https://github.com/Jammy2211/auto_files --depth 1")
 
     if not os.path.exists(f"{WORKSPACE_PATH}/output"):
         os.mkdir(f"{WORKSPACE_PATH}/output")
@@ -53,8 +52,10 @@ def main():
     copy_tree(f"autolens/configs/test", f"{WORKSPACE_PATH}/config")
 
     for folder in [
+        "overview",
         "imaging",
         "interferometer",
+        "multi",
         "point_source",
         "misc",
         "plot"

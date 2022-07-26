@@ -7,7 +7,8 @@ BUILD_PATH = os.getcwd()
 WORKSPACE_PATH = f"{os.getcwd()}/../autocti_workspace"
 SCRIPTS_ROOT_PATH = f"{WORKSPACE_PATH}/scripts"
 SCRIPTS_NO_RUN = [
-    "x1_species_to_x2_species"
+    "x1_species_to_x2_species",
+    "noise_scaling.py"
 ]
 
 def main():
@@ -21,21 +22,13 @@ def main():
 
     os.chdir(SCRIPTS_ROOT_PATH)
 
-    # for folder in [
-    #    "database"
-    # ]:
-    #
-    #     build_util.execute_scripts_in_folder(
-    #         workspace_path=WORKSPACE_PATH,
-    #         folder=folder,
-    #         root_path=f"{SCRIPTS_ROOT_PATH}/{folder}",
-    #         scripts_no_run=SCRIPTS_NO_RUN
-    #    )
-
     os.chdir(BUILD_PATH)
-    copy_tree(f"autocti/configs/test", f"{WORKSPACE_PATH}/config")
+ #   copy_tree(f"autocti/configs/test", f"{WORKSPACE_PATH}/config")
+    copy_tree(f"autocti/configs/default", f"{WORKSPACE_PATH}/config")
 
     for folder in [
+        "overview",
+        "dataset_1d",
         "imaging_ci",
         "line",
         "plot"

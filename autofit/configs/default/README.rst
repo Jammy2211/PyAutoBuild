@@ -27,6 +27,9 @@ The **general.ini** contains the following sections and variables:
     model_results_decimal_places
         The number of decimal places the estimated values and errors of all parameters in the model.results file are
         output to.
+    info_whitespace_length
+        The length of whitespace between the parameter names and priors / inferred values in the ``model.info`` and
+        ``result.info`` attributes (this is also reflected in the ``model.info`` / ``model.results`` files.
     remove_files
         If True, all output files of a non-linear search (e.g. samples, samples_backup, model.results, images, etc.)
         are deleted once the model-fit has completed.

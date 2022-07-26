@@ -6,7 +6,7 @@ import build_util
 BUILD_PATH = os.getcwd()
 WORKSPACE_PATH = f"{os.getcwd()}/../autocti_workspace"
 NOTEBOOKS_ROOT_PATH = f"{WORKSPACE_PATH}/notebooks"
-NOTEBOOKS_NO_RUN = []
+NOTEBOOKS_NO_RUN = ["noise_scaling.ipynb"]
 
 def main():
 

@@ -10,15 +10,10 @@ NOTEBOOKS_ROOT_PATH = f"{WORKSPACE_PATH}/notebooks"
 NOTEBOOKS_NO_RUN = [
     "graphical_models.ipynb",
     "search_grid_search.ipynb",
-    "search_chaining.ipynb",
     "sensitivity_mapping.ipynb",
-    "tutorial_1_global_model.ipynb",
-    "tutorial_2_graphical_model.ipynb",
-    "tutorial_3_expectation_propagation.ipynb",
     "tutorial_4_data_and_models.ipynb",
-    "MultiNest.ipynb",
+    "tutorial_5_expectation_propagation.ipynb",
     "UltraNest.ipynb",
-    "fit.ipynb", # timed out
 ]
 
 def main():
@@ -31,11 +26,6 @@ def main():
             os.rename(f"{WORKSPACE_PATH}/output", f"{WORKSPACE_PATH}/output_backup")
         except OSError:
             shutil.rmtree(f"{WORKSPACE_PATH}/output")
-
-    if not os.path.exists(f"{WORKSPACE_PATH}/auto_files"):
-        os.system("git clone https://github.com/Jammy2211/auto_files --depth 1")
-
-    os.system(f"cp -r {WORKSPACE_PATH}/auto_files/autofit/output {WORKSPACE_PATH}")
 
     os.chdir(BUILD_PATH)
     copy_tree(f"autofit/configs/default", f"{WORKSPACE_PATH}/config")
@@ -62,9 +52,6 @@ def main():
     os.chdir(WORKSPACE_PATH)
     os.system(f"git add -f config")
     os.chdir(BUILD_PATH)
-
-    os.chdir(WORKSPACE_PATH)
-    shutil.rmtree("auto_files")
 
 if __name__ == "__main__":
     main()

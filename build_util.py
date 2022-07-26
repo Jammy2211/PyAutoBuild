@@ -6,7 +6,7 @@ import subprocess
 import sys
 import traceback
 
-TIMEOUT_SECS = 60
+TIMEOUT_SECS = 36000
 BUILD_PATH = os.getcwd()
 
 
@@ -91,14 +91,15 @@ def execute_script(f):
             timeout=TIMEOUT_SECS,
         )
     except (subprocess.TimeoutExpired, subprocess.CalledProcessError) as e:
-       if  e is subprocess.CalledProcessError:
-            if "InversionException" in traceback.format_exc():
-                return
-            sys.exit()
-            raise e
+
+        if "inversion" in f:
+            return
+
+        sys.exit()
 
 
 def execute_scripts_in_folder(workspace_path, folder, root_path, scripts_no_run=None):
+
     scripts_no_run = scripts_no_run or []
     os.chdir(root_path)
 
