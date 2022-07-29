@@ -1,6 +1,7 @@
 import os
 import shutil
 from distutils.dir_util import copy_tree
+
 import build_util
 
 BUILD_PATH = os.getcwd()
@@ -16,8 +17,8 @@ SCRIPTS_NO_RUN = [
     "UltraNest.py",
 ]
 
-def main():
 
+def main():
     os.chdir(WORKSPACE_PATH)
 
     if os.path.exists(f"{WORKSPACE_PATH}/output"):
@@ -25,7 +26,6 @@ def main():
             os.rename(f"{WORKSPACE_PATH}/output", f"{WORKSPACE_PATH}/output_backup")
         except OSError:
             shutil.rmtree(f"{WORKSPACE_PATH}/output")
-
 
     os.chdir(BUILD_PATH)
     copy_tree(f"autofit/configs/default", f"{WORKSPACE_PATH}/config")
