@@ -9,6 +9,9 @@ import traceback
 TIMEOUT_SECS = 36000
 BUILD_PATH = os.getcwd()
 
+BUILD_PYTHON_INTERPRETER = os.environ.get("BUILD_PYTHON_INTERPRETER", 'python3')
+print(BUILD_PYTHON_INTERPRETER)
+
 
 def py_to_notebook(filename):
     if filename == "temp.py":
@@ -82,7 +85,7 @@ def execute_notebook(f):
 
 
 def execute_script(f):
-    args = ['python3', f]
+    args = [BUILD_PYTHON_INTERPRETER, f]
     print(f'Running <{args}>')
     try:
         subprocess.run(
