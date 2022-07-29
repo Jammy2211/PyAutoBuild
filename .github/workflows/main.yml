@@ -1,4 +1,4 @@
-name: Autolens Workspace Test Integration Test
+name: AutoLens Workspace Integration Test
 
 #on: [push]
 on: 
