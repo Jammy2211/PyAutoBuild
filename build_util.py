@@ -112,7 +112,7 @@ def execute_scripts_in_folder(workspace_path, folder, root_path, scripts_no_run=
         files = glob.glob(f"*.py")
         os.chdir(workspace_path)
 
-        for f in files:
+        for f in sorted(files):
             run_script = True
             for no_run in scripts_no_run:
                 if no_run in f:
