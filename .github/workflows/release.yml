@@ -94,6 +94,7 @@ jobs:
         export PROJECTS=("PyAutoConf" "PyAutoArray" "PyAutoFit" "PyAutoGalaxy" "PyAutoLens")
         for PROJECT in ${PROJECTS[@]}; do
           pushd $PROJECT
+          pip install -r requirements.txt
           export PYTHONPATH="$PYTHONPATH:$(pwd)"
           python3 -m pytest
           popd
