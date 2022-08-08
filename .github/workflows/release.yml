@@ -93,12 +93,8 @@ jobs:
         python3 -m pip install pytest PyYAML numpy matplotlib astropy
         export PROJECTS=("PyAutoConf" "PyAutoArray" "PyAutoFit" "PyAutoGalaxy" "PyAutoLens")
         for PROJECT in ${PROJECTS[@]}; do
-          export PYTHONPATH="$PYTHONPATH:$PROJECT"
-          echo $PYTHONPATH
-          echo $HOME
-          ls $HOME
-          pwd
           pushd $PROJECT
+          export PYTHONPATH="$PYTHONPATH:$(pwd)"
           python3 -m pytest
           popd
         done
