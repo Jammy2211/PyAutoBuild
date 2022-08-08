@@ -94,6 +94,7 @@ jobs:
         export PROJECTS=("PyAutoConf" "PyAutoArray" "PyAutoFit" "PyAutoGalaxy" "PyAutoLens")
         for PROJECT in ${PROJECTS[@]}; do
           export PYTHONPATH="$PYTHONPATH:$PROJECT"
+          echo $PYTHONPATH
           pushd $PROJECT
           python3 -m pytest
           popd
