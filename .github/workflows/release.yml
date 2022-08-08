@@ -95,6 +95,7 @@ jobs:
         for PROJECT in ${PROJECTS[@]}; do
           export PYTHONPATH="$PYTHONPATH:$PROJECT"
           echo $PYTHONPATH
+          pwd
           pushd $PROJECT
           python3 -m pytest
           popd
