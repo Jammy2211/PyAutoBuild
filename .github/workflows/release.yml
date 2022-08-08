@@ -85,6 +85,27 @@ jobs:
         export VERSION="${DATE_FORMATTED}.${{ github.event.inputs.minor_version }}"
         echo "::set-output name=version-number::${VERSION}"
       id: version_number
+    - name: Pip freeze
+      run: |
+        python3 -m pip freeze
+    - name: Unit tests for all projects
+      run: |
+        export PROJECTS=("PyAutoConf" "PyAutoArray" "PyAutoFit" "PyAutoGalaxy" "PyAutoLens")
+        for PROJECT in ${PROJECTS[@]}; do
+          pushd $PROJECT
+          python3 -m pytest
+          popd
+        done
+    - name: Run Python scripts autolens
+      run: |
+        pushd PyAutoBuild
+        export PYTHONPATH=$PYTHONPATH:../
+        python3 autolens/run_python.py
+    - name: Run Python scripts autofit
+      run: |
+        pushd PyAutoBuild
+        export PYTHONPATH=$PYTHONPATH:../
+        python3 autofit/run_python.py
     - name: Wait for packages to upload to Pypi
       shell: bash {0}   # So that we do not exit if a command gives a bad exit code
       run: |
@@ -103,28 +124,6 @@ jobs:
             test_condition=$?
           done
         done
-    - name: Pip freeze
-      run: |
-        python3 -m pip freeze
-    #- name: Unit tests for all projects 
-    #  run: |
-    #    export PROJECTS=("PyAutoConf" "PyAutoArray" "PyAutoFit" "PyAutoGalaxy" "PyAutoLens")
-    #    #export PROJECTS=("PyAutoLens")
-    #    for PROJECT in ${PROJECTS[@]}; do
-    #      pushd $PROJECT
-    #      python3 -m pytest
-    #      popd
-    #    done
-    - name: Run Python scripts autolens
-      run: |
-        pushd PyAutoBuild
-        export PYTHONPATH=$PYTHONPATH:../
-        python3 autolens/run_python.py
-    - name: Run Python scripts autofit
-      run: |
-        pushd PyAutoBuild
-        export PYTHONPATH=$PYTHONPATH:../
-        python3 autofit/run_python.py
     - name: Install Jupyter dependency
       run: |
         pip install jupyter ipynb-py-convert
