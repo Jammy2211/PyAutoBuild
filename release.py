@@ -1,20 +1,18 @@
 import argparse
-from datetime import date
 import os
 import re
-import shutil
 import subprocess
-
+from datetime import date
 
 WORKSPACE = '../'
-#MAX_MINOR_VERSION = 1
+# MAX_MINOR_VERSION = 1
 PROJECTS = [
-        ('rhayes777/PyAutoConf', 'autoconf'),
-        ('rhayes777/PyAutoFit', 'autofit'),
-        ('Jammy2211/PyAutoArray', 'autoarray'),
-        ('Jammy2211/PyAutoLens', 'autolens'),
-        ('Jammy2211/PyAutoGalaxy', 'autogalaxy'),
-        ]
+    ('rhayes777/PyAutoConf', 'autoconf'),
+    ('rhayes777/PyAutoFit', 'autofit'),
+    ('Jammy2211/PyAutoArray', 'autoarray'),
+    ('Jammy2211/PyAutoLens', 'autolens'),
+    ('Jammy2211/PyAutoGalaxy', 'autogalaxy'),
+]
 
 
 def get_version_num(minor_version):
@@ -26,11 +24,12 @@ def get_version_num(minor_version):
 def update_version(repo_name, lib_name, version):
     old_dir = os.getcwd()
     os.chdir(f'{WORKSPACE}/{repo_name.split("/")[1]}')
-    with open (f'{lib_name}/__init__.py', 'r' ) as f:
+    with open(f'{lib_name}/__init__.py', 'r') as f:
         file_content = f.read()
-    file_content_with_version = re.sub(r'__version__\s*=\s*("|\')\d*\.\d*\.\d*(\.\d*)?("|\')', f'__version__ = "{version}"', file_content)
-    
-    with open (f'{lib_name}/__init__.py', 'w' ) as f:
+    file_content_with_version = re.sub(r'__version__\s*=\s*("|\')\d*\.\d*\.\d*(\.\d*)?("|\')',
+                                       f'__version__ = "{version}"', file_content)
+
+    with open(f'{lib_name}/__init__.py', 'w') as f:
         f.write(file_content_with_version)
     os.chdir(old_dir)
 
@@ -69,8 +68,10 @@ def upload_all(mode, minor_version):
             build(repo_name)
             push_to_pypi(repo_name, mode)
         except subprocess.CalledProcessError:
-            print(f'Upload of {repo_name} with version {version} failed, retrying with minor_version {minor_version+1}')
+            print(
+                f'Upload of {repo_name} with version {version} failed, retrying with minor_version {minor_version + 1}')
             raise Exception("Upload failed")
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Build all projects')
