@@ -88,21 +88,21 @@ jobs:
     - name: Pip freeze
       run: |
         python3 -m pip freeze
-    - name: Unit tests for all projects
-      run: |
-        python3 -m pip install pytest numpy Cython
-        export PROJECTS=("PyAutoConf" "PyAutoArray" "PyAutoFit" "PyAutoGalaxy" "PyAutoLens")
-        for PROJECT in ${PROJECTS[@]}; do
-          pushd $PROJECT
-          pip install -r requirements.txt
-          if test -f "optional_requirements.txt"
-          then
-            pip install -r optional_requirements.txt
-          fi
-          export PYTHONPATH="$PYTHONPATH:$(pwd)"
-          python3 -m pytest
-          popd
-        done
+#     - name: Unit tests for all projects
+#       run: |
+#         python3 -m pip install pytest numpy Cython
+#         export PROJECTS=("PyAutoConf" "PyAutoArray" "PyAutoFit" "PyAutoGalaxy" "PyAutoLens")
+#         for PROJECT in ${PROJECTS[@]}; do
+#           pushd $PROJECT
+#           pip install -r requirements.txt
+#           if test -f "optional_requirements.txt"
+#           then
+#             pip install -r optional_requirements.txt
+#           fi
+#           export PYTHONPATH="$PYTHONPATH:$(pwd)"
+#           python3 -m pytest
+#           popd
+#         done
     - name: Run Python scripts autolens
       run: |
         pushd PyAutoBuild
