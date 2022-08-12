@@ -90,7 +90,7 @@ jobs:
         python3 -m pip freeze
     - name: Unit tests for all projects
       run: |
-        python3 -m pip install pytest numpy
+        python3 -m pip install pytest numpy Cython
         export PROJECTS=("PyAutoConf" "PyAutoArray" "PyAutoFit" "PyAutoGalaxy" "PyAutoLens")
         for PROJECT in ${PROJECTS[@]}; do
           pushd $PROJECT
