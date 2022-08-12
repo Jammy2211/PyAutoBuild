@@ -105,6 +105,8 @@ jobs:
 #         done
     - name: Run Python scripts autolens
       run: |
+        echo $PYTHONPATH
+        which python3
         pushd PyAutoBuild
         export PYTHONPATH=$PYTHONPATH:../
         python3 autolens/run_python.py
