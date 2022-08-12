@@ -2,8 +2,7 @@ name: AutoLens Workspace Integration Test
 
 #on: [push]
 on:
-  push
-  workflow_dispatch
+  [push, workflow_dispatch]
 
 jobs:
   integration_test:
