@@ -74,11 +74,11 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Test release all packages
-      run: |
-        pushd PyAutoBuild
-        python3 release.py --mode=test --minor-version=${{ github.event.inputs.minor_version }}
-        popd
+#     - name: Test release all packages
+#       run: |
+#         pushd PyAutoBuild
+#         python3 release.py --mode=test --minor-version=${{ github.event.inputs.minor_version }}
+#         popd
     - name: Compute version number
       run: |
         export DATE_FORMATTED=`date +"%Y.%-m.%-d"`
