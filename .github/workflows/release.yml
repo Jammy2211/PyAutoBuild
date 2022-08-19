@@ -78,7 +78,8 @@ jobs:
     - name: Test release all packages
       run: |
         pushd PyAutoBuild
-        python3 release.py --mode=test --minor-version=${{ github.event.inputs.minor_version }}
+        MINOR_VERSION="${{ github.event.inputs.minor_version }}"
+        python3 release.py --mode=test --minor-version="${MINOR_VERSION:-1}"
         popd
         pushd PyAutoFit
         python3 -m twine upload --repository testpypi dist/*
