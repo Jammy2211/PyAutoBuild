@@ -80,6 +80,9 @@ jobs:
         pushd PyAutoBuild
         python3 release.py --mode=test --minor-version=${{ github.event.inputs.minor_version }}
         popd
+        pushd PyAutoFit
+        python3 -m twine upload --repository testpypi dist/*
+        popd
     - name: Compute version number
       run: |
         export DATE_FORMATTED=`date +"%Y.%-m.%-d"`

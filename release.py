@@ -66,7 +66,7 @@ def upload_all(mode, minor_version):
             print(f'Uploading version of {repo_name}: {version}')
             update_version(repo_name, lib_name, version)
             build(repo_name)
-            push_to_pypi(repo_name, mode)
+            # push_to_pypi(repo_name, mode)
         except subprocess.CalledProcessError:
             print(
                 f'Upload of {repo_name} with version {version} failed, retrying with minor_version {minor_version + 1}')
