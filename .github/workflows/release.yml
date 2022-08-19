@@ -82,7 +82,7 @@ jobs:
         MINOR_VERSION="${{ github.event.inputs.minor_version }}"
         python3 release.py --mode=test --minor-version="${MINOR_VERSION:-1}"
         popd
-        pushd ../PyAutoFit
+        pushd PyAutoFit
         python3 -m twine upload --repository testpypi dist/*
         popd
     - name: Compute version number
