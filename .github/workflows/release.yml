@@ -65,7 +65,7 @@ jobs:
         - name: Release
           run: |
             python3 -m pip install twine
-            pushd "{{ matrix.project.path }}"
+            pushd "${{ matrix.project.path }}"
             python3 -m twine upload --repository testpypi dist/*
             popd
 
