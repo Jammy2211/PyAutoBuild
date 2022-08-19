@@ -56,21 +56,14 @@ def push_to_pypi(repo_name, mode):
     os.chdir(old_dir)
 
 
-def upload_all(mode, minor_version):
-    old_dir = os.getcwd()
-    version = get_version_num(minor_version)
+def upload_all(mode, version):
     os.environ["VERSION"] = version
 
     for repo_name, lib_name in PROJECTS:
-        try:
-            print(f'Uploading version of {repo_name}: {version}')
-            update_version(repo_name, lib_name, version)
-            build(repo_name)
-            # push_to_pypi(repo_name, mode)
-        except subprocess.CalledProcessError:
-            print(
-                f'Upload of {repo_name} with version {version} failed, retrying with minor_version {minor_version + 1}')
-            raise Exception("Upload failed")
+        print(f'Uploading version of {repo_name}: {version}')
+        update_version(repo_name, lib_name, version)
+        build(repo_name)
+        # push_to_pypi(repo_name, mode)
 
 
 if __name__ == '__main__':
@@ -78,9 +71,13 @@ if __name__ == '__main__':
     parser.add_argument('--mode', type=str,
                         help='"test" or "prod"')
 
-    parser.add_argument('--minor-version', type=int, default=1,
-                        help='Minor version to use')
+    parser.add_argument(
+        '--version',
+        type=str,
+        required=True,
+        help='Version to use',
+    )
 
     args = parser.parse_args()
     os.makedirs(WORKSPACE, exist_ok=True)
-    upload_all(args.mode, int(args.minor_version))
+    upload_all(args.mode, args.version)

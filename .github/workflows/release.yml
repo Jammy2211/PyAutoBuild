@@ -75,22 +75,22 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
+    - name: Compute version number
+      run: |
+        export DATE_FORMATTED=`date +"%Y.%-m.%-d"`
+        MINOR_VERSION="${{ github.event.inputs.minor_version }}"
+        export VERSION="${DATE_FORMATTED}.${MINOR_VERSION:-${{ github.run_number }}"
+        echo "::set-output name=version-number::${VERSION}"
+      id: version_number
     - name: Test release all packages
       run: |
         python3 -m pip install twine
         pushd PyAutoBuild
-        MINOR_VERSION="${{ github.event.inputs.minor_version }}"
-        python3 release.py --mode=test --minor-version="${MINOR_VERSION:-${{ github.run_number }}"
+        python3 release.py --mode=test --version "${{ steps.version_number.outputs.version-number }}"
         popd
         pushd PyAutoFit
         python3 -m twine upload --repository testpypi dist/*
         popd
-    - name: Compute version number
-      run: |
-        export DATE_FORMATTED=`date +"%Y.%-m.%-d"`
-        export VERSION="${DATE_FORMATTED}.${{ github.event.inputs.minor_version }}"
-        echo "::set-output name=version-number::${VERSION}"
-      id: version_number
     - name: Pip freeze
       run: |
         python3 -m pip freeze
@@ -168,4 +168,4 @@ jobs:
     #    python3 tag_and_merge.py --version ${{ github.event.inputs.minor_version }}
     #- name: Prod release all packages
     #  run: |
-    #    python3 release.py --mode=prod  --minor-version=${{ github.event.inputs.minor_version }}
+    #    python3 release.py --mode=prod  --version "${{ steps.version_number.outputs.version-number }}"
