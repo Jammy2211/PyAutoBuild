@@ -17,25 +17,25 @@ jobs:
           TWINE_REPOSITORY: testpypi
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.TEST_PYPI }}
-#         strategy:
-#           matrix:
-#             python-version: [3.8]  # 3.9 not supported on numba as of 2020-02-11
-#             project:
-#               - repository: 'rhayes777/PyAutoConf'
-#                 ref: 'master'
-#                 path: 'PyAutoConf'
-#               - repository: 'rhayes777/PyAutoFit'
-#                 ref: 'master'
-#                 path: 'PyAutoFit'
-#               - repository: 'Jammy2211/PyAutoArray'
-#                 ref: 'master'
-#                 path: 'PyAutoArray'
-#               - repository: 'Jammy2211/PyAutoGalaxy'
-#                 ref: 'master'
-#                 path: 'PyAutoGalaxy'
-#               - repository: 'Jammy2211/PyAutoLens'
-#                 ref: 'master'
-#                 path: 'PyAutoLens'
+        strategy:
+          matrix:
+            python-version: [3.8]  # 3.9 not supported on numba as of 2020-02-11
+            project:
+              - repository: 'rhayes777/PyAutoConf'
+                ref: 'master'
+                path: 'PyAutoConf'
+              - repository: 'rhayes777/PyAutoFit'
+                ref: 'master'
+                path: 'PyAutoFit'
+              - repository: 'Jammy2211/PyAutoArray'
+                ref: 'master'
+                path: 'PyAutoArray'
+              - repository: 'Jammy2211/PyAutoGalaxy'
+                ref: 'master'
+                path: 'PyAutoGalaxy'
+              - repository: 'Jammy2211/PyAutoLens'
+                ref: 'master'
+                path: 'PyAutoLens'
         steps:
         - uses: actions/checkout@v2
           with:
