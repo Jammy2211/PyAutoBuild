@@ -39,7 +39,7 @@ jobs:
         steps:
           - uses: actions/checkout@v2
             with:
-            path: PyAutoBuild
+                path: PyAutoBuild
           - name: Checkout
             uses: actions/checkout@v2
             with:
