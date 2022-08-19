@@ -80,7 +80,7 @@ jobs:
         python3 -m pip install twine
         pushd PyAutoBuild
         MINOR_VERSION="${{ github.event.inputs.minor_version }}"
-        python3 release.py --mode=test --minor-version="${MINOR_VERSION:-1}"
+        python3 release.py --mode=test --minor-version="${MINOR_VERSION:-${{ github.run_number }}"
         popd
         pushd PyAutoFit
         python3 -m twine upload --repository testpypi dist/*
