@@ -59,7 +59,8 @@ jobs:
         - name: Build
           run: |
             pushd "${{ matrix.project.path }}"
-            sed -i "s/__version__ = [\.\"0-9]*/__version__ = ${{ steps.version_number.outputs.version-number }}/g" */__init__.py
+            export VERSION="${{ steps.version_number.outputs.version-number }}"
+            sed -i "s/__version__ = [\.\"0-9]*/__version__ = $VERSION/g" */__init__.py
             python3 -m pip install --upgrade build
             python3 -m build
             popd
