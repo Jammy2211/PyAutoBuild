@@ -40,35 +40,35 @@ jobs:
         - uses: actions/checkout@v2
           with:
               path: PyAutoBuild
-        - name: Checkout
-          uses: actions/checkout@v2
-          with:
-            repository: matrix.project.repository 
-            ref: matrix.project.ref 
-            path: matrix.project.path 
-        - name: Set up Python ${{ matrix.python-version }}
-          uses: actions/setup-python@v2
-          with:
-            python-version: ${{ matrix.python-version }}
-        - name: Compute version number
-          run: |
-            export DATE_FORMATTED=`date +"%Y.%-m.%-d"`
-            MINOR_VERSION="${{ github.event.inputs.minor_version }}"
-            export VERSION="${DATE_FORMATTED}.${MINOR_VERSION:-${{ github.run_number }}}"
-            echo "::set-output name=version-number::${VERSION}"
-          id: version_number
-        - name: Build
-          run: |
-            pushd "${{ matrix.project.path }}"
-            python3 -m pip install --upgrade build
-            python3 -m build
-            popd
-        - name: Release
-          run: |
-            python3 -m pip install twine
-            pushd "{{ matrix.project.path }}"
-            python3 -m twine upload --repository testpypi dist/*
-            popd
+#         - name: Checkout
+#           uses: actions/checkout@v2
+#           with:
+#             repository: matrix.project.repository
+#             ref: matrix.project.ref
+#             path: matrix.project.path
+#         - name: Set up Python ${{ matrix.python-version }}
+#           uses: actions/setup-python@v2
+#           with:
+#             python-version: ${{ matrix.python-version }}
+#         - name: Compute version number
+#           run: |
+#             export DATE_FORMATTED=`date +"%Y.%-m.%-d"`
+#             MINOR_VERSION="${{ github.event.inputs.minor_version }}"
+#             export VERSION="${DATE_FORMATTED}.${MINOR_VERSION:-${{ github.run_number }}}"
+#             echo "::set-output name=version-number::${VERSION}"
+#           id: version_number
+#         - name: Build
+#           run: |
+#             pushd "${{ matrix.project.path }}"
+#             python3 -m pip install --upgrade build
+#             python3 -m build
+#             popd
+#         - name: Release
+#           run: |
+#             python3 -m pip install twine
+#             pushd "{{ matrix.project.path }}"
+#             python3 -m twine upload --repository testpypi dist/*
+#             popd
 
 #
 #   release:
