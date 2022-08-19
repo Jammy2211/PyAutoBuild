@@ -8,6 +8,11 @@ on:
         required: true
         default: '1'
   push:
+    inputs:
+      minor_version:
+        description: 'Minor version to release'
+        required: true
+        default: '1'
 
 jobs:
   release:
