@@ -345,7 +345,7 @@ jobs:
         export PYTHONPATH=$PYTHONPATH:../
         python3 "${{ matrix.workspace.name }}/generate.py"
         popd
-        pushd "${{ matrix.workspace.path}"
+        pushd "${{ matrix.workspace.path}}"
         git add *.ipynb
         git commit -m "Updated notebooks"
     - name: Release
