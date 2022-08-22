@@ -1,5 +1,6 @@
 import glob
 import datetime
+import logging
 import os
 import re
 import subprocess
@@ -95,10 +96,12 @@ def execute_script(f):
         )
     except (subprocess.TimeoutExpired, subprocess.CalledProcessError) as e:
 
+        logging.exception(e)
+
         if "inversion" in f:
             return
 
-        sys.exit()
+        sys.exit(1)
 
 
 def execute_scripts_in_folder(workspace_path, folder, root_path, scripts_no_run=None):
