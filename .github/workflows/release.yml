@@ -280,7 +280,7 @@ jobs:
         export VERSION="${{ needs.version_number.outputs.version_number }}"
         sed -i "s/__version__ = [\.\"\'0-9]*/__version__ = \"$VERSION\"/g" */__init__.py
         git commit "-am 'Updated version in __init__ to $VERSION"
-        popd
+#         popd
     - name: Tag
       run: |
         VERSION="${{ needs.version_number.outputs.version_number }}"
