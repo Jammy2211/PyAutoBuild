@@ -165,13 +165,11 @@ jobs:
           python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple "autolens==${{ needs.release_test_pypi.outputs.version_number }}"
           test_condition=$?
         done
-    - name: Run Python scripts Autolens
+    - name: Run Python scripts
       run: |
-        echo $PYTHONPATH
         which python3
         pushd PyAutoBuild
-        export PYTHONPATH=$PYTHONPATH:../
-        python3 autolens/run_python.py
+        python3 "${{ matrix.workspace.name }}/run_python.py"
 
 #
 #   release:
