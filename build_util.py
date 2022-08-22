@@ -78,9 +78,12 @@ def execute_notebook(f):
         )
     except (subprocess.TimeoutExpired, subprocess.CalledProcessError) as e:
         if e is subprocess.CalledProcessError:
+
+            logging.exception(e)
+
             if "InversionException" in traceback.format_exc():
                 return
-            sys.exit()
+            sys.exit(1)
             raise e
         # subprocess.run(['jupyter', 'nbconvert', '--to', 'notebook', '--execute', f'{f}'], check=True)
 
