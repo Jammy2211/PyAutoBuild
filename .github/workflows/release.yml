@@ -143,7 +143,7 @@ jobs:
       if: test -f "${{ matrix.project.path }}/optional_requirements.txt"
       run: |
         echo "Installing optional requirements"
-        python3 -m pip install "${{ matrix.project.path }}/optional_requirements.txt"
+        python3 -m pip install -r "${{ matrix.project.path }}/optional_requirements.txt"
     - name: Install project
       shell: bash {0}
       run: |
