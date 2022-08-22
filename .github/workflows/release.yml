@@ -16,6 +16,8 @@ jobs:
           TWINE_REPOSITORY: testpypi
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.TEST_PYPI }}
+        outputs:
+          version_number: ${{ steps.version_number.outputs.version_number }}
         strategy:
           matrix:
             python-version: [3.8]  # 3.9 not supported on numba as of 2020-02-11
@@ -60,12 +62,12 @@ jobs:
                 VERSION="$VERSION.$RUN_ATTEMPT"
             fi
             export VERSION
-            echo "::set-output name=version-number::${VERSION}"
+            echo "::set-output name=version_number::${VERSION}"
           id: version_number
         - name: Build
           run: |
             pushd "${{ matrix.project.path }}"
-            export VERSION="${{ steps.version_number.outputs.version-number }}"
+            export VERSION="${{ steps.version_number.outputs.version_number }}"
             sed -i "s/__version__ = [\.\"\'0-9]*/__version__ = \"$VERSION\"/g" */__init__.py
             python3 -m pip install --upgrade build
             python3 -m build
@@ -80,7 +82,7 @@ jobs:
 #           shell: bash {0}   # So that we do not exit if a command gives a bad exit code
 #           run: |
 #             export PACKAGES=("autoconf" "autoarray" "autofit" "autogalaxy" "autolens")
-#             export VERSION="${{ steps.version_number.outputs.version-number }}"
+#             export VERSION="${{ steps.version_number.outputs.version_number }}"
 #             for PACKAGE in ${PACKAGES[@]}; do
 #               python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple $PACKAGE==$VERSION
 #               test_condition=$?
@@ -124,7 +126,10 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Run Python scripts autolens
+    - name: Install AutoLens
+      run: |
+        python3 -m pip install "autolens==${{ needs.release_test_pypi.outputs.version_number }}"
+    - name: Run Python scripts Autolens
       run: |
         echo $PYTHONPATH
         which python3
@@ -203,13 +208,13 @@ jobs:
 #         export DATE_FORMATTED=`date +"%Y.%-m.%-d"`
 #         MINOR_VERSION="${{ github.event.inputs.minor_version }}"
 #         export VERSION="${DATE_FORMATTED}.${MINOR_VERSION:-${{ github.run_number }}}"
-#         echo "::set-output name=version-number::${VERSION}"
+#         echo "::set-output name=version_number::${VERSION}"
 #       id: version_number
 #     - name: Test release all packages
 #       run: |
 #         python3 -m pip install twine
 #         pushd PyAutoBuild
-#         python3 release.py --mode=test --version "${{ steps.version_number.outputs.version-number }}"
+#         python3 release.py --mode=test --version "${{ steps.version_number.outputs.version_number }}"
 #         popd
 #         pushd PyAutoFit
 #         python3 -m twine upload --repository testpypi dist/*
@@ -248,7 +253,7 @@ jobs:
 #       shell: bash {0}   # So that we do not exit if a command gives a bad exit code
 #       run: |
 #         export PACKAGES=("autoconf" "autoarray" "autofit" "autogalaxy" "autolens")
-#         export VERSION="${{ steps.version_number.outputs.version-number }}"
+#         export VERSION="${{ steps.version_number.outputs.version_number }}"
 #         for PACKAGE in ${PACKAGES[@]}; do
 #           python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple $PACKAGE==$VERSION
 #           test_condition=$?
@@ -291,4 +296,4 @@ jobs:
 #     #    python3 tag_and_merge.py --version ${{ github.event.inputs.minor_version }}
 #     #- name: Prod release all packages
 #     #  run: |
-#     #    python3 release.py --mode=prod  --version "${{ steps.version_number.outputs.version-number }}"
+#     #    python3 release.py --mode=prod  --version "${{ steps.version_number.outputs.version_number }}"
