@@ -20,7 +20,7 @@ jobs:
           version_number: ${{ steps.version_number.outputs.version_number }}
         strategy:
           matrix:
-            python-version: [3.8]  # 3.9 not supported on numba as of 2020-02-11
+            python_version: [3.8]  # 3.9 not supported on numba as of 2020-02-11
             project:
               - repository: rhayes777/PyAutoConf
                 ref: master
@@ -38,19 +38,12 @@ jobs:
                 ref: master
                 path: PyAutoLens
         steps:
-        - uses: actions/checkout@v2
+        - uses: ./.github/workflows/setup_project
           with:
-              path: PyAutoBuild
-        - name: Checkout
-          uses: actions/checkout@v2
-          with:
-            repository: "${{ matrix.project.repository }}"
-            ref: "${{ matrix.project.ref }}"
-            path: "${{ matrix.project.path }}"
-        - name: Set up Python ${{ matrix.python-version }}
-          uses: actions/setup-python@v2
-          with:
-            python-version: ${{ matrix.python-version }}
+              repository: ${{ matrix.project.repository }}
+              ref: ${{ matrix.project.ref }}
+              path: ${{ matrix.project.path }}
+              python_version: ${{ matrix.python_version }}
         - name: Compute version number
           run: |
             export DATE_FORMATTED=`date +"%Y.%-m.%-d"`
@@ -99,11 +92,6 @@ jobs:
 #         - name: Run unittests
 #           run: |
 #             pushd "${{ matrix.project.path }}"
-#             if test -f "optional_requirements.txt"
-#             then
-#               pip install Cython
-#               pip install -r optional_requirements.txt
-#             fi
 #             python3 -m pytest
 
   run_python_scripts:
@@ -111,7 +99,7 @@ jobs:
     needs: release_test_pypi
     strategy:
       matrix:
-        python-version: [3.8]
+        python_version: [3.8]
         project:
           - repository: Jammy2211/PyAutoLens
             path: PyAutoLens
@@ -135,10 +123,10 @@ jobs:
         repository: ${{ matrix.project.workspace.repository }}
         ref: master
         path: ${{ matrix.project.workspace.path }}
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: Set up Python ${{ matrix.python_version }}
       uses: actions/setup-python@v2
       with:
-        python-version: ${{ matrix.python-version }}
+        python_version: ${{ matrix.python_version }}
     - name: Install optional requirements
       if: test -f "${{ matrix.project.path }}/optional_requirements.txt"
       run: |
@@ -176,7 +164,7 @@ jobs:
 #       TWINE_PASSWORD: ${{ secrets.TEST_PYPI }}
 #     strategy:
 #       matrix:
-#         python-version: [3.8]  # 3.9 not supported on numba as of 2020-02-11
+#         python_version: [3.8]  # 3.9 not supported on numba as of 2020-02-11
 #     steps:
 #     - uses: actions/checkout@v2
 #       with:
@@ -229,10 +217,10 @@ jobs:
 #         repository: Jammy2211/PyAutoLens
 #         ref: master
 #         path: PyAutoLens
-#     - name: Set up Python ${{ matrix.python-version }}
+#     - name: Set up Python ${{ matrix.python_version }}
 #       uses: actions/setup-python@v2
 #       with:
-#         python-version: ${{ matrix.python-version }}
+#         python_version: ${{ matrix.python_version }}
 #     - name: Compute version number
 #       run: |
 #         export DATE_FORMATTED=`date +"%Y.%-m.%-d"`
