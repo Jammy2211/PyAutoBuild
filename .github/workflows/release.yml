@@ -38,7 +38,7 @@ jobs:
                 ref: master
                 path: PyAutoLens
         steps:
-        - uses: ./.github/workflows/setup_project
+        - uses: Jammy2211/PyAutoBuild/.github/workflows/setup_project.yml@master
           with:
               repository: ${{ matrix.project.repository }}
               ref: ${{ matrix.project.ref }}
