@@ -119,6 +119,12 @@ jobs:
               repository: Jammy2211/autolens_workspace
               path: autolens_workspace
               name: autolens
+          - repository: rhayes777/PyAutoFit
+            path: PyAutoFit
+            workspace:
+              repository: Jammy2211/autofit_workspace
+              path: autofit_workspace
+              name: autofit
     steps:
     - uses: actions/checkout@v2
       with:
