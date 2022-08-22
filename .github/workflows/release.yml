@@ -168,6 +168,7 @@ jobs:
     - name: Run Python scripts
       run: |
         pushd PyAutoBuild
+        export PYTHONPATH=$PYTHONPATH:../
         python3 "${{ matrix.project.workspace.name }}/run_python.py"
 
 #
