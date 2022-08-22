@@ -315,6 +315,7 @@ jobs:
       - version_number
     strategy:
       matrix:
+        python-version: [3.8]
         workspace:
           - repository: Jammy2211/autolens_workspace
             path: autolens_workspace
@@ -331,6 +332,22 @@ jobs:
       run: |
         git config --global user.email "richard@rghsoftware.co.uk"
         git config --global user.name "GitHub Actions bot"
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install Jupyter dependency
+      run: |
+        pip install jupyter ipynb-py-convert
+    - name: Update jupyter notebooks
+      run: |
+        pushd PyAutoBuild
+        export PYTHONPATH=$PYTHONPATH:../
+        python3 "${{ matrix.workspace.name }}/generate.py"
+        popd
+        pushd "${{ matrix.workspace.path}"
+        git add *.ipynb
+        git commit -m "Updated notebooks"
     - name: Release
       run: |
         cd "${{ matrix.workspace.path }}"
