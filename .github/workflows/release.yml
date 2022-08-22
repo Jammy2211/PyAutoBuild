@@ -169,7 +169,7 @@ jobs:
       run: |
         which python3
         pushd PyAutoBuild
-        python3 "${{ matrix.workspace.name }}/run_python.py"
+        python3 "${{ matrix.project.workspace.name }}/run_python.py"
 
 #
 #   release:
