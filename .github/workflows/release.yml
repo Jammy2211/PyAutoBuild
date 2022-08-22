@@ -152,7 +152,8 @@ jobs:
         pip install Cython
         python3 -m pip install -r "${{ matrix.project.path }}/optional_requirements.txt"
     - name: Install project
-      python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple "autolens==${{ needs.release_test_pypi.outputs.version_number }}"
+      run: |
+        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple "autolens==${{ needs.release_test_pypi.outputs.version_number }}"
     - name: Run Python scripts
       run: |
         pushd PyAutoBuild
