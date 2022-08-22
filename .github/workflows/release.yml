@@ -143,6 +143,7 @@ jobs:
       if: test -f "${{ matrix.project.path }}/optional_requirements.txt"
       run: |
         echo "Installing optional requirements"
+        pip install Cython
         python3 -m pip install -r "${{ matrix.project.path }}/optional_requirements.txt"
     - name: Install project
       shell: bash {0}
