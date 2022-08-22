@@ -262,11 +262,13 @@ jobs:
       with:
           path: PyAutoBuild
     - name: Checkout
-      uses: actions/checkout@v2
-      with:
-        repository: "${{ matrix.project.repository }}"
-        ref: "${{ matrix.project.ref }}"
-        path: "${{ matrix.project.path }}"
+      run: |
+        git clone "https://$PAT@github.com/${{ matrix.project.repository }}.git" "${{ matrix.project.path }}"
+#       uses: actions/checkout@v2
+#       with:
+#         repository: "${{ matrix.project.repository }}"
+#         ref: "${{ matrix.project.ref }}"
+#         path: "${{ matrix.project.path }}"
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
