@@ -113,12 +113,12 @@ jobs:
       matrix:
         python-version: [3.8]
         project:
-          - repository: Jammy2211/PyAutoLens
-            path: PyAutoLens
-            workspace:
-              repository: Jammy2211/autolens_workspace
-              path: autolens_workspace
-              name: autolens
+#           - repository: Jammy2211/PyAutoLens
+#             path: PyAutoLens
+#             workspace:
+#               repository: Jammy2211/autolens_workspace
+#               path: autolens_workspace
+#               name: autolens
           - repository: rhayes777/PyAutoFit
             path: PyAutoFit
             workspace:
@@ -139,7 +139,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         repository: ${{ matrix.project.workspace.repository }}
-        ref: master
+        ref: build
         path: ${{ matrix.project.workspace.path }}
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
