@@ -235,9 +235,9 @@ jobs:
       TWINE_PASSWORD: ${{ secrets.PYPI }}
     needs:
       - run_scripts
-        run_notebooks
-        release_test_pypi
-        version_number
+      - run_notebooks
+      - release_test_pypi
+      - version_number
     strategy:
       matrix:
         project:
