@@ -239,24 +239,24 @@ jobs:
         release_test_pypi
         version_number
     strategy:
-      project:
-      - repository: rhayes777/PyAutoConf
-        ref: master
-        path: PyAutoConf
-      - repository: rhayes777/PyAutoFit
-        ref: master
-        path: PyAutoFit
-      - repository: Jammy2211/PyAutoArray
-        ref: master
-        path: PyAutoArray
-      - repository: Jammy2211/PyAutoGalaxy
-        ref: master
-        path: PyAutoGalaxy
-      - repository: Jammy2211/PyAutoLens
-        ref: master
-        path: PyAutoLens
+      matrix:
+        project:
+        - repository: rhayes777/PyAutoConf
+          ref: master
+          path: PyAutoConf
+        - repository: rhayes777/PyAutoFit
+          ref: master
+          path: PyAutoFit
+        - repository: Jammy2211/PyAutoArray
+          ref: master
+          path: PyAutoArray
+        - repository: Jammy2211/PyAutoGalaxy
+          ref: master
+          path: PyAutoGalaxy
+        - repository: Jammy2211/PyAutoLens
+          ref: master
+          path: PyAutoLens
     steps:
-
 #     - name: Git commit, tag, merge and release everything
 #      run: |
 #        pushd PyAutoBuild
