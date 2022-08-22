@@ -234,29 +234,29 @@ jobs:
       TWINE_USERNAME: __token__
       TWINE_PASSWORD: ${{ secrets.PYPI }}
     needs:
-#       - run_scripts
-#       - run_notebooks
-#       - release_test_pypi
+      - run_scripts
+      - run_notebooks
+      - release_test_pypi
       - version_number
     strategy:
       matrix:
         project:
-#         - repository: rhayes777/PyAutoConf
-#           ref: master
-#           path: PyAutoConf
-#           pat: PAT_RICH
+        - repository: rhayes777/PyAutoConf
+          ref: master
+          path: PyAutoConf
+          pat: PAT_RICH
         - repository: rhayes777/PyAutoFit
           ref: master
           path: PyAutoFit
           pat: PAT_RICH
-#         - repository: Jammy2211/PyAutoArray
-#           ref: master
-#           path: PyAutoArray
-#           pat: PAT_JAMES
-#         - repository: Jammy2211/PyAutoGalaxy
-#           ref: master
-#           path: PyAutoGalaxy
-#           pat: PAT_JAMES
+        - repository: Jammy2211/PyAutoArray
+          ref: master
+          path: PyAutoArray
+          pat: PAT_JAMES
+        - repository: Jammy2211/PyAutoGalaxy
+          ref: master
+          path: PyAutoGalaxy
+          pat: PAT_JAMES
         - repository: Jammy2211/PyAutoLens
           ref: master
           path: PyAutoLens
