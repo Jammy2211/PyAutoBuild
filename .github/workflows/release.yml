@@ -263,12 +263,7 @@ jobs:
           path: PyAutoBuild
     - name: Checkout
       run: |
-        git clone "https://$PAT@github.com/${{ matrix.project.repository }}.git" "${{ matrix.project.path }}"
-#       uses: actions/checkout@v2
-#       with:
-#         repository: "${{ matrix.project.repository }}"
-#         ref: "${{ matrix.project.ref }}"
-#         path: "${{ matrix.project.path }}"
+        git clone -b "${{ matrix.project.ref }}" https://$PAT@github.com/${{ matrix.project.repository }}.git" "${{ matrix.project.path }}"
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
@@ -287,21 +282,17 @@ jobs:
       run: |
         pushd "${{ matrix.project.path }}"
         VERSION="${{ needs.version_number.outputs.version_number }}"
-        echo "Tagging"
         git tag -m "Release $VERSION" -a "$VERSION"
-        echo "Pushing"
         PAT="${{ secrets[matrix.project.pat] }}"
-        if [ -z "$PAT" ]; then echo "NULL"; else echo "Not NULL"; fi
         git remote set-url --push origin "https://$PAT@github.com/${{ matrix.project.repository }}.git"
         git push --tags
     - name: Build
       run: |
+        pushd "${{ matrix.project.path }}"
         python3 -m pip install --upgrade build
         python3 -m build
-        popd
     - name: Upload to PyPI
       run: |
         python3 -m pip install twine
         pushd "${{ matrix.project.path }}"
         python3 -m twine upload dist/*
-        popd
