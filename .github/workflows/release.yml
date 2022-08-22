@@ -328,6 +328,10 @@ jobs:
     - name: Checkout
       run: |
         git clone -b master "https://$PAT@github.com/${{ matrix.workspace.repository }}.git" "${{ matrix.workspace.path }}"
+    - name: Configure Git
+      run: |
+        git config --global user.email "richard@rghsoftware.co.uk"
+        git config --global user.name "GitHub Actions bot"
     - name: Release
       run: |
         cd "${{ matrix.workspace.path }}"
@@ -336,3 +340,4 @@ jobs:
         VERSION="${{ needs.version_number.outputs.version_number }}"
         git tag -m "Release $VERSION" -a "$VERSION"
 #         git push
+#         git push --tags
