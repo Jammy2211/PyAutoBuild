@@ -139,7 +139,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         repository: ${{ matrix.project.workspace.repository }}
-        ref: build
+        ref: feature/build
         path: ${{ matrix.project.workspace.path }}
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
