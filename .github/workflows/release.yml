@@ -93,6 +93,7 @@ jobs:
             pushd "${{ matrix.project.path }}"
             if test -f "optional_requirements.txt"
             then
+              pip install Cython
               pip install -r optional_requirements.txt
             fi
             python3 -m pytest
