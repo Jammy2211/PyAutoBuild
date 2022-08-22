@@ -285,8 +285,12 @@ jobs:
       run: |
         pushd "${{ matrix.project.path }}"
         VERSION="${{ needs.version_number.outputs.version_number }}"
+        echo "Tagging"
         git tag -m "Release $VERSION" -a "$VERSION"
-        git push --tags https://${{ secrets[matrix.project.pat] }}@github.com/${{ matrix.project.repository }}.git
+        echo "Pushing"
+        PAT="${{ secrets[matrix.project.pat] }}"
+        if [ -z "$PAT" ]; then echo "NULL"; else echo "Not NULL"; fi
+        git push --tags https://$PAT@github.com/${{ matrix.project.repository }}.git
     - name: Build
       run: |
         python3 -m pip install --upgrade build
