@@ -333,4 +333,6 @@ jobs:
         cd "${{ matrix.workspace.path }}"
         git checkout release
         git merge master
+        VERSION="${{ needs.version_number.outputs.version_number }}"
+        git tag -m "Release $VERSION" -a "$VERSION"
 #         git push
