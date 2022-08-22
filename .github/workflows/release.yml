@@ -244,6 +244,7 @@ jobs:
 #         - repository: rhayes777/PyAutoConf
 #           ref: master
 #           path: PyAutoConf
+#           pat: PAT_RICH
         - repository: rhayes777/PyAutoFit
           ref: master
           path: PyAutoFit
@@ -251,12 +252,15 @@ jobs:
 #         - repository: Jammy2211/PyAutoArray
 #           ref: master
 #           path: PyAutoArray
+#           pat: PAT_JAMES
 #         - repository: Jammy2211/PyAutoGalaxy
 #           ref: master
 #           path: PyAutoGalaxy
-#         - repository: Jammy2211/PyAutoLens
-#           ref: master
-#           path: PyAutoLens
+#           pat: PAT_JAMES
+        - repository: Jammy2211/PyAutoLens
+          ref: master
+          path: PyAutoLens
+          pat: PAT_JAMES
     steps:
     - uses: actions/checkout@v2
       with:
