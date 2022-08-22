@@ -275,7 +275,7 @@ jobs:
     - name: Update version
       run: |
         pushd "${{ matrix.project.path }}"
-        export VERSION="${{ needs.version_number.outputs.version_number }}"
+        VERSION="${{ needs.version_number.outputs.version_number }}"
         sed -i "s/__version__ = [\.\"\'0-9]*/__version__ = \"$VERSION\"/g" */__init__.py
         git commit "-am 'Updated version in __init__ to $VERSION"
     - name: Tag
@@ -289,6 +289,7 @@ jobs:
     - name: Build
       run: |
         pushd "${{ matrix.project.path }}"
+        export VERSION="${{ needs.version_number.outputs.version_number }}"
         python3 -m pip install --upgrade build
         python3 -m build
     - name: Upload to PyPI
