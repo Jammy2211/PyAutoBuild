@@ -167,7 +167,6 @@ jobs:
         done
     - name: Run Python scripts
       run: |
-        which python3
         pushd PyAutoBuild
         python3 "${{ matrix.project.workspace.name }}/run_python.py"
 
