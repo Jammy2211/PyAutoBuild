@@ -160,6 +160,68 @@ jobs:
         export PYTHONPATH=$PYTHONPATH:../
         python3 "${{ matrix.project.workspace.name }}/run_python.py"
 
+  run_notebooks:
+    runs-on: ubuntu-latest
+    needs: release_test_pypi
+    strategy:
+      matrix:
+        python-version: [3.8]
+        project:
+          - repository: Jammy2211/PyAutoLens
+            path: PyAutoLens
+            workspace:
+              repository: Jammy2211/autolens_workspace
+              path: autolens_workspace
+              name: autolens
+          - repository: rhayes777/PyAutoFit
+            path: PyAutoFit
+            workspace:
+              repository: Jammy2211/autofit_workspace
+              path: autofit_workspace
+              name: autofit
+    steps:
+    - uses: actions/checkout@v2
+      with:
+          path: PyAutoBuild
+    - name: Checkout project
+      uses: actions/checkout@v2
+      with:
+        repository: "${{ matrix.project.repository }}"
+        ref: "${{ matrix.project.ref }}"
+        path: "${{ matrix.project.path }}"
+    - name: Checkout workspace
+      uses: actions/checkout@v2
+      with:
+        repository: ${{ matrix.project.workspace.repository }}
+        ref: master
+        path: ${{ matrix.project.workspace.path }}
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install optional requirements
+      if: test -f "${{ matrix.project.path }}/optional_requirements.txt"
+      run: |
+        echo "Installing optional requirements"
+        pip install Cython
+        python3 -m pip install -r "${{ matrix.project.path }}/optional_requirements.txt"
+    - name: Install project
+      run: |
+        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple "autolens==${{ needs.release_test_pypi.outputs.version_number }}"
+    - name: Install Jupyter dependency
+      run: |
+        pip install jupyter ipynb-py-convert
+    - name: Generate jupyter notebooks
+      run: |
+        pushd PyAutoBuild
+        export PYTHONPATH=$PYTHONPATH:../
+        python3 "${{ matrix.project.workspace.name }}/generate.py"
+    - name: Run jupyter notebooks
+      run: |
+        pushd PyAutoBuild
+        export PYTHONPATH=$PYTHONPATH:../
+        python3 "${{ matrix.project.workspace.name }}/run.py"
+
 #
 #   release:
 #     runs-on: ubuntu-latest
