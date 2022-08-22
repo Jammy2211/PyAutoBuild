@@ -152,19 +152,7 @@ jobs:
         pip install Cython
         python3 -m pip install -r "${{ matrix.project.path }}/optional_requirements.txt"
     - name: Install project
-      shell: bash {0}
-      run: |
-        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple "autolens==${{ needs.release_test_pypi.outputs.version_number }}"
-        test_condition=$?
-        cnt=0
-        while [[ $test_condition != "0" ]]; do
-          echo "Failed to find package, retrying in 10 seconds.."
-          sleep 10
-          ((cnt=cnt+1))
-          [[ $cnt == "100" ]] && echo "Timed out, tried 100 times" && break
-          python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple "autolens==${{ needs.release_test_pypi.outputs.version_number }}"
-          test_condition=$?
-        done
+      python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple "autolens==${{ needs.release_test_pypi.outputs.version_number }}"
     - name: Run Python scripts
       run: |
         pushd PyAutoBuild
