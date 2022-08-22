@@ -318,8 +318,10 @@ jobs:
         python-version: [3.8]
         workspace:
           - repository: Jammy2211/autolens_workspace
+            name: autolens
             path: autolens_workspace
           - repository: Jammy2211/autofit_workspace
+            name: autofit
             path: autofit_workspace
     steps:
     - uses: actions/checkout@v2
