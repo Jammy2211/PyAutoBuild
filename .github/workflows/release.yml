@@ -77,7 +77,7 @@ jobs:
             python3 -m pip install --upgrade build
             python3 -m build
             popd
-        - name: Release
+        - name: Upload to test PyPI
           run: |
             python3 -m pip install twine
             pushd "${{ matrix.project.path }}"
@@ -257,10 +257,6 @@ jobs:
           ref: master
           path: PyAutoLens
     steps:
-#     - name: Git commit, tag, merge and release everything
-#      run: |
-#        pushd PyAutoBuild
-#        python3 tag_and_merge.py --version ${{ github.event.inputs.minor_version }}
     - uses: actions/checkout@v2
       with:
           path: PyAutoBuild
@@ -274,15 +270,24 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Build
+    - name: Update version
       run: |
         pushd "${{ matrix.project.path }}"
         export VERSION="${{ needs.version_number.outputs.version_number }}"
         sed -i "s/__version__ = [\.\"\'0-9]*/__version__ = \"$VERSION\"/g" */__init__.py
+        git commit "-am 'Updated version in __init__ to $VERSION"
+        popd
+    - name: Tag
+      run: |
+        VERSION="${{ needs.version_number.outputs.version_number }}"
+        git tag -m "Release $VERSION" -a "$VERSION"
+        git push --tags
+    - name: Build
+      run: |
         python3 -m pip install --upgrade build
         python3 -m build
         popd
-    - name: Release
+    - name: Upload to PyPI
       run: |
         python3 -m pip install twine
         pushd "${{ matrix.project.path }}"
