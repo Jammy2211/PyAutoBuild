@@ -247,7 +247,7 @@ jobs:
         - repository: rhayes777/PyAutoFit
           ref: master
           path: PyAutoFit
-          pat: ${{ secrets.PAT_RICH }}
+          pat: PAT_RICH
 #         - repository: Jammy2211/PyAutoArray
 #           ref: master
 #           path: PyAutoArray
@@ -287,7 +287,7 @@ jobs:
         VERSION="${{ needs.version_number.outputs.version_number }}"
         git tag -m "Release $VERSION" -a "$VERSION"
         git push --tags
-        git push https://${{ matrix.project.pat }}@github.com/${{ matrix.project.repository }}.git
+        git push https://${{ secrets[matrix.project.pat] }}@github.com/${{ matrix.project.repository }}.git
     - name: Build
       run: |
         python3 -m pip install --upgrade build
