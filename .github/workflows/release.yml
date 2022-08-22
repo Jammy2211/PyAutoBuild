@@ -96,15 +96,15 @@ jobs:
                 test_condition=$?
               done
             done
-#         - name: Run unittests
-#           run: |
-#             pushd "${{ matrix.project.path }}"
-#             if test -f "optional_requirements.txt"
-#             then
-#               pip install Cython
-#               pip install -r optional_requirements.txt
-#             fi
-#             python3 -m pytest
+        - name: Run unittests
+          run: |
+            pushd "${{ matrix.project.path }}"
+            if test -f "optional_requirements.txt"
+            then
+              pip install Cython
+              pip install -r optional_requirements.txt
+            fi
+            python3 -m pytest
 
   run_python_scripts:
     runs-on: ubuntu-latest
@@ -113,12 +113,12 @@ jobs:
       matrix:
         python-version: [3.8]
         project:
-#           - repository: Jammy2211/PyAutoLens
-#             path: PyAutoLens
-#             workspace:
-#               repository: Jammy2211/autolens_workspace
-#               path: autolens_workspace
-#               name: autolens
+          - repository: Jammy2211/PyAutoLens
+            path: PyAutoLens
+            workspace:
+              repository: Jammy2211/autolens_workspace
+              path: autolens_workspace
+              name: autolens
           - repository: rhayes777/PyAutoFit
             path: PyAutoFit
             workspace:
@@ -139,7 +139,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         repository: ${{ matrix.project.workspace.repository }}
-        ref: feature/build
+        ref: master
         path: ${{ matrix.project.workspace.path }}
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
