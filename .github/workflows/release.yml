@@ -53,7 +53,13 @@ jobs:
           run: |
             export DATE_FORMATTED=`date +"%Y.%-m.%-d"`
             MINOR_VERSION="${{ github.event.inputs.minor_version }}"
-            export VERSION="${DATE_FORMATTED}.${MINOR_VERSION:-${{ github.run_number }}}"
+            VERSION="${DATE_FORMATTED}.${MINOR_VERSION:-${{ github.run_number }}}"
+            RUN_ATTEMPT="${{ github.run_attempt }}"
+            if [ "$RUN_ATTEMPT" -gt "1" ]
+            then
+                VERSION="$VERSION.$RUN_ATTEMPT"
+            fi
+            export VERSION
             echo "::set-output name=version-number::${VERSION}"
           id: version_number
         - name: Build
