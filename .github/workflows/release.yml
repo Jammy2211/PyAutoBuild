@@ -283,6 +283,7 @@ jobs:
 #         popd
     - name: Tag
       run: |
+        pushd "${{ matrix.project.path }}"
         VERSION="${{ needs.version_number.outputs.version_number }}"
         git tag -m "Release $VERSION" -a "$VERSION"
         git push --tags
