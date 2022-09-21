@@ -1,5 +1,6 @@
 import glob
 import datetime
+import logging
 import os
 import re
 import subprocess
@@ -8,6 +9,9 @@ import traceback
 
 TIMEOUT_SECS = 36000
 BUILD_PATH = os.getcwd()
+
+BUILD_PYTHON_INTERPRETER = os.environ.get("BUILD_PYTHON_INTERPRETER", 'python3')
+print(BUILD_PYTHON_INTERPRETER)
 
 
 def py_to_notebook(filename):
@@ -74,15 +78,18 @@ def execute_notebook(f):
         )
     except (subprocess.TimeoutExpired, subprocess.CalledProcessError) as e:
         if e is subprocess.CalledProcessError:
+
+            logging.exception(e)
+
             if "InversionException" in traceback.format_exc():
                 return
-            sys.exit()
+            sys.exit(1)
             raise e
         # subprocess.run(['jupyter', 'nbconvert', '--to', 'notebook', '--execute', f'{f}'], check=True)
 
 
 def execute_script(f):
-    args = ['python3', f]
+    args = [BUILD_PYTHON_INTERPRETER, f]
     print(f'Running <{args}>')
     try:
         subprocess.run(
@@ -92,10 +99,12 @@ def execute_script(f):
         )
     except (subprocess.TimeoutExpired, subprocess.CalledProcessError) as e:
 
+        logging.exception(e)
+
         if "inversion" in f:
             return
 
-        sys.exit()
+        sys.exit(1)
 
 
 def execute_scripts_in_folder(workspace_path, folder, root_path, scripts_no_run=None):
@@ -109,7 +118,7 @@ def execute_scripts_in_folder(workspace_path, folder, root_path, scripts_no_run=
         files = glob.glob(f"*.py")
         os.chdir(workspace_path)
 
-        for f in files:
+        for f in sorted(files):
             run_script = True
             for no_run in scripts_no_run:
                 if no_run in f:
