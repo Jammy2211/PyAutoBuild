@@ -33,7 +33,7 @@ def main():
     os.chdir(SCRIPTS_ROOT_PATH)
 
     for folder in [
-   #     "results"
+        "results"
     ]:
 
         build_util.execute_scripts_in_folder(
@@ -48,10 +48,10 @@ def main():
 
     for folder in [
           "howtogalaxy",
-      #   "overview",
-      #   "imaging",
-      #   "interferometer",
-       #  "multi",
+         "overview",
+         "imaging",
+         "interferometer",
+         "multi",
          "misc",
          "plot"
     ]:
