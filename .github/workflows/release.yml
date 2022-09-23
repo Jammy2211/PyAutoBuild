@@ -146,25 +146,25 @@ jobs:
     - name: Checkout project
       uses: actions/checkout@v2
       with:
-        repository: "${{ steps.configure.repository }}"
-        ref: "${{ steps.configure.ref }}"
-        path: "${{ steps.configure.path }}"
+        repository: "${{ steps.configure.outputs.repository }}"
+        ref: "${{ steps.configure.outputs.ref }}"
+        path: "${{ steps.configure.outputs.path }}"
     - name: Checkout workspace
       uses: actions/checkout@v2
       with:
-        repository: ${{ steps.configure.workspace_repository }}
+        repository: ${{ steps.configure.outputs.workspace_repository }}
         ref: master
-        path: ${{ steps.configure.workspace_path }}
+        path: ${{ steps.configure.outputs.workspace_path }}
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install optional requirements
-      if: test -f "${{ steps.configure.path }}/optional_requirements.txt"
+      if: test -f "${{ steps.configure.outputs.path }}/optional_requirements.txt"
       run: |
         echo "Installing optional requirements"
         pip install Cython
-        python3 -m pip install -r "${{ steps.configure.path }}/optional_requirements.txt"
+        python3 -m pip install -r "${{ steps.configure.outputs.path }}/optional_requirements.txt"
     - name: Install project
       run: |
         python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple "autolens==${{ needs.version_number.outputs.version_number }}"
@@ -172,7 +172,7 @@ jobs:
       run: |
         pushd PyAutoBuild
         export PYTHONPATH=$PYTHONPATH:../
-        python3 "${{ steps.configure.workspace_name }}/run_python.py"
+        python3 "${{ steps.configure.outputs.workspace_name }}/run_python.py"
 
 #   run_notebooks:
 #     runs-on: ubuntu-latest
@@ -209,25 +209,25 @@ jobs:
 #     - name: Checkout project
 #       uses: actions/checkout@v2
 #       with:
-#         repository: "${{ steps.configure.repository }}"
-#         ref: "${{ steps.configure.ref }}"
-#         path: "${{ steps.configure.path }}"
+#         repository: "${{ steps.configure.outputs.repository }}"
+#         ref: "${{ steps.configure.outputs.ref }}"
+#         path: "${{ steps.configure.outputs.path }}"
 #     - name: Checkout workspace
 #       uses: actions/checkout@v2
 #       with:
-#         repository: ${{ steps.configure.workspace_repository }}
+#         repository: ${{ steps.configure.outputs.workspace_repository }}
 #         ref: master
-#         path: ${{ steps.configure.workspace_path }}
+#         path: ${{ steps.configure.outputs.workspace_path }}
 #     - name: Set up Python ${{ matrix.python-version }}
 #       uses: actions/setup-python@v2
 #       with:
 #         python-version: ${{ matrix.python-version }}
 #     - name: Install optional requirements
-#       if: test -f "${{ steps.configure.path }}/optional_requirements.txt"
+#       if: test -f "${{ steps.configure.outputs.path }}/optional_requirements.txt"
 #       run: |
 #         echo "Installing optional requirements"
 #         pip install Cython
-#         python3 -m pip install -r "${{ steps.configure.path }}/optional_requirements.txt"
+#         python3 -m pip install -r "${{ steps.configure.outputs.path }}/optional_requirements.txt"
 #     - name: Install project
 #       run: |
 #         python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple "autolens==${{ needs.version_number.outputs.version_number }}"
@@ -238,12 +238,12 @@ jobs:
 #       run: |
 #         pushd PyAutoBuild
 #         export PYTHONPATH=$PYTHONPATH:../
-#         python3 "${{ steps.configure.workspace_name }}/generate.py"
+#         python3 "${{ steps.configure.outputs.workspace_name }}/generate.py"
 #     - name: Run jupyter notebooks
 #       run: |
 #         pushd PyAutoBuild
 #         export PYTHONPATH=$PYTHONPATH:../
-#         python3 "${{ steps.configure.workspace_name }}/run.py"
+#         python3 "${{ steps.configure.outputs.workspace_name }}/run.py"
 
 #   release:
 #     runs-on: ubuntu-latest
