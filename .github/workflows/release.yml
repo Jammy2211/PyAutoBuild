@@ -123,20 +123,20 @@ jobs:
         project:
             - name: autolens
               directory: howtolens
-            - name: autolens
-              directory: overview
-            - name: autolens
-              directory: imaging
-            - name: autolens
-              directory: interferometer
-            - name: autolens
-              directory: multi
-            - name: autolens
-              directory: point_source
-            - name: autolens
-              directory: misc
-            - name: autolens
-              directory: plot
+#             - name: autolens
+#               directory: overview
+#             - name: autolens
+#               directory: imaging
+#             - name: autolens
+#               directory: interferometer
+#             - name: autolens
+#               directory: multi
+#             - name: autolens
+#               directory: point_source
+#             - name: autolens
+#               directory: misc
+#             - name: autolens
+#               directory: plot
     steps:
     - name: Configure
       id: configure
