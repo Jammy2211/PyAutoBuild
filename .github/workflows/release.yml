@@ -213,6 +213,7 @@ jobs:
 #       - release_test_pypi
 #       - version_number
     strategy:
+      fail-fast: false
       matrix:
         python-version: [3.8]
         project:
@@ -294,7 +295,7 @@ jobs:
         pushd PyAutoBuild
         cp -r "${{ matrix.project.name }}/configs/${{ steps.configure.outputs.config_directory }}" "../${{ steps.configure.outputs.workspace_path }}/config"
         export PYTHONPATH=$PYTHONPATH:../
-        python3 "${{ matrix.project.name }}/run.py"
+        python3 "${{ matrix.project.name }}/run.py" ${{ matrix.project.directory }}
 
 #   release:
 #     runs-on: ubuntu-latest
