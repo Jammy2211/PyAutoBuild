@@ -29,78 +29,78 @@ jobs:
           echo "::set-output name=version_number::${VERSION}"
         id: version_number
 
-#   release_test_pypi:
-#         runs-on: ubuntu-latest
-#         needs: version_number
-#         env:
-#           TWINE_REPOSITORY: testpypi
-#           TWINE_USERNAME: __token__
-#           TWINE_PASSWORD: ${{ secrets.TEST_PYPI }}
-#         strategy:
-#           matrix:
-#             python-version: [3.8]  # 3.9 not supported on numba as of 2020-02-11
-#             project:
-#               - repository: rhayes777/PyAutoConf
-#                 ref: master
-#                 path: PyAutoConf
-#               - repository: rhayes777/PyAutoFit
-#                 ref: master
-#                 path: PyAutoFit
-#               - repository: Jammy2211/PyAutoArray
-#                 ref: master
-#                 path: PyAutoArray
-#               - repository: Jammy2211/PyAutoGalaxy
-#                 ref: master
-#                 path: PyAutoGalaxy
-#               - repository: Jammy2211/PyAutoLens
-#                 ref: master
-#                 path: PyAutoLens
-#         steps:
-#         - uses: actions/checkout@v2
-#           with:
-#               path: PyAutoBuild
-#         - name: Checkout
-#           uses: actions/checkout@v2
-#           with:
-#             repository: "${{ matrix.project.repository }}"
-#             ref: "${{ matrix.project.ref }}"
-#             path: "${{ matrix.project.path }}"
-#         - name: Set up Python ${{ matrix.python-version }}
-#           uses: actions/setup-python@v2
-#           with:
-#             python-version: ${{ matrix.python-version }}
-#         - name: Build
-#           run: |
-#             pushd "${{ matrix.project.path }}"
-#             export VERSION="${{ needs.version_number.outputs.version_number }}"
-#             sed -i "s/__version__ = [\.\"\'0-9]*/__version__ = \"$VERSION\"/g" */__init__.py
-#             python3 -m pip install --upgrade build
-#             python3 -m build
-#             popd
-#         - name: Upload to test PyPI
-#           run: |
-#             python3 -m pip install twine
-#             pushd "${{ matrix.project.path }}"
-#             python3 -m twine upload --repository testpypi dist/*
-#             popd
-#         - name: Wait for packages to upload to Pypi
-#           shell: bash {0}   # So that we do not exit if a command gives a bad exit code
-#           run: |
-#             export PACKAGES=("autoconf" "autoarray" "autofit" "autogalaxy" "autolens")
-#             export VERSION="${{ needs.version_number.outputs.version_number }}"
-#             for PACKAGE in ${PACKAGES[@]}; do
-#               python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple $PACKAGE==$VERSION
-#               test_condition=$?
-#               cnt=0
-#               while [[ $test_condition != "0" ]]; do
-#                 echo "Failed to find package, retrying in 10 seconds.."
-#                 sleep 10
-#                 ((cnt=cnt+1))
-#                 [[ $cnt == "100" ]] && echo "Timed out, tried 100 times" && break
-#                 python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple $PACKAGE==$VERSION
-#                 test_condition=$?
-#               done
-#             done
+  release_test_pypi:
+        runs-on: ubuntu-latest
+        needs: version_number
+        env:
+          TWINE_REPOSITORY: testpypi
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.TEST_PYPI }}
+        strategy:
+          matrix:
+            python-version: [3.8]  # 3.9 not supported on numba as of 2020-02-11
+            project:
+              - repository: rhayes777/PyAutoConf
+                ref: master
+                path: PyAutoConf
+              - repository: rhayes777/PyAutoFit
+                ref: master
+                path: PyAutoFit
+              - repository: Jammy2211/PyAutoArray
+                ref: master
+                path: PyAutoArray
+              - repository: Jammy2211/PyAutoGalaxy
+                ref: master
+                path: PyAutoGalaxy
+              - repository: Jammy2211/PyAutoLens
+                ref: master
+                path: PyAutoLens
+        steps:
+        - uses: actions/checkout@v2
+          with:
+              path: PyAutoBuild
+        - name: Checkout
+          uses: actions/checkout@v2
+          with:
+            repository: "${{ matrix.project.repository }}"
+            ref: "${{ matrix.project.ref }}"
+            path: "${{ matrix.project.path }}"
+        - name: Set up Python ${{ matrix.python-version }}
+          uses: actions/setup-python@v2
+          with:
+            python-version: ${{ matrix.python-version }}
+        - name: Build
+          run: |
+            pushd "${{ matrix.project.path }}"
+            export VERSION="${{ needs.version_number.outputs.version_number }}"
+            sed -i "s/__version__ = [\.\"\'0-9]*/__version__ = \"$VERSION\"/g" */__init__.py
+            python3 -m pip install --upgrade build
+            python3 -m build
+            popd
+        - name: Upload to test PyPI
+          run: |
+            python3 -m pip install twine
+            pushd "${{ matrix.project.path }}"
+            python3 -m twine upload --repository testpypi dist/*
+            popd
+        - name: Wait for packages to upload to Pypi
+          shell: bash {0}   # So that we do not exit if a command gives a bad exit code
+          run: |
+            export PACKAGES=("autoconf" "autoarray" "autofit" "autogalaxy" "autolens")
+            export VERSION="${{ needs.version_number.outputs.version_number }}"
+            for PACKAGE in ${PACKAGES[@]}; do
+              python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple $PACKAGE==$VERSION
+              test_condition=$?
+              cnt=0
+              while [[ $test_condition != "0" ]]; do
+                echo "Failed to find package, retrying in 10 seconds.."
+                sleep 10
+                ((cnt=cnt+1))
+                [[ $cnt == "100" ]] && echo "Timed out, tried 100 times" && break
+                python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple $PACKAGE==$VERSION
+                test_condition=$?
+              done
+            done
 #         - name: Run unittests
 #           run: |
 #             pushd "${{ matrix.project.path }}"
@@ -114,7 +114,7 @@ jobs:
   run_scripts:
     runs-on: ubuntu-latest
     needs:
-#       - release_test_pypi
+      - release_test_pypi
       - version_number
     strategy:
       matrix:
@@ -166,8 +166,7 @@ jobs:
         python3 -m pip install -r "${{ steps.configure.outputs.path }}/optional_requirements.txt"
     - name: Install project
       run: |
-          #         python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple "autolens==${{ needs.version_number.outputs.version_number }}"
-        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple "autolens==2022.7.11.1"
+        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple "autolens==${{ needs.version_number.outputs.version_number }}"
     - name: Run Python scripts
       run: |
         pushd PyAutoBuild
