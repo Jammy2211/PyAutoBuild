@@ -280,7 +280,7 @@ jobs:
         python3 -m pip install -r "${{ steps.configure.outputs.path }}/optional_requirements.txt"
     - name: Install project
       run: |
-        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple "${{ matrix.project.name }}==${{ needs.version_number.outputs.version_number }}"
+        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple "${{ matrix.project.name }}==2022.9.23.128"
     - name: Install Jupyter dependency
       run: |
         pip install jupyter ipynb-py-convert
