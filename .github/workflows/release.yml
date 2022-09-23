@@ -237,6 +237,18 @@ jobs:
              directory: misc
            - name: autolens
              directory: plot
+           - name: autofit
+             directory: howtofit
+             config_directory: default
+           - name: autofit
+             directory: overview
+             config_directory: default
+           - name: autofit
+             directory: features
+             config_directory: default
+           - name: autofit
+             directory: searches
+             config_directory: default
     steps:
     - name: Configure
       id: configure
