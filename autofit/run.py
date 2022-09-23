@@ -1,7 +1,6 @@
 import os
-import shutil
 import sys
-from distutils.dir_util import copy_tree
+
 import build_util
 
 BUILD_PATH = os.getcwd()
@@ -16,44 +15,6 @@ NOTEBOOKS_NO_RUN = [
     "tutorial_5_expectation_propagation.ipynb",
     "UltraNest.ipynb",
 ]
-
-def main():
-
-    os.chdir(WORKSPACE_PATH)
- #   build_util.execute_notebook("introduction.ipynb")
-
-    if os.path.exists(f"{WORKSPACE_PATH}/output"):
-        try:
-            os.rename(f"{WORKSPACE_PATH}/output", f"{WORKSPACE_PATH}/output_backup")
-        except OSError:
-            shutil.rmtree(f"{WORKSPACE_PATH}/output")
-
-    os.chdir(BUILD_PATH)
-    copy_tree(f"autofit/configs/default", f"{WORKSPACE_PATH}/config")
-
-    os.chdir(NOTEBOOKS_ROOT_PATH)
-
-    for folder in [
-        "howtofit",
-        "overview",
-        "features",
-        "searches"
-    ]:
-
-        build_util.exexcute_notebooks_in_folder(
-            ROOT_PATH=f"{NOTEBOOKS_ROOT_PATH}/{folder}",
-            NOTEBOOKS_NO_RUN=NOTEBOOKS_NO_RUN
-        )
-
-    shutil.rmtree(f"{WORKSPACE_PATH}/output")
-    os.rename(f"{WORKSPACE_PATH}/output_backup", f"{WORKSPACE_PATH}/output")
-
-    os.chdir(BUILD_PATH)
-    copy_tree(f"autofit/configs/default", f"{WORKSPACE_PATH}/config")
-    os.chdir(WORKSPACE_PATH)
-    os.system(f"git add -f config")
-    os.chdir(BUILD_PATH)
-
 
 if __name__ == "__main__":
     folder = sys.argv[1]
