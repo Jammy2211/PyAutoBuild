@@ -132,13 +132,11 @@ jobs:
             echo "::set-output name=path::PyAutoLens"
             echo "::set-output name=workspace_repository::Jammy2211/autolens_workspace"
             echo "::set-output name=workspace_path::autolens_workspace"
-            echo "::set-output name=workspace_name::autolens"
         else
             echo "::set-output name=repository::Jammy2211/PyAutoFit"
             echo "::set-output name=path::PyAutoFit"
             echo "::set-output name=workspace_repository::Jammy2211/autofit_workspace"
             echo "::set-output name=workspace_path::autofit_workspace"
-            echo "::set-output name=workspace_name::autofit"
         fi
     - uses: actions/checkout@v2
       with:
@@ -166,12 +164,12 @@ jobs:
         python3 -m pip install -r "${{ steps.configure.outputs.path }}/optional_requirements.txt"
     - name: Install project
       run: |
-        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple "autolens==${{ needs.version_number.outputs.version_number }}"
+        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple "${{ matrix.project.name }}==${{ needs.version_number.outputs.version_number }}"
     - name: Run Python scripts
       run: |
         pushd PyAutoBuild
         export PYTHONPATH=$PYTHONPATH:../
-        python3 "${{ steps.configure.outputs.workspace_name }}/run_python.py"
+        python3 "${{ matrix.project.name }}/run_python.py"
 
 #   run_notebooks:
 #     runs-on: ubuntu-latest
@@ -237,12 +235,12 @@ jobs:
 #       run: |
 #         pushd PyAutoBuild
 #         export PYTHONPATH=$PYTHONPATH:../
-#         python3 "${{ steps.configure.outputs.workspace_name }}/generate.py"
+#         python3 "${{ matrix.project.name }}/generate.py"
 #     - name: Run jupyter notebooks
 #       run: |
 #         pushd PyAutoBuild
 #         export PYTHONPATH=$PYTHONPATH:../
-#         python3 "${{ steps.configure.outputs.workspace_name }}/run.py"
+#         python3 "${{ matrix.project.name }}/run.py"
 
 #   release:
 #     runs-on: ubuntu-latest
