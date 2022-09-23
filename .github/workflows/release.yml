@@ -117,6 +117,7 @@ jobs:
       - release_test_pypi
       - version_number
     strategy:
+      fail-fast: false
       matrix:
         python-version: [3.8]
         project:
