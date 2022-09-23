@@ -183,6 +183,8 @@ jobs:
         python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple "${{ matrix.project.name }}==${{ needs.version_number.outputs.version_number }}"
     - name: Run Python scripts
       run: |
+        ls
+        pwd
         cp -r "${{ matrix.project.name }}/configs/test" "${{ steps.configure.outputs.workspace_path }}/config"
         pushd PyAutoBuild
         export PYTHONPATH=$PYTHONPATH:../
