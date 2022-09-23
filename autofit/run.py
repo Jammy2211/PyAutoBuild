@@ -1,5 +1,6 @@
 import os
 import shutil
+import sys
 from distutils.dir_util import copy_tree
 import build_util
 
@@ -53,5 +54,10 @@ def main():
     os.system(f"git add -f config")
     os.chdir(BUILD_PATH)
 
+
 if __name__ == "__main__":
-    main()
+    folder = sys.argv[1]
+    build_util.exexcute_notebooks_in_folder(
+        ROOT_PATH=f"{NOTEBOOKS_ROOT_PATH}/{folder}",
+        NOTEBOOKS_NO_RUN=NOTEBOOKS_NO_RUN
+    )

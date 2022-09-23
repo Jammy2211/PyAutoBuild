@@ -1,6 +1,8 @@
 import os
 import shutil
+import sys
 from distutils.dir_util import copy_tree
+
 import build_util
 
 BUILD_PATH = os.getcwd()
@@ -23,18 +25,17 @@ NOTEBOOKS_NO_RUN = [
     "example_1.ipynb"
 ]
 
-def main():
 
+def main():
     copy_tree(f"autolens/configs/default", f"{WORKSPACE_PATH}/config")
 
     os.chdir(WORKSPACE_PATH)
     build_util.execute_notebook("introduction.ipynb")
 
-
     if not os.path.exists(f"{WORKSPACE_PATH}/output"):
         os.mkdir(f"{WORKSPACE_PATH}/output")
 
- #   os.system(f"cp -r {WORKSPACE_PATH}/auto_files/autolens/output {WORKSPACE_PATH}")
+    #   os.system(f"cp -r {WORKSPACE_PATH}/auto_files/autolens/output {WORKSPACE_PATH}")
 
     os.chdir(NOTEBOOKS_ROOT_PATH)
 
@@ -86,6 +87,9 @@ def main():
         pass
 
 
-
 if __name__ == "__main__":
-    main()
+    folder = sys.argv[1]
+    build_util.exexcute_notebooks_in_folder(
+        ROOT_PATH=f"{NOTEBOOKS_ROOT_PATH}/{folder}",
+        NOTEBOOKS_NO_RUN=NOTEBOOKS_NO_RUN
+    )
