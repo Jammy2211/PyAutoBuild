@@ -188,7 +188,9 @@ jobs:
         pushd PyAutoBuild
         cp -r "${{ matrix.project.name }}/configs/test" "../${{ steps.configure.outputs.workspace_path }}/config"
         export PYTHONPATH=$PYTHONPATH:../
-        python3 "${{ matrix.project.name }}/run_python.py ${{ matrix.project.directory }}"
+        ls
+        ls autolens
+        python3 "${{ matrix.project.name }}/run_python.py" ${{ matrix.project.directory }}
 
 #   run_notebooks:
 #     runs-on: ubuntu-latest
