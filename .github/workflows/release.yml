@@ -120,7 +120,7 @@ jobs:
       matrix:
         python-version: [3.8]
         project:
-          - name: autofit
+#           - name: autofit
           - name: autolens
     steps:
     - name: Configure
@@ -147,7 +147,6 @@ jobs:
       uses: actions/checkout@v2
       with:
         repository: "${{ steps.configure.outputs.repository }}"
-        ref: "${{ steps.configure.outputs.ref }}"
         path: "${{ steps.configure.outputs.path }}"
     - name: Checkout workspace
       uses: actions/checkout@v2
