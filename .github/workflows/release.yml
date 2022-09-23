@@ -126,7 +126,7 @@ jobs:
     - name: Configure
       id: configure
       run: |
-        if [ ${{ matrix.project.name == "autolens" }} ]
+        if [ ${{ matrix.project.name }} == "autolens" ]
         then
             echo "::set-output name=repository::Jammy2211/PyAutoLens"
             echo "::set-output name=path::PyAutoLens"
@@ -189,7 +189,7 @@ jobs:
 #     - name: Configure
 #       id: configure
 #       run: |
-#         if [ ${{ matrix.project.name == "autolens" } ]
+#         if [ ${{ matrix.project.name }} == "autolens" ]
 #         then
 #             echo "::set-output name=repository::Jammy2211/PyAutoLens"
 #             echo "::set-output name=path::PyAutoLens"
