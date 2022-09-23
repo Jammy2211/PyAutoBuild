@@ -1,17 +1,19 @@
 import os
 import shutil
+import sys
 from distutils.dir_util import copy_tree
+
 import build_util
 
 BUILD_PATH = os.getcwd()
 WORKSPACE_PATH = f"{os.getcwd()}/../autolens_workspace"
 SCRIPTS_ROOT_PATH = f"{WORKSPACE_PATH}/scripts"
 SCRIPTS_NO_RUN = [
-   # "mask.py",
-   # "positions.py",
-   # "lens_light_centre.py",
-   # "scaled_dataset.py",
-   # "pipeline.py",
+    # "mask.py",
+    # "positions.py",
+    # "lens_light_centre.py",
+    # "scaled_dataset.py",
+    # "pipeline.py",
     "profiling.py",
     "overview_10_clusters.py",
     "tutorial_4_hierarchical_models.py",
@@ -23,8 +25,8 @@ SCRIPTS_NO_RUN = [
     "example_1.py"
 ]
 
-def main():
 
+def main():
     copy_tree(f"autolens/configs/default", f"{WORKSPACE_PATH}/config")
 
     os.chdir(WORKSPACE_PATH)
@@ -35,7 +37,7 @@ def main():
     os.chdir(SCRIPTS_ROOT_PATH)
 
     for folder in [
-       "results"
+        "results"
     ]:
 
         build_util.execute_scripts_in_folder(
@@ -43,20 +45,20 @@ def main():
             folder=folder,
             root_path=f"{SCRIPTS_ROOT_PATH}/{folder}",
             scripts_no_run=SCRIPTS_NO_RUN
-       )
+        )
 
     os.chdir(BUILD_PATH)
     copy_tree(f"autolens/configs/test", f"{WORKSPACE_PATH}/config")
 
     for folder in [
         "howtolens",
-         "overview",
-         "imaging",
-         "interferometer",
-         "multi",
-         "point_source",
-         "misc",
-         "plot"
+        "overview",
+        "imaging",
+        "interferometer",
+        "multi",
+        "point_source",
+        "misc",
+        "plot"
     ]:
 
         build_util.execute_scripts_in_folder(
@@ -87,4 +89,10 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    folder = sys.argv[1]
+    build_util.execute_scripts_in_folder(
+        workspace_path=WORKSPACE_PATH,
+        folder=folder,
+        root_path=f"{SCRIPTS_ROOT_PATH}/{folder}",
+        scripts_no_run=SCRIPTS_NO_RUN,
+    )

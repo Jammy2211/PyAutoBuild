@@ -120,8 +120,22 @@ jobs:
       matrix:
         python-version: [3.8]
         project:
-#           - name: autofit
-          - name: autolens
+            - name: autolens
+              directory: howtolens
+            - name: autolens
+              directory: overview
+            - name: autolens
+              directory: imaging
+            - name: autolens
+              directory: interferometer
+            - name: autolens
+              directory: multi
+            - name: autolens
+              directory: point_source
+            - name: autolens
+              directory: misc
+            - name: autolens
+              directory: plot
     steps:
     - name: Configure
       id: configure
@@ -169,7 +183,8 @@ jobs:
       run: |
         pushd PyAutoBuild
         export PYTHONPATH=$PYTHONPATH:../
-        python3 "${{ matrix.project.name }}/run_python.py"
+        cp -r "${{ matrix.project.name }}/configs/test" "${{ steps.configure.outputs.workspace_path }}/config"
+        python3 "${{ matrix.project.name }}/run_python.py ${{ matrix.project.directory }}"
 
 #   run_notebooks:
 #     runs-on: ubuntu-latest
