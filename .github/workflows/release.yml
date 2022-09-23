@@ -185,7 +185,7 @@ jobs:
       run: |
         ls
         pwd
-        cp -r "${{ matrix.project.name }}/configs/test" "${{ steps.configure.outputs.workspace_path }}/config"
+        cp -r "${{ matrix.project.path }}/${{ matrix.project.name }}/configs/test" "${{ steps.configure.outputs.workspace_path }}/config"
         pushd PyAutoBuild
         export PYTHONPATH=$PYTHONPATH:../
         python3 "${{ matrix.project.name }}/run_python.py ${{ matrix.project.directory }}"
