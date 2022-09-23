@@ -218,6 +218,12 @@ jobs:
         python-version: [3.8]
         project:
            - name: autolens
+             directory: .
+             config_directory: default
+           - name: autofit
+             directory: .
+             config_directory: default
+           - name: autolens
              directory: howtolens
              config_directory: default
            - name: autolens
