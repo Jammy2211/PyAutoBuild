@@ -166,7 +166,7 @@ jobs:
             echo "::set-output name=workspace_repository::Jammy2211/autolens_workspace"
             echo "::set-output name=workspace_path::autolens_workspace"
         else
-            echo "::set-output name=repository::Jammy2211/PyAutoFit"
+            echo "::set-output name=repository::rhayes777/PyAutoFit"
             echo "::set-output name=path::PyAutoFit"
             echo "::set-output name=workspace_repository::Jammy2211/autofit_workspace"
             echo "::set-output name=workspace_path::autofit_workspace"
