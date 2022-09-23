@@ -204,7 +204,7 @@ jobs:
     - name: Run Python scripts
       run: |
         pushd PyAutoBuild
-        cp -r "${{ matrix.project.name }}/${{ steps.configure.outputs.config_directory }}/test" "../${{ steps.configure.outputs.workspace_path }}/config"
+        cp -r "${{ matrix.project.name }}/configs/${{ steps.configure.outputs.config_directory }}" "../${{ steps.configure.outputs.workspace_path }}/config"
         export PYTHONPATH=$PYTHONPATH:../
         python3 "${{ matrix.project.name }}/run_python.py" ${{ matrix.project.directory }}
 
