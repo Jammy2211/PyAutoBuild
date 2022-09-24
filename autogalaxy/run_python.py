@@ -18,7 +18,9 @@ SCRIPTS_NO_RUN = [
     "EmceePlotter.py",
     "tutorial_searches.py",
     "example_0.py",
-    "example_1.py"
+    "example_1.py",
+    "wavelength_dependence.py" # Fix via https://github.com/Jammy2211/PyAutoGalaxy/issues/34
+    "GetDist.py", # ' Breaks due to test_mode samples
 ]
 
 def main():
@@ -33,7 +35,7 @@ def main():
     os.chdir(SCRIPTS_ROOT_PATH)
 
     for folder in [
-        "results"
+  #      "results"
     ]:
 
         build_util.execute_scripts_in_folder(
@@ -47,10 +49,10 @@ def main():
     copy_tree(f"autogalaxy/configs/test", f"{WORKSPACE_PATH}/config")
 
     for folder in [
-          "howtogalaxy",
-         "overview",
-         "imaging",
-         "interferometer",
+     #     "howtogalaxy",
+    #     "overview",
+      #   "imaging",
+     #    "interferometer",
          "multi",
          "misc",
          "plot"

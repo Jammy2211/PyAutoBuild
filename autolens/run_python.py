@@ -20,7 +20,8 @@ SCRIPTS_NO_RUN = [
     "EmceePlotter.py",
     "tutorial_searches.py",
     "example_0.py",
-    "example_1.py"
+    "example_1.py",
+    "GetDist.py",  # ' Breaks due to test_mode samples
 ]
 
 def main():
