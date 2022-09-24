@@ -1,5 +1,6 @@
 import os
 import shutil
+import sys
 from distutils.dir_util import copy_tree
 
 import build_util
@@ -58,4 +59,10 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    folder = sys.argv[1]
+    build_util.execute_scripts_in_folder(
+        workspace_path=WORKSPACE_PATH,
+        folder=folder,
+        root_path=f"{SCRIPTS_ROOT_PATH}/{folder}",
+        scripts_no_run=SCRIPTS_NO_RUN,
+    )

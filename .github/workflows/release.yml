@@ -116,55 +116,95 @@ jobs:
       - release_test_pypi
       - version_number
     strategy:
+      fail-fast: false
       matrix:
         python-version: [3.8]
         project:
-          - repository: Jammy2211/PyAutoLens
-            path: PyAutoLens
-            workspace:
-              repository: Jammy2211/autolens_workspace
-              path: autolens_workspace
-              name: autolens
-          - repository: rhayes777/PyAutoFit
-            path: PyAutoFit
-            workspace:
-              repository: Jammy2211/autofit_workspace
-              path: autofit_workspace
-              name: autofit
+            - name: autolens
+              directory: howtolens
+            - name: autolens
+              directory: overview
+            - name: autolens
+              directory: imaging
+            - name: autolens
+              directory: interferometer
+            - name: autolens
+              directory: multi
+            - name: autolens
+              directory: point_source
+            - name: autolens
+              directory: misc
+            - name: autolens
+              directory: plot
+            - name: autolens
+              directory: results
+              config_directory: default
+            - name: autofit
+              directory: simulators
+              config_directory: default
+            - name: autofit
+              directory: howtofit
+              config_directory: default
+            - name: autofit
+              directory: overview
+              config_directory: default
+            - name: autofit
+              directory: features
+              config_directory: default
+            - name: autofit
+              directory: searches
+              config_directory: default
     steps:
+    - name: Configure
+      id: configure
+      run: |
+        if [ ${{ matrix.project.name }} == "autolens" ]
+        then
+            echo "::set-output name=repository::Jammy2211/PyAutoLens"
+            echo "::set-output name=path::PyAutoLens"
+            echo "::set-output name=workspace_repository::Jammy2211/autolens_workspace"
+            echo "::set-output name=workspace_path::autolens_workspace"
+        else
+            echo "::set-output name=repository::rhayes777/PyAutoFit"
+            echo "::set-output name=path::PyAutoFit"
+            echo "::set-output name=workspace_repository::Jammy2211/autofit_workspace"
+            echo "::set-output name=workspace_path::autofit_workspace"
+        fi
+        config_directory="${{ matrix.project.config_directory }}"
+        echo "::set-output name=config_directory::${config_directory:-test}"
     - uses: actions/checkout@v2
       with:
           path: PyAutoBuild
     - name: Checkout project
       uses: actions/checkout@v2
       with:
-        repository: "${{ matrix.project.repository }}"
-        ref: "${{ matrix.project.ref }}"
-        path: "${{ matrix.project.path }}"
+        repository: "${{ steps.configure.outputs.repository }}"
+        path: "${{ steps.configure.outputs.path }}"
     - name: Checkout workspace
       uses: actions/checkout@v2
       with:
-        repository: ${{ matrix.project.workspace.repository }}
+        repository: ${{ steps.configure.outputs.workspace_repository }}
         ref: master
-        path: ${{ matrix.project.workspace.path }}
+        path: ${{ steps.configure.outputs.workspace_path }}
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install optional requirements
-      if: test -f "${{ matrix.project.path }}/optional_requirements.txt"
+      if: test -f "${{ steps.configure.outputs.path }}/optional_requirements.txt"
       run: |
         echo "Installing optional requirements"
         pip install Cython
-        python3 -m pip install -r "${{ matrix.project.path }}/optional_requirements.txt"
+        python3 -m pip install -r "${{ steps.configure.outputs.path }}/optional_requirements.txt"
     - name: Install project
       run: |
-        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple "autolens==${{ needs.version_number.outputs.version_number }}"
+        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple "${{ matrix.project.name }}==${{ needs.version_number.outputs.version_number }}"
     - name: Run Python scripts
       run: |
         pushd PyAutoBuild
+        cp -r "${{ matrix.project.name }}/configs/${{ steps.configure.outputs.config_directory }}" "../${{ steps.configure.outputs.workspace_path }}/config"
         export PYTHONPATH=$PYTHONPATH:../
-        python3 "${{ matrix.project.workspace.name }}/run_python.py"
+        python3 "${{ matrix.project.name }}/run_python.py" ${{ matrix.project.directory }}
 
   run_notebooks:
     runs-on: ubuntu-latest
@@ -172,50 +212,93 @@ jobs:
       - release_test_pypi
       - version_number
     strategy:
+      fail-fast: false
       matrix:
         python-version: [3.8]
         project:
-          - repository: Jammy2211/PyAutoLens
-            path: PyAutoLens
-            workspace:
-              repository: Jammy2211/autolens_workspace
-              path: autolens_workspace
-              name: autolens
-          - repository: rhayes777/PyAutoFit
-            path: PyAutoFit
-            workspace:
-              repository: Jammy2211/autofit_workspace
-              path: autofit_workspace
-              name: autofit
+           - name: autolens
+             directory: .
+             config_directory: default
+           - name: autofit
+             directory: .
+             config_directory: default
+           - name: autolens
+             directory: howtolens
+             config_directory: default
+           - name: autolens
+             directory: database
+             config_directory: default
+           - name: autolens
+             directory: overview
+           - name: autolens
+             directory: imaging
+           - name: autolens
+             directory: interferometer
+           - name: autolens
+             directory: multi
+           - name: autolens
+             directory: point_source
+           - name: autolens
+             directory: misc
+           - name: autolens
+             directory: plot
+           - name: autofit
+             directory: howtofit
+             config_directory: default
+           - name: autofit
+             directory: overview
+             config_directory: default
+           - name: autofit
+             directory: features
+             config_directory: default
+           - name: autofit
+             directory: searches
+             config_directory: default
     steps:
+    - name: Configure
+      id: configure
+      run: |
+        if [ ${{ matrix.project.name }} == "autolens" ]
+        then
+            echo "::set-output name=repository::Jammy2211/PyAutoLens"
+            echo "::set-output name=path::PyAutoLens"
+            echo "::set-output name=workspace_repository::Jammy2211/autolens_workspace"
+            echo "::set-output name=workspace_path::autolens_workspace"
+        else
+            echo "::set-output name=repository::rhayes777/PyAutoFit"
+            echo "::set-output name=path::PyAutoFit"
+            echo "::set-output name=workspace_repository::Jammy2211/autofit_workspace"
+            echo "::set-output name=workspace_path::autofit_workspace"
+        fi
+        config_directory="${{ matrix.project.config_directory }}"
+        echo "::set-output name=config_directory::${config_directory:-test}"
     - uses: actions/checkout@v2
       with:
           path: PyAutoBuild
     - name: Checkout project
       uses: actions/checkout@v2
       with:
-        repository: "${{ matrix.project.repository }}"
-        ref: "${{ matrix.project.ref }}"
-        path: "${{ matrix.project.path }}"
+        repository: "${{ steps.configure.outputs.repository }}"
+        path: "${{ steps.configure.outputs.path }}"
     - name: Checkout workspace
       uses: actions/checkout@v2
       with:
-        repository: ${{ matrix.project.workspace.repository }}
+        repository: ${{ steps.configure.outputs.workspace_repository }}
         ref: master
-        path: ${{ matrix.project.workspace.path }}
+        path: ${{ steps.configure.outputs.workspace_path }}
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install optional requirements
-      if: test -f "${{ matrix.project.path }}/optional_requirements.txt"
+      if: test -f "${{ steps.configure.outputs.path }}/optional_requirements.txt"
       run: |
         echo "Installing optional requirements"
         pip install Cython
-        python3 -m pip install -r "${{ matrix.project.path }}/optional_requirements.txt"
+        python3 -m pip install -r "${{ steps.configure.outputs.path }}/optional_requirements.txt"
     - name: Install project
       run: |
-        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple "autolens==${{ needs.version_number.outputs.version_number }}"
+        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple "${{ matrix.project.name }}==${{ needs.version_number.outputs.version_number }}"
     - name: Install Jupyter dependency
       run: |
         pip install jupyter ipynb-py-convert
@@ -223,12 +306,13 @@ jobs:
       run: |
         pushd PyAutoBuild
         export PYTHONPATH=$PYTHONPATH:../
-        python3 "${{ matrix.project.workspace.name }}/generate.py"
+        python3 "${{ matrix.project.name }}/generate.py"
     - name: Run jupyter notebooks
       run: |
         pushd PyAutoBuild
+        cp -r "${{ matrix.project.name }}/configs/${{ steps.configure.outputs.config_directory }}" "../${{ steps.configure.outputs.workspace_path }}/config"
         export PYTHONPATH=$PYTHONPATH:../
-        python3 "${{ matrix.project.workspace.name }}/run.py"
+        python3 "${{ matrix.project.name }}/run.py" ${{ matrix.project.directory }}
 
   release:
     runs-on: ubuntu-latest
