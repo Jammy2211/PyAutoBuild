@@ -53,9 +53,9 @@ def main():
     #     "overview",
       #   "imaging",
      #    "interferometer",
-         "multi",
-         "misc",
-         "plot"
+    #     "multi",
+    #     "misc",
+    #     "plot"
     ]:
 
         build_util.execute_scripts_in_folder(
@@ -79,8 +79,8 @@ def main():
 
     os.chdir(WORKSPACE_TEST_PATH)
 
-    build_util.execute_script(os.path.join("imaging", "visualizer.py"))
-    build_util.execute_script(os.path.join("interferometer", "visualizer.py"))
+    # build_util.execute_script(os.path.join("imaging", "visualizer.py"))
+    # build_util.execute_script(os.path.join("interferometer", "visualizer.py"))
 
     os.chdir(WORKSPACE_PATH)
 
