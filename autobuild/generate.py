@@ -1,4 +1,5 @@
 import os
+from os import path
 import glob
 import shutil
 import sys
@@ -13,13 +14,14 @@ BUILD_PATH = os.getcwd()
 WORKSPACE_PATH = f"{os.getcwd()}/../{project}_workspace"
 SCRIPTS_ROOT_PATH = f"{WORKSPACE_PATH}/scripts"
 NOTEBOOKS_ROOT_PATH = f"{WORKSPACE_PATH}/notebooks"
+CONFIG_PATH = f"{BUILD_PATH}/autobuild/config"
 
-with open("copy_files.yaml", "r+") as f:
+with open(path.join(CONFIG_PATH, "copy_files.yaml"), "r+") as f:
     copy_files_dict = yaml.load(f)
 
 copy_files_list = copy_files_dict[project]
 
-with open("notebooks_remove.yaml", "r+") as f:
+with open(path.join(CONFIG_PATH, "notebooks_remove.yaml"), "r+") as f:
     notebooks_remove_dict = yaml.load(f)
 
 notebooks_remove_list = notebooks_remove_dict[project]
@@ -46,7 +48,6 @@ if __name__ == "__main__":
             os.remove(f)
         for f in glob.glob(f"{notebooks_path}/*.ipynb_checkpoints"):
             shutil.rmtree(f)
-
 
         ### Convert ###
 
@@ -77,15 +78,19 @@ if __name__ == "__main__":
 
     ### Copy specific Python Files ###
 
-    for x in copy_files_list:
-        scripts_path = f"{SCRIPTS_ROOT_PATH}/{x}"
-        notebooks_path = f"{NOTEBOOKS_ROOT_PATH}/{x}"
-        shutil.copy(scripts_path, notebooks_path)
-        os.system(f"git add -f {notebooks_path}")
+    if copy_files_list is not None:
+
+        for x in copy_files_list:
+            scripts_path = f"{SCRIPTS_ROOT_PATH}/{x}"
+            notebooks_path = f"{NOTEBOOKS_ROOT_PATH}/{x}"
+            shutil.copy(scripts_path, notebooks_path)
+            os.system(f"git add -f {notebooks_path}")
 
 
     ### Delete Unused ###
 
-    for x in notebooks_remove_list:
-        notebooks_path = f"{NOTEBOOKS_ROOT_PATH}/{x}"
-        os.remove(notebooks_path)
+    if notebooks_remove_list is not None:
+
+        for x in notebooks_remove_list:
+            notebooks_path = f"{NOTEBOOKS_ROOT_PATH}/{x}"
+            os.remove(notebooks_path)

@@ -22,7 +22,7 @@ def py_to_notebook(filename):
     subprocess.run(
         [
             "python3",
-            f"{BUILD_PATH}/add_notebook_quotes/add_notebook_quotes.py",
+            f"{BUILD_PATH}/autobuild/add_notebook_quotes.py",
             filename,
             "temp.py",
         ],

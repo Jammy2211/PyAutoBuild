@@ -1,4 +1,5 @@
 import os
+from os import path
 import sys
 import yaml
 
@@ -12,8 +13,9 @@ folder = sys.argv[2]
 BUILD_PATH = os.getcwd()
 WORKSPACE_PATH = f"{os.getcwd()}/../{project}_workspace"
 SCRIPTS_ROOT_PATH = f"{WORKSPACE_PATH}/scripts"
+CONFIG_PATH = f"{BUILD_PATH}/autobuild/config"
 
-with open("no_run.yaml", "r+") as f:
+with open(path.join(CONFIG_PATH, "no_run.yaml"), "r+") as f:
     no_run_dict = yaml.load(f)
 
 if __name__ == "__main__":
