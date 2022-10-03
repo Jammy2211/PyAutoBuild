@@ -107,9 +107,9 @@ def execute_script(f):
         sys.exit(1)
 
 
-def execute_scripts_in_folder(workspace_path, folder, root_path, scripts_no_run=None):
+def execute_scripts_in_folder(workspace_path, folder, root_path, no_run_list=None):
 
-    scripts_no_run = scripts_no_run or []
+    no_run_list = no_run_list or []
     os.chdir(root_path)
 
     for script_dir in [t[0] for t in os.walk(".")]:
@@ -120,7 +120,7 @@ def execute_scripts_in_folder(workspace_path, folder, root_path, scripts_no_run=
 
         for f in sorted(files):
             run_script = True
-            for no_run in scripts_no_run:
+            for no_run in no_run_list:
                 if no_run in f:
                     run_script = False
 
