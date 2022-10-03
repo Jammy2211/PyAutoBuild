@@ -13,11 +13,10 @@ BUILD_PATH = os.getcwd()
 WORKSPACE_PATH = f"{os.getcwd()}/../{project}_workspace"
 SCRIPTS_ROOT_PATH = f"{WORKSPACE_PATH}/scripts"
 
+with open("no_run.yaml", "r+") as f:
+    no_run_dict = yaml.load(f)
 
 if __name__ == "__main__":
-
-    with open("no_run.yaml", "r+") as f:
-        no_run_dict = yaml.load(f)
 
     build_util.execute_scripts_in_folder(
         workspace_path=WORKSPACE_PATH,
