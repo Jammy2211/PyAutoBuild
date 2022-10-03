@@ -19,6 +19,14 @@ if __name__ == "__main__":
     with open("no_run.json", "r+") as f:
         no_run_dict = json.load(f)
 
+    no_run_list = no_run_dict[project]
+
+    for i, no_run in enumerate(no_run_list):
+
+        no_run_list[i] = f"{no_run}.py"
+
+    print(no_run_list)
+
     build_util.execute_scripts_in_folder(
         workspace_path=WORKSPACE_PATH,
         folder=folder,

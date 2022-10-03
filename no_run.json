@@ -1,42 +1,44 @@
 {
     "autofit": [
-        "search_grid_search.py",
-        "graphical_models.py",
-        "sensitivity_mapping.py",
-        "tutorial_4_data_and_models.py",
-        "tutorial_5_expectation_propagation.py",
-        "UltraNest.py"
+        "search_grid_search",
+        "graphical_models",
+        "sensitivity_mapping",
+        "tutorial_4_data_and_models",
+        "tutorial_5_expectation_propagation",
+        "UltraNest"
     ],
     "autogalaxy": [
-        "profiling.py",
-        "overview_10_clusters.py",
-        "tutorial_4_hierarchical_models.py",
-        "tutorial_5_expectation_propagation.py",
-        "Zeus.py",
-        "EmceePlotter.py",
-        "tutorial_searches.py",
-        "example_0.py",
-        "example_1.py",
-        "wavelength_dependence.py",
-        "GetDist.py",
-        "tutorial_4_models.py",
-        "tutorial_optional_manual.py"
+        "profiling",
+        "overview_10_clusters",
+        "tutorial_4_hierarchical_models",
+        "tutorial_5_expectation_propagation",
+        "Zeus",
+        "EmceePlotter",
+        "tutorial_searches",
+        "example_0",
+        "example_1",
+        "wavelength_dependence",
+        "GetDist",
+        "tutorial_4_models",
+        "tutorial_optional_manual"
     ],
     "autolens": [
-        "profiling.py",
-        "overview_10_clusters.py",
-        "tutorial_4_hierarchical_models.py",
-        "tutorial_5_expectation_propagation.py",
-        "Zeus.py",
-        "EmceePlotter.py",
-        "tutorial_searches.py",
-        "example_0.py",
-        "example_1.py",
-        "wavelength_dependence.pyGetDist.py",
-        "tutorial_4_models.py",
-        "tutorial_optional_manual.py"
+        "profiling",
+        "overview_10_clusters",
+        "tutorial_4_hierarchical_models",
+        "tutorial_5_expectation_propagation",
+        "Zeus",
+        "EmceePlotter",
+        "tutorial_searches",
+        "example_0",
+        "example_1",
+        "wavelength_dependence",
+        "GetDist",
+        "tutorial_4_models",
+        "tutorial_optional_manual"
     ],
     "autocti": [
-        "GetDist.py",
+        "GetDist",
+        "noise_scaling"
     ]
 }
