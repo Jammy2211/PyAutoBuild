@@ -1,6 +1,6 @@
+import json
 import os
 import sys
-import yaml
 
 import build_util
 
@@ -11,17 +11,19 @@ folder = sys.argv[2]
 
 BUILD_PATH = os.getcwd()
 WORKSPACE_PATH = f"{os.getcwd()}/../{project}_workspace"
+NOTEBOOKS_ROOT_PATH = f"{WORKSPACE_PATH}/notebooks"
 SCRIPTS_ROOT_PATH = f"{WORKSPACE_PATH}/scripts"
 
 
 if __name__ == "__main__":
 
-    with open("no_run.yaml", "r+") as f:
-        no_run_dict = yaml.load(f)
+    with open("no_run.json", "r+") as f:
+        no_run_dict = json.load(f)
 
-    build_util.execute_scripts_in_folder(
-        workspace_path=WORKSPACE_PATH,
-        folder=folder,
-        root_path=f"{SCRIPTS_ROOT_PATH}/{folder}",
+    os.chdir(WORKSPACE_PATH)
+    build_util.execute_notebook("introduction.ipynb")
+
+    build_util.exexcute_notebooks_in_folder(
+        ROOT_PATH=f"{NOTEBOOKS_ROOT_PATH}/{folder}",
         no_run_list=no_run_dict[project],
     )

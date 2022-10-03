@@ -76,9 +76,11 @@ def execute_notebook(f):
         # subprocess.run(['jupyter', 'nbconvert', '--to', 'notebook', '--execute', f'{f}'], check=True)
 
 
-def exexcute_notebooks_in_folder(ROOT_PATH, NOTEBOOKS_NO_RUN=None):
+def exexcute_notebooks_in_folder(ROOT_PATH, no_run_list=None):
 
-    NOTEBOOKS_NO_RUN = NOTEBOOKS_NO_RUN or []
+    no_run_list = no_run_list or []
+
+    no_run_list = no_run_list_with_extension_from(no_run_list=no_run_list, extension=".ipynb")
 
     os.chdir(ROOT_PATH)
 
@@ -90,7 +92,7 @@ def exexcute_notebooks_in_folder(ROOT_PATH, NOTEBOOKS_NO_RUN=None):
         for f in glob.glob(f"*.ipynb"):
 
             run_notebook = True
-            for no_run in NOTEBOOKS_NO_RUN:
+            for no_run in no_run_list:
                 if no_run in f:
                     run_notebook = False
 
