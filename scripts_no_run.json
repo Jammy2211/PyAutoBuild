@@ -1,0 +1,42 @@
+{
+    "autofit": [
+        "search_grid_search.py",
+        "graphical_models.py",
+        "sensitivity_mapping.py",
+        "tutorial_4_data_and_models.py",
+        "tutorial_5_expectation_propagation.py",
+        "UltraNest.py"
+    ],
+    "autogalaxy": [
+        "profiling.py",
+        "overview_10_clusters.py",
+        "tutorial_4_hierarchical_models.py",
+        "tutorial_5_expectation_propagation.py",
+        "Zeus.py",
+        "EmceePlotter.py",
+        "tutorial_searches.py",
+        "example_0.py",
+        "example_1.py",
+        "wavelength_dependence.py",
+        "GetDist.py",
+        "tutorial_4_models.py",
+        "tutorial_optional_manual.py"
+    ],
+    "autolens": [
+        "profiling.py",
+        "overview_10_clusters.py",
+        "tutorial_4_hierarchical_models.py",
+        "tutorial_5_expectation_propagation.py",
+        "Zeus.py",
+        "EmceePlotter.py",
+        "tutorial_searches.py",
+        "example_0.py",
+        "example_1.py",
+        "wavelength_dependence.pyGetDist.py",
+        "tutorial_4_models.py",
+        "tutorial_optional_manual.py"
+    ],
+    "autocti": [
+        "GetDist.py",
+    ]
+}
