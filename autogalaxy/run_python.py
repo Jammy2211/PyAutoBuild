@@ -21,6 +21,8 @@ SCRIPTS_NO_RUN = [
     "example_1.py",
     "wavelength_dependence.py" # Fix via https://github.com/Jammy2211/PyAutoGalaxy/issues/34
     "GetDist.py", # ' Breaks due to test_mode samples
+    "tutorial_4_models.py", # Test mode generates invalid samples for quantile
+    "tutorial_optional_manual.py" # Test mode generates invalid samples for quantile
 ]
 
 def main():
@@ -32,30 +34,18 @@ def main():
     if not os.path.exists(f"{WORKSPACE_PATH}/output"):
         os.mkdir(f"{WORKSPACE_PATH}/output")
 
-    os.chdir(SCRIPTS_ROOT_PATH)
-
-    for folder in [
-  #      "results"
-    ]:
-
-        build_util.execute_scripts_in_folder(
-            workspace_path=WORKSPACE_PATH,
-            folder=folder,
-            root_path=f"{SCRIPTS_ROOT_PATH}/{folder}",
-            scripts_no_run=SCRIPTS_NO_RUN
-       )
-
     os.chdir(BUILD_PATH)
     copy_tree(f"autogalaxy/configs/test", f"{WORKSPACE_PATH}/config")
 
     for folder in [
-     #     "howtogalaxy",
-    #     "overview",
-      #   "imaging",
-     #    "interferometer",
-    #     "multi",
-    #     "misc",
-    #     "plot"
+          "results",
+          "howtogalaxy",
+         "overview",
+         "imaging",
+         "interferometer",
+         "multi",
+         "misc",
+         "plot"
     ]:
 
         build_util.execute_scripts_in_folder(

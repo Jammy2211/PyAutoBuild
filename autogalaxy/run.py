@@ -17,7 +17,11 @@ NOTEBOOKS_NO_RUN = [
     "EmceePlotter.ipynb",
     "tutorial_searches.ipynb",
     "example_0.ipynb",
-    "example_1.ipynb"
+    "example_1.ipynb",
+    "wavelength_dependence.ipynb"  # Fix via https://github.com/Jammy2211/PyAutoGalaxy/issues/34
+    "GetDist.ipynb",  # ' Breaks due to test_mode samples
+    "tutorial_4_models.ipynb",  # Test mode generates invalid samples for quantile
+    "tutorial_optional_manual.ipynb",  # Test mode generates invalid samples for quantile
 ]
 
 def main():
