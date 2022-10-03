@@ -6,6 +6,7 @@ import re
 import subprocess
 import sys
 import traceback
+from typing import List
 
 TIMEOUT_SECS = 36000
 BUILD_PATH = os.getcwd()
@@ -46,26 +47,13 @@ def uncomment_jupyter_magic(f):
             sources.write(line)
 
 
-def exexcute_notebooks_in_folder(ROOT_PATH, NOTEBOOKS_NO_RUN=None):
+def no_run_list_with_extension_from(no_run_list : List[str], extension : str):
 
-    NOTEBOOKS_NO_RUN = NOTEBOOKS_NO_RUN or []
+    for i, no_run in enumerate(no_run_list):
+        if not no_run.endswith(extension):
+            no_run_list[i] = f"{no_run}{extension}"
 
-    os.chdir(ROOT_PATH)
-
-    for x in [t[0] for t in os.walk(".")]:
-
-        notebooks_path = f"{ROOT_PATH}/{x}"
-        os.chdir(notebooks_path)
-
-        for f in glob.glob(f"*.ipynb"):
-
-            run_notebook = True
-            for no_run in NOTEBOOKS_NO_RUN:
-                if no_run in f:
-                    run_notebook = False
-
-            if run_notebook:
-                execute_notebook(f)
+    return no_run_list
 
 
 def execute_notebook(f):
@@ -86,6 +74,28 @@ def execute_notebook(f):
             sys.exit(1)
             raise e
         # subprocess.run(['jupyter', 'nbconvert', '--to', 'notebook', '--execute', f'{f}'], check=True)
+
+
+def exexcute_notebooks_in_folder(ROOT_PATH, NOTEBOOKS_NO_RUN=None):
+
+    NOTEBOOKS_NO_RUN = NOTEBOOKS_NO_RUN or []
+
+    os.chdir(ROOT_PATH)
+
+    for x in [t[0] for t in os.walk(".")]:
+
+        notebooks_path = f"{ROOT_PATH}/{x}"
+        os.chdir(notebooks_path)
+
+        for f in glob.glob(f"*.ipynb"):
+
+            run_notebook = True
+            for no_run in NOTEBOOKS_NO_RUN:
+                if no_run in f:
+                    run_notebook = False
+
+            if run_notebook:
+                execute_notebook(f)
 
 
 def execute_script(f):
@@ -110,6 +120,8 @@ def execute_script(f):
 def execute_scripts_in_folder(workspace_path, folder, root_path, no_run_list=None):
 
     no_run_list = no_run_list or []
+    no_run_list = no_run_list_with_extension_from(no_run_list=no_run_list, extension=".py")
+
     os.chdir(root_path)
 
     for script_dir in [t[0] for t in os.walk(".")]:
