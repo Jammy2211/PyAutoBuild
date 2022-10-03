@@ -1,6 +1,5 @@
 import os
-import shutil
-from distutils.dir_util import copy_tree
+import sys
 import build_util
 
 BUILD_PATH = os.getcwd()
@@ -11,55 +10,15 @@ SCRIPTS_NO_RUN = [
     "noise_scaling.py"
 ]
 
-def main():
-
-    copy_tree(f"autocti/configs/default", f"{WORKSPACE_PATH}/config")
-
-    os.chdir(WORKSPACE_PATH)
-
-    if not os.path.exists(f"{WORKSPACE_PATH}/output"):
-        os.mkdir(f"{WORKSPACE_PATH}/output")
-
-    os.chdir(SCRIPTS_ROOT_PATH)
-
-    os.chdir(BUILD_PATH)
- #   copy_tree(f"autocti/configs/test", f"{WORKSPACE_PATH}/config")
-    copy_tree(f"autocti/configs/default", f"{WORKSPACE_PATH}/config")
-
-    for folder in [
-        "overview",
-        "dataset_1d",
-        "imaging_ci",
-        "line",
-        "plot"
-    ]:
-
-        build_util.execute_scripts_in_folder(
-            workspace_path=WORKSPACE_PATH,
-            folder=folder,
-            root_path=f"{SCRIPTS_ROOT_PATH}/{folder}",
-            scripts_no_run=SCRIPTS_NO_RUN
-        )
-
-    shutil.rmtree(f"{WORKSPACE_PATH}/output")
-    try:
-        os.rename(f"{WORKSPACE_PATH}/output_backup", f"{WORKSPACE_PATH}/output")
-    except FileNotFoundError:
-        os.mkdir(f"{WORKSPACE_PATH}/output")
-
-    os.chdir(BUILD_PATH)
-    copy_tree(f"autocti/configs/default", f"{WORKSPACE_PATH}/config")
-    os.chdir(WORKSPACE_PATH)
-    os.system(f"git add -f config")
-    os.chdir(BUILD_PATH)
-
-    os.chdir(WORKSPACE_PATH)
-
-    try:
-        shutil.rmtree("auto_files")
-    except FileNotFoundError:
-        pass
-
+os.environ["PYAUTOFIT_TEST_MODE"] = "1"
 
 if __name__ == "__main__":
-    main()
+
+    folder = sys.argv[1]
+
+    build_util.execute_scripts_in_folder(
+        workspace_path=WORKSPACE_PATH,
+        folder=folder,
+        root_path=f"{SCRIPTS_ROOT_PATH}/{folder}",
+        scripts_no_run=SCRIPTS_NO_RUN,
+    )
