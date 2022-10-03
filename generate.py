@@ -1,13 +1,13 @@
 import os
 import glob
 import shutil
+import sys
 import yaml
 
 import build_util
 import generate_autofit
 
 project = sys.argv[1]
-folder = sys.argv[2]
 
 BUILD_PATH = os.getcwd()
 WORKSPACE_PATH = f"{os.getcwd()}/../{project}_workspace"
