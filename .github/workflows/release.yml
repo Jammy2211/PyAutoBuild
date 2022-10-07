@@ -138,22 +138,16 @@ jobs:
               directory: plot
             - name: autolens
               directory: results
-              config_directory: default
             - name: autofit
               directory: simulators
-              config_directory: default
             - name: autofit
               directory: howtofit
-              config_directory: default
             - name: autofit
               directory: overview
-              config_directory: default
             - name: autofit
               directory: features
-              config_directory: default
             - name: autofit
               directory: searches
-              config_directory: default
     steps:
     - name: Configure
       id: configure
@@ -170,8 +164,6 @@ jobs:
             echo "::set-output name=workspace_repository::Jammy2211/autofit_workspace"
             echo "::set-output name=workspace_path::autofit_workspace"
         fi
-        config_directory="${{ matrix.project.config_directory }}"
-        echo "::set-output name=config_directory::${config_directory:-test}"
     - uses: actions/checkout@v2
       with:
           path: PyAutoBuild
@@ -202,7 +194,6 @@ jobs:
     - name: Run Python scripts
       run: |
         pushd PyAutoBuild
-        cp -r "${{ matrix.project.name }}/configs/${{ steps.configure.outputs.config_directory }}" "../${{ steps.configure.outputs.workspace_path }}/config"
         export PYTHONPATH=$PYTHONPATH:../
         python3 "${{ matrix.project.name }}/run_python.py" ${{ matrix.project.directory }}
 
@@ -218,16 +209,12 @@ jobs:
         project:
            - name: autolens
              directory: .
-             config_directory: default
            - name: autofit
              directory: .
-             config_directory: default
            - name: autolens
              directory: howtolens
-             config_directory: default
            - name: autolens
              directory: database
-             config_directory: default
            - name: autolens
              directory: overview
            - name: autolens
@@ -244,16 +231,12 @@ jobs:
              directory: plot
            - name: autofit
              directory: howtofit
-             config_directory: default
            - name: autofit
              directory: overview
-             config_directory: default
            - name: autofit
              directory: features
-             config_directory: default
            - name: autofit
              directory: searches
-             config_directory: default
     steps:
     - name: Configure
       id: configure
@@ -270,8 +253,6 @@ jobs:
             echo "::set-output name=workspace_repository::Jammy2211/autofit_workspace"
             echo "::set-output name=workspace_path::autofit_workspace"
         fi
-        config_directory="${{ matrix.project.config_directory }}"
-        echo "::set-output name=config_directory::${config_directory:-test}"
     - uses: actions/checkout@v2
       with:
           path: PyAutoBuild
@@ -310,7 +291,6 @@ jobs:
     - name: Run jupyter notebooks
       run: |
         pushd PyAutoBuild
-        cp -r "${{ matrix.project.name }}/configs/${{ steps.configure.outputs.config_directory }}" "../${{ steps.configure.outputs.workspace_path }}/config"
         export PYTHONPATH=$PYTHONPATH:../
         python3 "${{ matrix.project.name }}/run.py" ${{ matrix.project.directory }}
 
