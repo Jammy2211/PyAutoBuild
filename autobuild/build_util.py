@@ -16,9 +16,10 @@ print(BUILD_PYTHON_INTERPRETER)
 
 
 def py_to_notebook(filename):
+
     if filename == "temp.py":
         return
-    # print(f'py_to_notebook: {filename}')
+
     subprocess.run(
         [
             "python3",
@@ -35,6 +36,7 @@ def py_to_notebook(filename):
 
 
 def uncomment_jupyter_magic(f):
+
     with open(f, "r") as sources:
         lines = sources.readlines()
     with open(f, "w") as sources:
@@ -57,7 +59,9 @@ def no_run_list_with_extension_from(no_run_list : List[str], extension : str):
 
 
 def execute_notebook(f):
+
     print(f"Running <{f}> at {datetime.datetime.now().isoformat()}")
+
     try:
         subprocess.run(
             ["jupyter", "nbconvert", "--to", "notebook", "--execute", "--output", f, f],
@@ -73,10 +77,9 @@ def execute_notebook(f):
                 return
             sys.exit(1)
             raise e
-        # subprocess.run(['jupyter', 'nbconvert', '--to', 'notebook', '--execute', f'{f}'], check=True)
 
 
-def exexcute_notebooks_in_folder(ROOT_PATH, no_run_list=None):
+def execute_notebooks_in_folder(ROOT_PATH, no_run_list=None):
 
     no_run_list = no_run_list or []
 
@@ -90,19 +93,15 @@ def exexcute_notebooks_in_folder(ROOT_PATH, no_run_list=None):
         os.chdir(notebooks_path)
 
         for f in glob.glob(f"*.ipynb"):
-
-            run_notebook = True
-            for no_run in no_run_list:
-                if no_run in f:
-                    run_notebook = False
-
-            if run_notebook:
+            if f not in no_run_list:
                 execute_notebook(f)
 
 
 def execute_script(f):
+
     args = [BUILD_PYTHON_INTERPRETER, f]
     print(f'Running <{args}>')
+
     try:
         subprocess.run(
             args,
@@ -133,10 +132,5 @@ def execute_scripts_in_folder(workspace_path, folder, root_path, no_run_list=Non
         os.chdir(workspace_path)
 
         for f in sorted(files):
-            run_script = True
-            for no_run in no_run_list:
-                if no_run in f:
-                    run_script = False
-
-            if run_script:
+            if f not in no_run_list:
                 execute_script(os.path.join('scripts', folder, script_dir, f))

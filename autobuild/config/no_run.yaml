@@ -4,6 +4,7 @@ autofit:
 - sensitivity_mapping
 - tutorial_4_data_and_models
 - tutorial_5_expectation_propagation
+- Zeus
 - UltraNest
 autogalaxy:
 - profiling

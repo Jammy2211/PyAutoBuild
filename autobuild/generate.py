@@ -38,8 +38,7 @@ if __name__ == "__main__":
 
         scripts_path = f"{SCRIPTS_ROOT_PATH}/{x}"
         notebooks_path = f"{NOTEBOOKS_ROOT_PATH}/{x}"
-        if "__pycache__" in x:
-            continue
+
         print(f"Processing dir <{x}>, {scripts_path} -> {notebooks_path}")
 
         ### Remove Old notebooks ###
@@ -62,7 +61,7 @@ if __name__ == "__main__":
         ### Copy notebooks to notebooks folder ###
 
         for f in glob.glob(f"*.ipynb"):
-            os.makedirs(f"{notebooks_path}", exist_ok=True)
+            os.makedirs(notebooks_path, exist_ok=True)
             shutil.move(f"{scripts_path}/{f}", f"{notebooks_path}/{f}")
             os.system(f"git add -f {notebooks_path}/{f}")
         if os.path.exists(f"{notebooks_path}/__init__.ipynb"):

@@ -15,12 +15,6 @@ def generate_project_folders():
 
     for x in [t[0] for t in os.walk(".")]:
 
-        if "__pycache__" in x:
-            try:
-                shutil.rmtree(x)
-            except FileNotFoundError:
-                pass
-
         ### PROJECTS FOLDER ###
 
         projects_path = f"{PROJECTS_ROOT_PATH}/{x}"

@@ -24,7 +24,7 @@ if __name__ == "__main__":
     os.chdir(WORKSPACE_PATH)
     build_util.execute_notebook("introduction.ipynb")
 
-    build_util.exexcute_notebooks_in_folder(
+    build_util.execute_notebooks_in_folder(
         ROOT_PATH=f"{NOTEBOOKS_ROOT_PATH}/{folder}",
         no_run_list=no_run_dict[project],
     )
