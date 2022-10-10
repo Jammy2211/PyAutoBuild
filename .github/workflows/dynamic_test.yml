@@ -20,6 +20,7 @@ jobs:
       - name: List directory
         id: list_directories
         run: |
+          cd project/scripts
           directories=`ls -d */ | jq -R -s -c 'split("\n")[:-1]'`
           echo "::set-output name=directories::$directories"
 
