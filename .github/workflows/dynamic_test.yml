@@ -14,7 +14,11 @@ jobs:
         with:
           repository: Jammy2211/autofit_workspace
           path: project
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
       - name: List directory
         run: |
-          ls "project/scripts"
+          python -c 'import os, json; print(json.dumps(os.listdir(".")))'
 
