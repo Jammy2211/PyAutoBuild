@@ -6,8 +6,8 @@ on:
 jobs:
   find_scripts:
     runs-on: ubuntu-latest
-#     outputs:
-#       version_number: ${{ steps.version_number.outputs.version_number }}
+    outputs:
+      directories: ${{ steps.list_directories.outputs.directories }}
     steps:
       - name: Checkout project
         uses: actions/checkout@v2
@@ -18,6 +18,21 @@ jobs:
         run: |
           apt install jq
       - name: List directory
+        id: list_directories
         run: |
-          ls -d */ | jq -R -s -c 'split("\n")[:-1]'
+          directories=`ls -d */ | jq -R -s -c 'split("\n")[:-1]'`
+          echo "::set-output name=directories::$directories"
+
+  test_matrix:
+    runs-on: ubuntu-latest
+    needs:
+      - find_scripts
+    strategy:
+      matrix:
+        directory:
+          ${{ fromJSON(needs.find_scripts.outputs.directories) }}
+    steps:
+      - name: Echo
+        run: |
+          echo "${{ matrix.directory }}"
 
