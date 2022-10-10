@@ -14,9 +14,6 @@ jobs:
         with:
           repository: Jammy2211/autofit_workspace
           path: project
-#       - name: Install jq
-#         run: |
-#           apt install jq
       - name: List directory
         id: list_directories
         run: |
