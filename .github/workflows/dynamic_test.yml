@@ -4,12 +4,17 @@ on:
   - push
 
 jobs:
-  version_number:
+  find_scripts:
     runs-on: ubuntu-latest
 #     outputs:
 #       version_number: ${{ steps.version_number.outputs.version_number }}
     steps:
+      - name: Checkout project
+        uses: actions/checkout@v2
+        with:
+          repository: Jammy2211/autofit_workspace
+          path: project
       - name: List directory
         run: |
-          ls "autofit_workspace/scripts"
+          ls "project/scripts"
 
