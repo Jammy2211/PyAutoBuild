@@ -1,0 +1,15 @@
+name: Test
+
+on:
+  - push
+
+jobs:
+  version_number:
+    runs-on: ubuntu-latest
+#     outputs:
+#       version_number: ${{ steps.version_number.outputs.version_number }}
+    steps:
+      - name: List directory
+        run: |
+          ls "autofit_workspace/scripts"
+
