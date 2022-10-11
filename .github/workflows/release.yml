@@ -196,7 +196,7 @@ jobs:
       run: |
         pushd PyAutoBuild
         export PYTHONPATH=$PYTHONPATH:../
-        python3 "${{ matrix.project.name }}autobuild/run_python.py" ${{ matrix.project.directory }}
+        python3 "autobuild/run_python.py" ${{ matrix.project.name }} ${{ matrix.project.directory }}
 
   run_notebooks:
     runs-on: ubuntu-latest
@@ -288,12 +288,12 @@ jobs:
       run: |
         pushd PyAutoBuild
         export PYTHONPATH=$PYTHONPATH:../
-        python3 "${{ matrix.project.name }}/autobuild/generate.py"
+        python3 "autobuild/generate.py" ${{ matrix.project.name }}
     - name: Run jupyter notebooks
       run: |
         pushd PyAutoBuild
         export PYTHONPATH=$PYTHONPATH:../
-        python3 "${{ matrix.project.name }}/autobuild/run.py" ${{ matrix.project.directory }}
+        python3 "autobuild/run.py" ${{ matrix.project.name }} ${{ matrix.project.directory }}
 
 #  release:
 #    runs-on: ubuntu-latest
