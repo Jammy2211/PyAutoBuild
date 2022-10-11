@@ -1,4 +1,4 @@
-name: Autolens Release process
+name: PyAuto Release
 
 on:
   workflow_dispatch:
