@@ -108,6 +108,7 @@ jobs:
               pip install Cython
               pip install -r optional_requirements.txt
             fi
+            pip install pytest
             python3 -m pytest
 
   run_scripts:
