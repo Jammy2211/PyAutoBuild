@@ -1,6 +1,6 @@
 name: Autolens Release process
 
-on: 
+on:
   workflow_dispatch:
     inputs:
       minor_version:
@@ -37,7 +37,7 @@ jobs:
           TWINE_PASSWORD: ${{ secrets.TEST_PYPI }}
         strategy:
           matrix:
-            python-version: [3.8]  # 3.9 not supported on numba as of 2020-02-11
+            python-version: [3.8]
             project:
               - repository: rhayes777/PyAutoConf
                 ref: master
@@ -138,22 +138,16 @@ jobs:
               directory: plot
             - name: autolens
               directory: results
-              config_directory: default
             - name: autofit
               directory: simulators
-              config_directory: default
             - name: autofit
               directory: howtofit
-              config_directory: default
             - name: autofit
               directory: overview
-              config_directory: default
             - name: autofit
               directory: features
-              config_directory: default
             - name: autofit
               directory: searches
-              config_directory: default
     steps:
     - name: Configure
       id: configure
@@ -170,8 +164,6 @@ jobs:
             echo "::set-output name=workspace_repository::Jammy2211/autofit_workspace"
             echo "::set-output name=workspace_path::autofit_workspace"
         fi
-        config_directory="${{ matrix.project.config_directory }}"
-        echo "::set-output name=config_directory::${config_directory:-test}"
     - uses: actions/checkout@v2
       with:
           path: PyAutoBuild
@@ -202,7 +194,6 @@ jobs:
     - name: Run Python scripts
       run: |
         pushd PyAutoBuild
-        cp -r "${{ matrix.project.name }}/configs/${{ steps.configure.outputs.config_directory }}" "../${{ steps.configure.outputs.workspace_path }}/config"
         export PYTHONPATH=$PYTHONPATH:../
         python3 "${{ matrix.project.name }}/run_python.py" ${{ matrix.project.directory }}
 
@@ -218,16 +209,12 @@ jobs:
         project:
            - name: autolens
              directory: .
-             config_directory: default
            - name: autofit
              directory: .
-             config_directory: default
            - name: autolens
              directory: howtolens
-             config_directory: default
            - name: autolens
              directory: database
-             config_directory: default
            - name: autolens
              directory: overview
            - name: autolens
@@ -244,16 +231,12 @@ jobs:
              directory: plot
            - name: autofit
              directory: howtofit
-             config_directory: default
            - name: autofit
              directory: overview
-             config_directory: default
            - name: autofit
              directory: features
-             config_directory: default
            - name: autofit
              directory: searches
-             config_directory: default
     steps:
     - name: Configure
       id: configure
@@ -270,8 +253,6 @@ jobs:
             echo "::set-output name=workspace_repository::Jammy2211/autofit_workspace"
             echo "::set-output name=workspace_path::autofit_workspace"
         fi
-        config_directory="${{ matrix.project.config_directory }}"
-        echo "::set-output name=config_directory::${config_directory:-test}"
     - uses: actions/checkout@v2
       with:
           path: PyAutoBuild
@@ -310,140 +291,139 @@ jobs:
     - name: Run jupyter notebooks
       run: |
         pushd PyAutoBuild
-        cp -r "${{ matrix.project.name }}/configs/${{ steps.configure.outputs.config_directory }}" "../${{ steps.configure.outputs.workspace_path }}/config"
         export PYTHONPATH=$PYTHONPATH:../
         python3 "${{ matrix.project.name }}/run.py" ${{ matrix.project.directory }}
 
-  release:
-    runs-on: ubuntu-latest
-    env:
-      TWINE_REPOSITORY: pypi
-      TWINE_USERNAME: __token__
-      TWINE_PASSWORD: ${{ secrets.PYPI }}
-    needs:
-      - run_scripts
-      - run_notebooks
-      - release_test_pypi
-      - version_number
-    strategy:
-      matrix:
-        project:
-        - repository: rhayes777/PyAutoConf
-          ref: master
-          path: PyAutoConf
-          pat: PAT_RICH
-        - repository: rhayes777/PyAutoFit
-          ref: master
-          path: PyAutoFit
-          pat: PAT_RICH
-        - repository: Jammy2211/PyAutoArray
-          ref: master
-          path: PyAutoArray
-          pat: PAT_JAMES
-        - repository: Jammy2211/PyAutoGalaxy
-          ref: master
-          path: PyAutoGalaxy
-          pat: PAT_JAMES
-        - repository: Jammy2211/PyAutoLens
-          ref: master
-          path: PyAutoLens
-          pat: PAT_JAMES
-    steps:
-    - uses: actions/checkout@v2
-      with:
-          path: PyAutoBuild
-    - name: Checkout
-      run: |
-        git clone -b "${{ matrix.project.ref }}" "https://$PAT@github.com/${{ matrix.project.repository }}.git" "${{ matrix.project.path }}"
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Configure Git
-      run: |
-        git config --global user.email "richard@rghsoftware.co.uk"
-        git config --global user.name "GitHub Actions bot"
-    - name: Update version
-      run: |
-        pushd "${{ matrix.project.path }}"
-        VERSION="${{ needs.version_number.outputs.version_number }}"
-        sed -i "s/__version__ = [\.\"\'0-9]*/__version__ = \"$VERSION\"/g" */__init__.py
-        git commit "-am 'Updated version in __init__ to $VERSION"
-    - name: Tag
-      run: |
-        pushd "${{ matrix.project.path }}"
-        VERSION="${{ needs.version_number.outputs.version_number }}"
-        git tag -m "Release $VERSION" -a "$VERSION"
-        PAT="${{ secrets[matrix.project.pat] }}"
-        git remote set-url --push origin "https://$PAT@github.com/${{ matrix.project.repository }}.git"
-        git push --tags
-    - name: Build
-      run: |
-        pushd "${{ matrix.project.path }}"
-        export VERSION="${{ needs.version_number.outputs.version_number }}"
-        python3 -m pip install --upgrade build
-        python3 -m build
-    - name: Upload to PyPI
-      run: |
-        python3 -m pip install twine
-        pushd "${{ matrix.project.path }}"
-        python3 -m twine upload dist/*
-
-  release_workspaces:
-    runs-on: ubuntu-latest
-    env:
-      TWINE_REPOSITORY: pypi
-      TWINE_USERNAME: __token__
-      TWINE_PASSWORD: ${{ secrets.PYPI }}
-      PAT: ${{ secrets.PAT_JAMES }}
-    needs:
-      - run_scripts
-      - run_notebooks
-      - release_test_pypi
-      - version_number
-    strategy:
-      matrix:
-        python-version: [3.8]
-        workspace:
-          - repository: Jammy2211/autolens_workspace
-            name: autolens
-            path: autolens_workspace
-          - repository: Jammy2211/autofit_workspace
-            name: autofit
-            path: autofit_workspace
-    steps:
-    - uses: actions/checkout@v2
-      with:
-          path: PyAutoBuild
-    - name: Checkout
-      run: |
-        git clone -b master "https://$PAT@github.com/${{ matrix.workspace.repository }}.git" "${{ matrix.workspace.path }}"
-    - name: Configure Git
-      run: |
-        git config --global user.email "richard@rghsoftware.co.uk"
-        git config --global user.name "GitHub Actions bot"
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install Jupyter dependency
-      run: |
-        pip install jupyter ipynb-py-convert
-    - name: Update jupyter notebooks
-      run: |
-        pushd PyAutoBuild
-        export PYTHONPATH=$PYTHONPATH:../
-        python3 "${{ matrix.workspace.name }}/generate.py"
-        popd
-        pushd "${{ matrix.workspace.path}}"
-        git add *.ipynb
-        git commit -m "Updated notebooks"
-    - name: Release
-      run: |
-        cd "${{ matrix.workspace.path }}"
-        git checkout release
-        git merge master
-        VERSION="${{ needs.version_number.outputs.version_number }}"
-        git tag -m "Release $VERSION" -a "$VERSION"
-        git push
-        git push --tags
+#  release:
+#    runs-on: ubuntu-latest
+#    env:
+#      TWINE_REPOSITORY: pypi
+#      TWINE_USERNAME: __token__
+#      TWINE_PASSWORD: ${{ secrets.PYPI }}
+#    needs:
+#      - run_scripts
+#      - run_notebooks
+#      - release_test_pypi
+#      - version_number
+#    strategy:
+#      matrix:
+#        project:
+#        - repository: rhayes777/PyAutoConf
+#          ref: master
+#          path: PyAutoConf
+#          pat: PAT_RICH
+#        - repository: rhayes777/PyAutoFit
+#          ref: master
+#          path: PyAutoFit
+#          pat: PAT_RICH
+#        - repository: Jammy2211/PyAutoArray
+#          ref: master
+#          path: PyAutoArray
+#          pat: PAT_JAMES
+#        - repository: Jammy2211/PyAutoGalaxy
+#          ref: master
+#          path: PyAutoGalaxy
+#          pat: PAT_JAMES
+#        - repository: Jammy2211/PyAutoLens
+#          ref: master
+#          path: PyAutoLens
+#          pat: PAT_JAMES
+#    steps:
+#    - uses: actions/checkout@v2
+#      with:
+#          path: PyAutoBuild
+#    - name: Checkout
+#      run: |
+#        git clone -b "${{ matrix.project.ref }}" "https://$PAT@github.com/${{ matrix.project.repository }}.git" "${{ matrix.project.path }}"
+#    - name: Set up Python ${{ matrix.python-version }}
+#      uses: actions/setup-python@v2
+#      with:
+#        python-version: ${{ matrix.python-version }}
+#    - name: Configure Git
+#      run: |
+#        git config --global user.email "richard@rghsoftware.co.uk"
+#        git config --global user.name "GitHub Actions bot"
+#    - name: Update version
+#      run: |
+#        pushd "${{ matrix.project.path }}"
+#        VERSION="${{ needs.version_number.outputs.version_number }}"
+#        sed -i "s/__version__ = [\.\"\'0-9]*/__version__ = \"$VERSION\"/g" */__init__.py
+#        git commit "-am 'Updated version in __init__ to $VERSION"
+#    - name: Tag
+#      run: |
+#        pushd "${{ matrix.project.path }}"
+#        VERSION="${{ needs.version_number.outputs.version_number }}"
+#        git tag -m "Release $VERSION" -a "$VERSION"
+#        PAT="${{ secrets[matrix.project.pat] }}"
+#        git remote set-url --push origin "https://$PAT@github.com/${{ matrix.project.repository }}.git"
+#        git push --tags
+#    - name: Build
+#      run: |
+#        pushd "${{ matrix.project.path }}"
+#        export VERSION="${{ needs.version_number.outputs.version_number }}"
+#        python3 -m pip install --upgrade build
+#        python3 -m build
+#    - name: Upload to PyPI
+#      run: |
+#        python3 -m pip install twine
+#        pushd "${{ matrix.project.path }}"
+#        python3 -m twine upload dist/*
+#
+#  release_workspaces:
+#    runs-on: ubuntu-latest
+#    env:
+#      TWINE_REPOSITORY: pypi
+#      TWINE_USERNAME: __token__
+#      TWINE_PASSWORD: ${{ secrets.PYPI }}
+#      PAT: ${{ secrets.PAT_JAMES }}
+#    needs:
+#      - run_scripts
+#      - run_notebooks
+#      - release_test_pypi
+#      - version_number
+#    strategy:
+#      matrix:
+#        python-version: [3.8]
+#        workspace:
+#          - repository: Jammy2211/autolens_workspace
+#            name: autolens
+#            path: autolens_workspace
+#          - repository: Jammy2211/autofit_workspace
+#            name: autofit
+#            path: autofit_workspace
+#    steps:
+#    - uses: actions/checkout@v2
+#      with:
+#          path: PyAutoBuild
+#    - name: Checkout
+#      run: |
+#        git clone -b master "https://$PAT@github.com/${{ matrix.workspace.repository }}.git" "${{ matrix.workspace.path }}"
+#    - name: Configure Git
+#      run: |
+#        git config --global user.email "richard@rghsoftware.co.uk"
+#        git config --global user.name "GitHub Actions bot"
+#    - name: Set up Python ${{ matrix.python-version }}
+#      uses: actions/setup-python@v2
+#      with:
+#        python-version: ${{ matrix.python-version }}
+#    - name: Install Jupyter dependency
+#      run: |
+#        pip install jupyter ipynb-py-convert
+#    - name: Update jupyter notebooks
+#      run: |
+#        pushd PyAutoBuild
+#        export PYTHONPATH=$PYTHONPATH:../
+#        python3 "${{ matrix.workspace.name }}/generate.py"
+#        popd
+#        pushd "${{ matrix.workspace.path}}"
+#        git add *.ipynb
+#        git commit -m "Updated notebooks"
+#    - name: Release
+#      run: |
+#        cd "${{ matrix.workspace.path }}"
+#        git checkout release
+#        git merge master
+#        VERSION="${{ needs.version_number.outputs.version_number }}"
+#        git tag -m "Release $VERSION" -a "$VERSION"
+#        git push
+#        git push --tags

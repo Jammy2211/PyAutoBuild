@@ -1,0 +1,39 @@
+autofit:
+- search_grid_search
+- graphical_models
+- sensitivity_mapping
+- tutorial_4_data_and_models
+- tutorial_5_expectation_propagation
+- Zeus
+- UltraNest
+autogalaxy:
+- profiling
+- overview_10_clusters
+- tutorial_4_hierarchical_models
+- tutorial_5_expectation_propagation
+- Zeus
+- EmceePlotter
+- tutorial_searches
+- example_0
+- example_1
+- wavelength_dependence
+- GetDist
+- tutorial_4_models
+- tutorial_optional_manual
+autolens:
+- profiling
+- overview_10_clusters
+- tutorial_4_hierarchical_models
+- tutorial_5_expectation_propagation
+- Zeus
+- EmceePlotter
+- tutorial_searches
+- example_0
+- example_1
+- wavelength_dependence
+- GetDist
+- tutorial_4_models
+- tutorial_optional_manual
+autocti:
+- GetDist
+- noise_scaling

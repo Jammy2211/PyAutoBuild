@@ -1,0 +1,4 @@
+wavelength_dependence.py: https://github.com/Jammy2211/PyAutoGalaxy/issues/34
+GetDist.py": Breaks due to test_mode samples
+tutorial_4_models.py: Test mode generates invalid samples for quantile
+tutorial_optional_manual.py: Test mode generates invalid samples for quantile
