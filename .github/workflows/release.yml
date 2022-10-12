@@ -215,8 +215,6 @@ jobs:
            - name: autolens
              directory: howtolens
            - name: autolens
-             directory: database
-           - name: autolens
              directory: overview
            - name: autolens
              directory: imaging

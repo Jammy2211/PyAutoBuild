@@ -34,6 +34,8 @@ autolens:
 - GetDist
 - tutorial_4_models
 - tutorial_optional_manual
+- features
+- results_4_galaxies.py
 autocti:
 - GetDist
 - noise_scaling
