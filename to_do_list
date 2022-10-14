@@ -1,0 +1,4 @@
+- Need to test different numpy, scipy, scikit-learn, threadpoolctl, joblib.
+- Tests using full dynesty runs with inversion, BrightnessImageNN pix, with parallel processing.
+- Workspace tagging.
+- Remove annoyinf report.log and root.log once and for all.
