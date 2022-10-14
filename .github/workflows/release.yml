@@ -146,8 +146,9 @@ jobs:
         - name: Make script matrix
           id: script_matrix
           run: |
-            matrix="$(./PyAutoBuild/autobuild/script_matrix.py ${{ matrix.directory }} autofit autolens autolens_test)"
-            name="${{ matrix.directory }}_matrix"
+            echo "${{ matrix.directories }} autofit autolens autolens_test)"
+            matrix="$(./PyAutoBuild/autobuild/script_matrix.py ${{ matrix.directories }} autofit autolens autolens_test)"
+            name="${{ matrix.config.type }}_matrix"
             echo "::set-output name=$name::$matrix"
 
   run_scripts:
