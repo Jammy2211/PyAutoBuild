@@ -117,9 +117,9 @@ jobs:
       strategy:
         matrix:
           config:
-            - directories: [scripts, build]
+            - directories: scripts,build
               type: scripts
-            - directories: [notebooks]
+            - directories: notebooks
               type: notebooks
       outputs:
         scripts_matrix: ${{ steps.script_matrix.outputs.scripts_matrix }}
@@ -146,7 +146,7 @@ jobs:
         - name: Make script matrix
           id: script_matrix
           run: |
-            echo "${{ matrix.config.directories }} autofit autolens autolens_test)"
+            echo "${{ matrix.config.directories }}"
             matrix="$(./PyAutoBuild/autobuild/script_matrix.py ${{ matrix.config.directories }} autofit autolens autolens_test)"
             name="${{ matrix.config.type }}_matrix"
             echo "::set-output name=$name::$matrix"

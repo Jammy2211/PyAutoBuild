@@ -16,11 +16,15 @@ def make_script_matrix(directory, project):
         return []
 
 
-def make_combined_script_matrix(directory, *projects):
+def make_combined_script_matrix(directory, projects):
     return [
         item for project in projects for item in make_script_matrix(directory, project)
     ]
 
 
 if __name__ == "__main__":
-    print(json.dumps(make_combined_script_matrix(*sys.argv[1:])))
+    directories, *projects = sys.argv[1:]
+    output = []
+    for directory in directories.split(","):
+        output += make_combined_script_matrix(directory, projects)
+    print(json.dumps(output))
