@@ -8,7 +8,7 @@ def make_script_matrix(directory, project):
     try:
         _, directories, _ = list(os.walk(f"{project}/{directory}"))[0]
         directory_dicts = [
-            {"project": project, "directory": directory}
+            {"name": project, "directory": directory}
             for directory in directories + ["."]
         ]
         return directory_dicts
