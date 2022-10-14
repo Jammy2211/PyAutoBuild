@@ -12,7 +12,8 @@ folder = sys.argv[2]
 
 BUILD_PATH = os.getcwd()
 WORKSPACE_PATH = f"{os.getcwd()}/../{project}_workspace"
-SCRIPTS_ROOT_PATH = f"{WORKSPACE_PATH}/scripts"
+SCRIPTS_FOLDER_NAME = os.environ.get("SCRIPTS_FOLDER_NAME", "scripts")
+SCRIPTS_ROOT_PATH = f"{WORKSPACE_PATH}/${SCRIPTS_FOLDER_NAME}"
 CONFIG_PATH = f"{BUILD_PATH}/autobuild/config"
 
 with open(path.join(CONFIG_PATH, "no_run.yaml"), "r+") as f:

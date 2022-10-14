@@ -138,10 +138,27 @@ jobs:
           id: script_matrix
           run: |
             matrix="$(./PyAutoBuild/autobuild/script_matrix.py ${{ matrix.directory }} autofit autolens)"
-            echo $matrix
             name="${{ matrix.directory }}_matrix"
-            echo $name
             echo "::set-output name=$name::$matrix"
+
+  find_workspace_test_scripts:
+      runs-on: ubuntu-latest
+      outputs:
+        scripts_matrix: ${{ steps.script_matrix.outputs.scripts_matrix }}
+      steps:
+        - name: Checkout AutoLens
+          uses: actions/checkout@v2
+          with:
+            repository: Jammy2211/autolens_workspace_test
+            path: autolens
+        - uses: actions/checkout@v2
+          with:
+              path: PyAutoBuild
+        - name: Make script matrix
+          id: script_matrix
+          run: |
+            matrix="$(./PyAutoBuild/autobuild/script_matrix.py build autolens)"
+            echo "::set-output name=scripts_matrix::$matrix"
 
   run_scripts:
     runs-on: ubuntu-latest
@@ -171,6 +188,7 @@ jobs:
             echo "::set-output name=workspace_repository::Jammy2211/autofit_workspace"
             echo "::set-output name=workspace_path::autofit_workspace"
         fi
+
     - uses: actions/checkout@v2
       with:
           path: PyAutoBuild
