@@ -14,13 +14,13 @@ jobs:
         with:
           repository: Jammy2211/autofit_workspace
           path: project
+      - uses: actions/checkout@v2
+        with:
+            path: PyAutoBuild
       - name: Make script matrix
         id: script_matrix
         run: |
-          ls
-          pwd
-          ls ../
-          matrix="$(../PyAutoBuild/autobuild/script_matrix.py scripts project)"
+          matrix="$(./PyAutoBuild/autobuild/script_matrix.py scripts project)"
           echo "::set-output name=matrix::matrix"
 
   test_matrix:
