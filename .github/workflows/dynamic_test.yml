@@ -10,7 +10,8 @@ jobs:
       matrix:
         directory: [scripts, notebooks]
     outputs:
-      matrix: ${{ steps.script_matrix.outputs.matrix }}
+      scripts_matrix: ${{ steps.script_matrix.outputs.scripts_matrix }}
+      notebooks_matrix: ${{ steps.script_matrix.outputs.notebooks_matrix }}
     steps:
       - name: Checkout AutoFit
         uses: actions/checkout@v2
