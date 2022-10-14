@@ -254,6 +254,7 @@ jobs:
         repository: ${{ steps.configure.outputs.workspace_repository }}
         ref: master
         path: ${{ steps.configure.outputs.workspace_path }}
+    - name: Checkout workspace test
       with:
         repository: ${{ steps.configure.outputs.workspace_test_repository }}
         ref: master
