@@ -125,8 +125,9 @@ def execute_scripts_in_folder(folder, no_run_list=None):
         no_run_list=no_run_list, extension=".py"
     )
 
+    os.chdir(folder)
+
     for script_dir in [t[0] for t in os.walk(".")]:
-        os.chdir(folder)
         files = glob.glob(f"*.py")
 
         for f in sorted(files):
