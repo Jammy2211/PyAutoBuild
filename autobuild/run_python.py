@@ -20,5 +20,5 @@ with open(CONFIG_PATH / "no_run.yaml") as f:
 if __name__ == "__main__":
 
     build_util.execute_scripts_in_folder(
-        folder=folder, root_path=folder, no_run_list=no_run_dict[project],
+        folder=folder, no_run_list=no_run_dict[project],
     )
