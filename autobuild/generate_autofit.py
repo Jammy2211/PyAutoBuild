@@ -1,5 +1,5 @@
-import os
 import glob
+import os
 import shutil
 
 import build_util
@@ -9,8 +9,8 @@ PROJECTS_ROOT_PATH = f"{WORKSPACE_PATH}/projects"
 
 PROJECTS_FOLDERS_OMIT = ["config", "dataset", "src"]
 
-def generate_project_folders():
 
+def generate_project_folders():
     os.chdir(PROJECTS_ROOT_PATH)
 
     for x in [t[0] for t in os.walk(".")]:
