@@ -265,12 +265,6 @@ jobs:
         repository: ${{ steps.configure.outputs.workspace_repository }}
         ref: master
         path: ${{ steps.configure.outputs.workspace_path }}
-    - name: Checkout workspace test
-      uses: actions/checkout@v2
-      with:
-        repository: ${{ steps.configure.outputs.workspace_test_repository }}
-        ref: master
-        path: ${{ steps.configure.outputs.workspace_test_path }}
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
