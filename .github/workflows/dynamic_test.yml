@@ -19,7 +19,7 @@ jobs:
         run: |
           ls
           pwd
-          matrix="$(./PyAutoBuild/autobuild/script_matrix.py scripts project)"
+          matrix="$(../PyAutoBuild/autobuild/script_matrix.py scripts project)"
           echo "::set-output name=matrix::matrix"
 
   test_matrix:
