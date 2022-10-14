@@ -4,11 +4,15 @@ import os
 import sys
 
 
-def make_script_matrix(directory, project):
+def make_script_matrix(parent_directory, project):
     try:
-        _, directories, _ = list(os.walk(f"{project}/{directory}"))[0]
+        _, directories, _ = list(os.walk(f"{project}/{parent_directory}"))[0]
         directory_dicts = [
-            {"name": project, "directory": directory}
+            {
+                "name": project,
+                "directory": directory,
+                "parent_directory": parent_directory,
+            }
             for directory in directories + ["."]
         ]
         return directory_dicts
