@@ -1,6 +1,8 @@
 import os
 from os import path
 import sys
+from pathlib import Path
+
 import yaml
 
 import build_util
@@ -10,10 +12,9 @@ os.environ["PYAUTOFIT_TEST_MODE"] = "1"
 project = sys.argv[1]
 folder = sys.argv[2]
 
-BUILD_PATH = os.getcwd()
-CONFIG_PATH = f"{BUILD_PATH}/autobuild/config"
+CONFIG_PATH = Path(__file__).parent / "config"
 
-with open(path.join(CONFIG_PATH, "no_run.yaml"), "r+") as f:
+with open(CONFIG_PATH / "no_run.yaml") as f:
     no_run_dict = yaml.load(f)
 
 if __name__ == "__main__":
