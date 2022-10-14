@@ -9,18 +9,23 @@ jobs:
     outputs:
       matrix: ${{ steps.script_matrix.outputs.matrix }}
     steps:
-      - name: Checkout project
+      - name: Checkout AutoFit
         uses: actions/checkout@v2
         with:
           repository: Jammy2211/autofit_workspace
-          path: project
+          path: autofit
+      - name: Checkout AutoLens
+        uses: actions/checkout@v2
+        with:
+          repository: Jammy2211/autolens_workspace
+          path: autolens
       - uses: actions/checkout@v2
         with:
             path: PyAutoBuild
       - name: Make script matrix
         id: script_matrix
         run: |
-          matrix="$(./PyAutoBuild/autobuild/script_matrix.py scripts project)"
+          matrix="$(./PyAutoBuild/autobuild/script_matrix.py scripts autofit autolens)"
           echo $matrix
           echo "::set-output name=matrix::$matrix"
 
