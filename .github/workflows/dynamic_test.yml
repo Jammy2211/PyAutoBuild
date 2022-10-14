@@ -21,6 +21,7 @@ jobs:
         id: script_matrix
         run: |
           matrix="$(./PyAutoBuild/autobuild/script_matrix.py scripts project)"
+          echo $matrix
           echo "::set-output name=matrix::matrix"
 
   test_matrix:
