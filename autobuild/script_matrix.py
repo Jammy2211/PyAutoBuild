@@ -5,12 +5,15 @@ import sys
 
 
 def make_script_matrix(directory, project):
-    _, directories, _ = list(os.walk(f"{project}/{directory}"))[0]
-    directory_dicts = [
-        {"project": project, "directory": directory}
-        for directory in directories + ["."]
-    ]
-    return directory_dicts
+    try:
+        _, directories, _ = list(os.walk(f"{project}/{directory}"))[0]
+        directory_dicts = [
+            {"project": project, "directory": directory}
+            for directory in directories + ["."]
+        ]
+        return directory_dicts
+    except IndexError:
+        return []
 
 
 def make_combined_script_matrix(directory, *projects):
