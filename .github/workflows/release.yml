@@ -214,10 +214,10 @@ jobs:
         python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple "${{ steps.configure.outputs.project }}==${{ needs.version_number.outputs.version_number }}"
     - name: Run Python scripts
       run: |
-        pushd PyAutoBuild
-        export PYTHONPATH=$PYTHONPATH:../
+        export PYTHONPATH=$PYTHONPATH:$(pwd)/PyAutoBuild
+        export PATH=$PATH:$(pwd)/PyAutoBuild/autobuild
         pushd "../workspace/${{ matrix.project.parent_directory }}/${{ matrix.project.directory }}"
-        python3 "../PyAutoBuild/autobuild/run_python.py" ${{ matrix.project.name }}
+        python3 "run_python.py" ${{ matrix.project.name }}
 
 #   run_notebooks:
 #     runs-on: ubuntu-latest
