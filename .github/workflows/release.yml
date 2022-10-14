@@ -201,7 +201,7 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install optional requirements
-      if: test -f "project/optional_requirements.txt"
+      if: -f "project/optional_requirements.txt"
       run: |
         echo "Installing optional requirements"
         pip install Cython
