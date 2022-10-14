@@ -17,7 +17,10 @@ jobs:
       - name: Make script matrix
         id: script_matrix
         run: |
-          cd ..
+          pushd ../
+          pwd
+          ls
+          pushd ../
           pwd
           ls
           matrix="$(./PyAutoBuild/autobuild/script_matrix.py scripts project)"
