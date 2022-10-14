@@ -207,7 +207,7 @@ jobs:
         then
             echo "Installing optional requirements"
             pip install Cython
-            python3 -m pip install -r "path/optional_requirements.txt"
+            python3 -m pip install -r "project/optional_requirements.txt"
         fi
     - name: Install project
       run: |
