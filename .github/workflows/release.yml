@@ -216,10 +216,8 @@ jobs:
       run: |
         pushd PyAutoBuild
         export PYTHONPATH=$PYTHONPATH:../
-        pushd ../workspace
-        echo "name=${{ matrix.project.name }}"
-        echo "directory=${{ matrix.project.directory }}"
-        python3 "../PyAutoBuild/autobuild/run_python.py" ${{ matrix.project.name }} ${{ matrix.project.directory }}
+        pushd "../workspace/${{ matrix.project.directory }}"
+        python3 "../PyAutoBuild/autobuild/run_python.py" ${{ matrix.project.name }}
 
 #   run_notebooks:
 #     runs-on: ubuntu-latest

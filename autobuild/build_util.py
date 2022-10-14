@@ -118,18 +118,15 @@ def execute_script(f):
         sys.exit(1)
 
 
-def execute_scripts_in_folder(folder, no_run_list=None):
+def execute_scripts_in_folder(no_run_list=None):
 
     no_run_list = no_run_list or []
     no_run_list = no_run_list_with_extension_from(
         no_run_list=no_run_list, extension=".py"
     )
 
-    os.chdir(folder)
+    files = glob.glob(f"*.py")
 
-    for script_dir in [t[0] for t in os.walk(".")]:
-        files = glob.glob(f"*.py")
-
-        for f in sorted(files):
-            if f not in no_run_list:
-                execute_script(os.path.join("scripts", folder, script_dir, f))
+    for f in sorted(files):
+        if f not in no_run_list:
+            execute_script(f)
