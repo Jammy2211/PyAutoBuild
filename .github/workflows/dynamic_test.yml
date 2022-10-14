@@ -30,7 +30,9 @@ jobs:
         run: |
           matrix="$(./PyAutoBuild/autobuild/script_matrix.py ${{ matrix.directory }} autofit autolens)"
           echo $matrix
-          echo "::set-output name=${{ matrix.directory }}_matrix::$matrix"
+          name="${{ matrix.directory }}_matrix"
+          echo $name
+          echo "::set-output name=$name::$matrix"
 
   test_scripts_matrix:
     runs-on: ubuntu-latest
