@@ -45,16 +45,16 @@ jobs:
         run: |
           echo "${{ matrix.project }}"
 
-   test_notebooks_matrix:
-       runs-on: ubuntu-latest
-       needs:
-         - find_scripts
-       strategy:
-         matrix:
-           project:
-             ${{ fromJSON(needs.find_scripts.outputs.notebooks_matrix) }}
-       steps:
-         - name: Echo
-           run: |
-             echo "${{ matrix.project }}"
+  test_notebooks_matrix:
+      runs-on: ubuntu-latest
+      needs:
+        - find_scripts
+      strategy:
+        matrix:
+          project:
+            ${{ fromJSON(needs.find_scripts.outputs.notebooks_matrix) }}
+      steps:
+        - name: Echo
+          run: |
+            echo "${{ matrix.project }}"
 
