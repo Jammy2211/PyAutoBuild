@@ -110,44 +110,49 @@ jobs:
             fi
             python3 -m pytest
 
+  find_scripts:
+      runs-on: ubuntu-latest
+      strategy:
+        matrix:
+          directory: [scripts, notebooks]
+      outputs:
+        scripts_matrix: ${{ steps.script_matrix.outputs.scripts_matrix }}
+        notebooks_matrix: ${{ steps.script_matrix.outputs.notebooks_matrix }}
+      steps:
+        - name: Checkout AutoFit
+          uses: actions/checkout@v2
+          with:
+            repository: Jammy2211/autofit_workspace
+            path: autofit
+        - name: Checkout AutoLens
+          uses: actions/checkout@v2
+          with:
+            repository: Jammy2211/autolens_workspace
+            path: autolens
+        - uses: actions/checkout@v2
+          with:
+              path: PyAutoBuild
+        - name: Make script matrix
+          id: script_matrix
+          run: |
+            matrix="$(./PyAutoBuild/autobuild/script_matrix.py ${{ matrix.directory }} autofit autolens)"
+            echo $matrix
+            name="${{ matrix.directory }}_matrix"
+            echo $name
+            echo "::set-output name=$name::$matrix"
+
   run_scripts:
     runs-on: ubuntu-latest
     needs:
       - release_test_pypi
       - version_number
+      - find_scripts
     strategy:
       fail-fast: false
       matrix:
         python-version: [3.8]
         project:
-            - name: autolens
-              directory: howtolens
-            - name: autolens
-              directory: overview
-            - name: autolens
-              directory: imaging
-            - name: autolens
-              directory: interferometer
-            - name: autolens
-              directory: multi
-            - name: autolens
-              directory: point_source
-            - name: autolens
-              directory: misc
-            - name: autolens
-              directory: plot
-            - name: autolens
-              directory: results
-            - name: autofit
-              directory: simulators
-            - name: autofit
-              directory: howtofit
-            - name: autofit
-              directory: overview
-            - name: autofit
-              directory: features
-            - name: autofit
-              directory: searches
+            ${{ fromJSON(needs.find_scripts.outputs.scripts_matrix) }}
     steps:
     - name: Configure
       id: configure
@@ -202,41 +207,13 @@ jobs:
     needs:
       - release_test_pypi
       - version_number
+      - find_scripts
     strategy:
       fail-fast: false
       matrix:
         python-version: [3.8]
         project:
-           - name: autolens
-             directory: .
-           - name: autofit
-             directory: .
-           - name: autolens
-             directory: howtolens
-           - name: autolens
-             directory: database
-           - name: autolens
-             directory: overview
-           - name: autolens
-             directory: imaging
-           - name: autolens
-             directory: interferometer
-           - name: autolens
-             directory: multi
-           - name: autolens
-             directory: point_source
-           - name: autolens
-             directory: misc
-           - name: autolens
-             directory: plot
-           - name: autofit
-             directory: howtofit
-           - name: autofit
-             directory: overview
-           - name: autofit
-             directory: features
-           - name: autofit
-             directory: searches
+           ${{ fromJSON(needs.find_scripts.outputs.notebooks_matrix) }}
     steps:
     - name: Configure
       id: configure
