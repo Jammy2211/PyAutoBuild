@@ -18,6 +18,7 @@ jobs:
         id: script_matrix
         run: |
           ls
+          pwd
           matrix="$(./PyAutoBuild/autobuild/script_matrix.py scripts project)"
           echo "::set-output name=matrix::matrix"
 
