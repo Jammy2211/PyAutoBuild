@@ -11,7 +11,7 @@ from typing import List
 TIMEOUT_SECS = 36000
 BUILD_PATH = os.getcwd()
 
-BUILD_PYTHON_INTERPRETER = os.environ.get("BUILD_PYTHON_INTERPRETER", 'python3')
+BUILD_PYTHON_INTERPRETER = os.environ.get("BUILD_PYTHON_INTERPRETER", "python3")
 print(BUILD_PYTHON_INTERPRETER)
 
 
@@ -49,7 +49,7 @@ def uncomment_jupyter_magic(f):
             sources.write(line)
 
 
-def no_run_list_with_extension_from(no_run_list : List[str], extension : str):
+def no_run_list_with_extension_from(no_run_list: List[str], extension: str):
 
     for i, no_run in enumerate(no_run_list):
         if not no_run.endswith(extension):
@@ -83,7 +83,9 @@ def execute_notebooks_in_folder(ROOT_PATH, no_run_list=None):
 
     no_run_list = no_run_list or []
 
-    no_run_list = no_run_list_with_extension_from(no_run_list=no_run_list, extension=".ipynb")
+    no_run_list = no_run_list_with_extension_from(
+        no_run_list=no_run_list, extension=".ipynb"
+    )
 
     os.chdir(ROOT_PATH)
 
@@ -100,13 +102,11 @@ def execute_notebooks_in_folder(ROOT_PATH, no_run_list=None):
 def execute_script(f):
 
     args = [BUILD_PYTHON_INTERPRETER, f]
-    print(f'Running <{args}>')
+    print(f"Running <{args}>")
 
     try:
         subprocess.run(
-            args,
-            check=True,
-            timeout=TIMEOUT_SECS,
+            args, check=True, timeout=TIMEOUT_SECS,
         )
     except (subprocess.TimeoutExpired, subprocess.CalledProcessError) as e:
 
@@ -118,10 +118,12 @@ def execute_script(f):
         sys.exit(1)
 
 
-def execute_scripts_in_folder(workspace_path, folder, root_path, no_run_list=None):
+def execute_scripts_in_folder(folder, root_path, no_run_list=None):
 
     no_run_list = no_run_list or []
-    no_run_list = no_run_list_with_extension_from(no_run_list=no_run_list, extension=".py")
+    no_run_list = no_run_list_with_extension_from(
+        no_run_list=no_run_list, extension=".py"
+    )
 
     os.chdir(root_path)
 
@@ -129,8 +131,7 @@ def execute_scripts_in_folder(workspace_path, folder, root_path, no_run_list=Non
         scripts_path = f"{root_path}/{script_dir}"
         os.chdir(scripts_path)
         files = glob.glob(f"*.py")
-        os.chdir(workspace_path)
 
         for f in sorted(files):
             if f not in no_run_list:
-                execute_script(os.path.join('scripts', folder, script_dir, f))
+                execute_script(os.path.join("scripts", folder, script_dir, f))

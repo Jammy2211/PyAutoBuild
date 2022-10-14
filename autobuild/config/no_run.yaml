@@ -39,3 +39,4 @@ autolens:
 autocti:
 - GetDist
 - noise_scaling
+autolens_test: []
