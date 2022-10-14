@@ -216,7 +216,7 @@ jobs:
       run: |
         pushd PyAutoBuild
         export PYTHONPATH=$PYTHONPATH:../
-        pushd workspace
+        pushd ../workspace
         python3 "autobuild/run_python.py" ${{ matrix.project.name }} ${{ matrix.project.directory }}
 
   run_notebooks:
