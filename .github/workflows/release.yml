@@ -141,6 +141,7 @@ jobs:
             name="${{ matrix.directory }}_matrix"
             echo $name
             echo "::set-output name=$name::$matrix"
+
   run_scripts:
     runs-on: ubuntu-latest
     needs:
@@ -227,6 +228,7 @@ jobs:
           pushd PyAutoBuild
           export PYTHONPATH=$PYTHONPATH:../
           python3 "autobuild/run_python.py" ${{ matrix.project.name }} ${{ matrix.project.directory }}
+
   run_scripts_test:
     runs-on: ubuntu-latest
     needs:
