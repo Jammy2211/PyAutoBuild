@@ -229,11 +229,11 @@ jobs:
         pushd PyAutoBuild
         export PYTHONPATH=$PYTHONPATH:../
         python3 "autobuild/run_python.py" ${{ matrix.project.name }} ${{ matrix.project.directory }}
-    - name: Run Python Test Workspace scripts
-      run: |
-        pushd PyAutoBuild
-        export PYTHONPATH=$PYTHONPATH:../
-        python3 "autobuild/run_python_test.py" autolens imaging
+#    - name: Run Python Test Workspace scripts
+#      run: |
+#        pushd PyAutoBuild
+#        export PYTHONPATH=$PYTHONPATH:../
+#        python3 "autobuild/run_python_test.py" autolens imaging
 
   run_notebooks:
     runs-on: ubuntu-latest
@@ -283,15 +283,15 @@ jobs:
             echo "::set-output name=path::PyAutoLens"
             echo "::set-output name=workspace_repository::Jammy2211/autolens_workspace"
             echo "::set-output name=workspace_path::autolens_workspace"
-            echo "::set-output name=workspace_test_repository::Jammy2211/autolens_workspace_test"
-            echo "::set-output name=workspace_test_path::autolens_workspace"
+   #         echo "::set-output name=workspace_test_repository::Jammy2211/autolens_workspace_test"
+     #       echo "::set-output name=workspace_test_path::autolens_workspace"
         else
             echo "::set-output name=repository::rhayes777/PyAutoFit"
             echo "::set-output name=path::PyAutoFit"
             echo "::set-output name=workspace_repository::Jammy2211/autofit_workspace"
             echo "::set-output name=workspace_path::autofit_workspace"
-            echo "::set-output name=workspace_test_repository::Jammy2211/autofit_workspace_test"
-            echo "::set-output name=workspace_path::autofit_test_workspace"
+ #           echo "::set-output name=workspace_test_repository::Jammy2211/autofit_workspace_test"
+ #           echo "::set-output name=workspace_path::autofit_test_workspace"
         fi
     - uses: actions/checkout@v2
       with:
@@ -307,12 +307,12 @@ jobs:
         repository: ${{ steps.configure.outputs.workspace_repository }}
         ref: master
         path: ${{ steps.configure.outputs.workspace_path }}
-    - name: Checkout workspace_test
-      uses: actions/checkout@v2
-      with:
-        repository: ${{ steps.configure.outputs.workspace_test_repository }}
-        ref: master
-        path: ${{ steps.configure.outputs.workspace_test_path }}
+#    - name: Checkout workspace_test
+#      uses: actions/checkout@v2
+#      with:
+#        repository: ${{ steps.configure.outputs.workspace_test_repository }}
+#        ref: master
+#        path: ${{ steps.configure.outputs.workspace_test_path }}
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:

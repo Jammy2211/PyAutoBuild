@@ -36,6 +36,7 @@ autolens:
 - tutorial_optional_manual
 - features
 - results_4_galaxies.py
+- overview_7_multi_wavelength
 autocti:
 - GetDist
 - noise_scaling
