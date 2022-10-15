@@ -37,6 +37,7 @@ autolens:
 - features
 - results_4_galaxies.py
 - overview_7_multi_wavelength
+- parametric_to_pixelized
 autocti:
 - GetDist
 - noise_scaling
