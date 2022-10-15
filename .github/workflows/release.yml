@@ -307,6 +307,8 @@ jobs:
         repository: ${{ steps.configure.outputs.workspace_repository }}
         ref: master
         path: ${{ steps.configure.outputs.workspace_path }}
+    - name: Checkout workspace_test
+      uses: actions/checkout@v2
       with:
         repository: ${{ steps.configure.outputs.workspace_test_repository }}
         ref: master
