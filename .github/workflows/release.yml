@@ -43,7 +43,7 @@ jobs:
                 ref: master
                 path: PyAutoConf
               - repository: rhayes777/PyAutoFit
-                ref: master
+                ref: feature/build_tests
                 path: PyAutoFit
               - repository: Jammy2211/PyAutoArray
                 ref: master
