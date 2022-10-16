@@ -242,7 +242,11 @@ jobs:
             - name: autofit
               directory: searches
             - name: autofit
-              directory: features        -
+              directory: features
+            - name: autofit
+              directory: database
+            - name: autofit
+              directory: graphical
             - name: autolens
               directory: imaging
             - name: autolens
