@@ -283,12 +283,12 @@ jobs:
     - name: Generate jupyter notebooks
       run: |
         export PYTHONPATH=$PYTHONPATH:$(pwd)/PyAutoBuild
-        export PATH=$PATH:$(pwd)/PyAutoBuild/autobuild
-        python3 "../PyAutoBuild/generate.py"
+        pushd "workspace"
+        python3 "../PyAutoBuild/autobuild/generate.py"
     - name: Run jupyter notebooks
       run: |
         export PYTHONPATH=$PYTHONPATH:$(pwd)/PyAutoBuild
-        export PATH=$PATH:$(pwd)/PyAutoBuild/autobuild
+        pushd "workspace/${{ matrix.project.parent_directory }}/${{ matrix.project.directory }}"
         python3 "autobuild/run.py" ${{ matrix.project.name }}
 
 #  release:
