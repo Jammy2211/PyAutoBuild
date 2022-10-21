@@ -2,6 +2,7 @@ import os
 import shutil
 from os import path
 from pathlib import Path
+from sys import argv
 
 import yaml
 
@@ -11,7 +12,7 @@ import generate_autofit
 WORKSPACE_PATH = Path.cwd()
 CONFIG_PATH = WORKSPACE_PATH.parent / "PyAutoBuild/autobuild/config"
 
-project = WORKSPACE_PATH.name
+project = argv[0]
 
 with open(path.join(CONFIG_PATH, "copy_files.yaml"), "r+") as f:
     copy_files_dict = yaml.load(f)
