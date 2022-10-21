@@ -1,5 +1,4 @@
 import os
-from os import path
 import sys
 from pathlib import Path
 
@@ -17,5 +16,4 @@ with open(CONFIG_PATH / "no_run.yaml") as f:
     no_run_dict = yaml.load(f)
 
 if __name__ == "__main__":
-
     build_util.execute_scripts_in_folder(no_run_list=no_run_dict[project],)
