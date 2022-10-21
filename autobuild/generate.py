@@ -1,8 +1,6 @@
 import os
-from os import path
-import glob
 import shutil
-import sys
+from os import path
 from pathlib import Path
 
 import yaml
@@ -22,35 +20,39 @@ copy_files_list = copy_files_dict[project]
 
 
 def is_copy_file(file_path):
-    return any(copy_file in str(file_path) for copy_file in copy_files_list)
+    return any(str(file_path).endswith(copy_file) for copy_file in copy_files_list)
+
+
+def notebook_path_(script_path_):
+    return Path(str(script_path_).replace("/scripts/", "/notebooks/"))
+
+
+def copy_to_notebooks(source):
+    target = notebook_path_(source)
+    print(f"{source} -> {target}")
+    os.makedirs(target.parent, exist_ok=True)
+    shutil.copy(source, target)
+    os.system(f"git add -f {target}")
 
 
 if __name__ == "__main__":
     generate_autofit.generate_project_folders()
 
-    for scripts_path in map(Path, glob.glob(f"{WORKSPACE_PATH}/scripts/*/")):
-        notebooks_path = scripts_path.parent.parent / "notebooks" / scripts_path.name
+    scripts_path = Path(f"{WORKSPACE_PATH}/scripts")
+    notebooks_path = notebook_path_(scripts_path)
 
-        print(f"{scripts_path} -> {notebooks_path}")
-        os.makedirs(notebooks_path, exist_ok=True)
+    for notebook_path in notebooks_path.rglob("*.ipynb*"):
+        os.remove(notebook_path)
 
-        for notebook_path in glob.glob(f"{notebooks_path}/*.ipynb*"):
-            os.remove(notebook_path)
+    for script_path in scripts_path.rglob("*.py"):
+        if script_path.name == "__init__.py":
+            continue
+        if is_copy_file(script_path):
+            copy_to_notebooks(script_path)
+        else:
+            source_path = build_util.py_to_notebook(script_path)
+            copy_to_notebooks(source_path)
+            os.remove(source_path)
 
-        for script_path in map(Path, glob.glob(f"{scripts_path}/*.py")):
-            if script_path.name == "__init__.py":
-                continue
-            if is_copy_file(script_path):
-                source_path = script_path
-                target_path = notebooks_path / script_path.name
-            else:
-                source_path = build_util.py_to_notebook(script_path)
-                target_path = notebooks_path / source_path.name
-
-            shutil.move(source_path, target_path)
-            os.system(f"git add -f {target_path}")
-
-        for read_me_path in map(Path, glob.glob(f"{scripts_path}/*.rst")):
-            target_path = notebooks_path / read_me_path.name
-            shutil.copy(read_me_path, target_path)
-            os.system(f"git add -f {target_path}")
+    for read_me_path in scripts_path.rglob("*.rst"):
+        copy_to_notebooks(read_me_path)
