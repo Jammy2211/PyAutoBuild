@@ -11,7 +11,7 @@ import build_util
 import generate_autofit
 
 WORKSPACE_PATH = Path.cwd()
-CONFIG_PATH = WORKSPACE_PATH.parent / "PyAutoBuild/autobuild"
+CONFIG_PATH = WORKSPACE_PATH.parent / "PyAutoBuild/autobuild/config"
 
 project = WORKSPACE_PATH.name
 

@@ -11,7 +11,7 @@ from typing import List
 
 
 TIMEOUT_SECS = 36000
-BUILD_PATH = os.getcwd()
+BUILD_PATH = Path(__file__).parent
 
 BUILD_PYTHON_INTERPRETER = os.environ.get("BUILD_PYTHON_INTERPRETER", "python3")
 print(BUILD_PYTHON_INTERPRETER)
@@ -19,12 +19,7 @@ print(BUILD_PYTHON_INTERPRETER)
 
 def py_to_notebook(filename: Path):
     subprocess.run(
-        [
-            "python3",
-            f"{BUILD_PATH}/autobuild/add_notebook_quotes.py",
-            filename,
-            "temp.py",
-        ],
+        ["python3", f"{BUILD_PATH}/add_notebook_quotes.py", filename, "temp.py"],
         check=True,
     )
     new_filename = filename.with_suffix(".ipynb")
