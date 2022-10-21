@@ -6,7 +6,9 @@ import re
 import subprocess
 import sys
 import traceback
+from pathlib import Path
 from typing import List
+
 
 TIMEOUT_SECS = 36000
 BUILD_PATH = os.getcwd()
@@ -15,11 +17,7 @@ BUILD_PYTHON_INTERPRETER = os.environ.get("BUILD_PYTHON_INTERPRETER", "python3")
 print(BUILD_PYTHON_INTERPRETER)
 
 
-def py_to_notebook(filename):
-
-    if filename == "temp.py":
-        return
-
+def py_to_notebook(filename: Path):
     subprocess.run(
         [
             "python3",
@@ -29,10 +27,13 @@ def py_to_notebook(filename):
         ],
         check=True,
     )
+    new_filename = filename.with_suffix(".ipynb")
     subprocess.run(
-        ["ipynb-py-convert", "temp.py", f'{filename.split(".py")[0]}.ipynb'], check=True
+        ["ipynb-py-convert", "temp.py", new_filename], check=True,
     )
     os.remove("temp.py")
+    uncomment_jupyter_magic(new_filename)
+    return new_filename
 
 
 def uncomment_jupyter_magic(f):

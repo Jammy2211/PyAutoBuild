@@ -3,6 +3,8 @@ from os import path
 import glob
 import shutil
 import sys
+from pathlib import Path
+
 import yaml
 
 import build_util
@@ -52,11 +54,10 @@ if __name__ == "__main__":
 
         os.chdir(scripts_path)
         for f in glob.glob(f"*.py"):
-            build_util.py_to_notebook(f)
+            build_util.py_to_notebook(Path(f))
 
         for f in glob.glob(f"*.ipynb"):
             build_util.uncomment_jupyter_magic(f)
-
 
         ### Copy notebooks to notebooks folder ###
 
@@ -67,13 +68,11 @@ if __name__ == "__main__":
         if os.path.exists(f"{notebooks_path}/__init__.ipynb"):
             os.remove(f"{notebooks_path}/__init__.ipynb")
 
-
         ### Copy README.rst files ###
 
         for f in glob.glob(f"*.rst"):
             shutil.copy(f"{scripts_path}/{f}", f"{notebooks_path}/{f}")
             os.system(f"git add -f {notebooks_path}/{f}")
-
 
     ### Copy specific Python Files ###
 
@@ -84,7 +83,6 @@ if __name__ == "__main__":
             notebooks_path = f"{NOTEBOOKS_ROOT_PATH}/{x}"
             shutil.copy(scripts_path, notebooks_path)
             os.system(f"git add -f {notebooks_path}")
-
 
     ### Delete Unused ###
 
