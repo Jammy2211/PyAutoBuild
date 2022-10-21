@@ -175,7 +175,7 @@ jobs:
 #         elif [ ${{ matrix.project.name }} == "autolens_test" ]
 #         then
 #             echo "::set-output name=repository::Jammy2211/PyAutoLens"
-#             echo "::set-output name=workspace_repository::Jammy2211/autolens_workspace"
+#             echo "::set-output name=workspace_repository::Jammy2211/autolens_workspace_test"
 #             echo "::set-output name=project::autolens"
 #         else
 #             echo "::set-output name=repository::rhayes777/PyAutoFit"
