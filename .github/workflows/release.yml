@@ -282,9 +282,9 @@ jobs:
         python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple "${{ steps.configure.outputs.project }}==${{ needs.version_number.outputs.version_number }}"
     - name: Generate jupyter notebooks
       run: |
-        pushd PyAutoBuild
-        export PYTHONPATH=$PYTHONPATH:../
-        python3 "autobuild/generate.py" ${{ matrix.project.name }}
+        export PYTHONPATH=$PYTHONPATH:$(pwd)/PyAutoBuild
+        export PATH=$PATH:$(pwd)/PyAutoBuild/autobuild
+        python3 "../PyAutoBuild/generate.py"
     - name: Run jupyter notebooks
       run: |
         pushd PyAutoBuild
