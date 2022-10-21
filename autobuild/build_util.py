@@ -1,4 +1,3 @@
-import glob
 import datetime
 import logging
 import os
@@ -8,7 +7,6 @@ import sys
 import traceback
 from pathlib import Path
 from typing import List
-
 
 TIMEOUT_SECS = 36000
 BUILD_PATH = Path(__file__).parent
@@ -32,7 +30,6 @@ def py_to_notebook(filename: Path):
 
 
 def uncomment_jupyter_magic(f):
-
     with open(f, "r") as sources:
         lines = sources.readlines()
     with open(f, "w") as sources:
@@ -46,7 +43,6 @@ def uncomment_jupyter_magic(f):
 
 
 def no_run_list_with_extension_from(no_run_list: List[str], extension: str):
-
     for i, no_run in enumerate(no_run_list):
         if not no_run.endswith(extension):
             no_run_list[i] = f"{no_run}{extension}"
@@ -55,7 +51,6 @@ def no_run_list_with_extension_from(no_run_list: List[str], extension: str):
 
 
 def execute_notebook(f):
-
     print(f"Running <{f}> at {datetime.datetime.now().isoformat()}")
 
     try:
@@ -75,28 +70,15 @@ def execute_notebook(f):
             raise e
 
 
-def execute_notebooks_in_folder(ROOT_PATH, no_run_list=None):
+def execute_notebooks_in_folder(no_run_list):
+    files = Path.cwd().rglob(f"*.ipynb")
 
-    no_run_list = no_run_list or []
-
-    no_run_list = no_run_list_with_extension_from(
-        no_run_list=no_run_list, extension=".ipynb"
-    )
-
-    os.chdir(ROOT_PATH)
-
-    for x in [t[0] for t in os.walk(".")]:
-
-        notebooks_path = f"{ROOT_PATH}/{x}"
-        os.chdir(notebooks_path)
-
-        for f in glob.glob(f"*.ipynb"):
-            if f not in no_run_list:
-                execute_notebook(f)
+    for file in sorted(files):
+        if file.stem not in no_run_list:
+            execute_notebook(file)
 
 
 def execute_script(f):
-
     args = [BUILD_PYTHON_INTERPRETER, f]
     print(f"Running <{args}>")
 
@@ -115,14 +97,10 @@ def execute_script(f):
 
 
 def execute_scripts_in_folder(no_run_list=None):
-
     no_run_list = no_run_list or []
-    no_run_list = no_run_list_with_extension_from(
-        no_run_list=no_run_list, extension=".py"
-    )
 
-    files = glob.glob(f"*.py")
+    files = Path.cwd().rglob(f"*.py")
 
-    for f in sorted(files):
-        if f not in no_run_list:
-            execute_script(f)
+    for file in sorted(files):
+        if file.stem not in no_run_list:
+            execute_script(str(file))
