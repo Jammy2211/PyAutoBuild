@@ -15,7 +15,7 @@ CONFIG_PATH = WORKSPACE_PATH.parent / "PyAutoBuild/autobuild/config"
 project = argv[1]
 
 with open(path.join(CONFIG_PATH, "copy_files.yaml"), "r+") as f:
-    copy_files_dict = yaml.load(f)
+    copy_files_dict = yaml.safe_load(f)
 
 copy_files_list = copy_files_dict[project] or []
 
