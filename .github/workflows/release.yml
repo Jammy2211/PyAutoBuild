@@ -282,6 +282,9 @@ jobs:
     - name: Install project
       run: |
         python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple "${{ steps.configure.outputs.project }}==${{ needs.version_number.outputs.version_number }}"
+    - name: Install Jupyter dependency
+      run: |
+        pip install jupyter ipynb-py-convert
     - name: Generate jupyter notebooks
       run: |
         export PYTHONPATH=$PYTHONPATH:$(pwd)/PyAutoBuild
@@ -292,9 +295,6 @@ jobs:
       run: |
         export PYTHONPATH=$PYTHONPATH:$(pwd)/PyAutoBuild
         AUTOBUILD_PATH="$(pwd)/PyAutoBuild/autobuild"
-
-        pwd
-        ls
 
         pushd workspace
         python3 "$AUTOBUILD_PATH/run.py" ${{ matrix.project.name }} "${{ matrix.project.parent_directory }}/${{ matrix.project.directory }}"
