@@ -32,10 +32,15 @@ autolens:
 - example_1
 - wavelength_dependence
 - GetDist
-- tutorial_4_models
 - tutorial_optional_manual
 - features
 - results_4_galaxies.py
+- overview_7_multi_wavelength
+- parametric_to_pixelized
+- sie_to_power_law.py
+- ZeusPlotter.py
+- tutorial_4_models
+- tutorial_4_lens_models
 autocti:
 - GetDist
 - noise_scaling
