@@ -71,7 +71,7 @@ def execute_notebook(f):
 
 
 def execute_notebooks_in_folder(directory, no_run_list):
-    files = Path.cwd().rglob(f"{directory}/*.ipynb")
+    files = Path.cwd().rglob(f"{directory}/**/*.ipynb")
 
     for file in sorted(files):
         if file.stem not in no_run_list:
@@ -99,7 +99,7 @@ def execute_script(f):
 def execute_scripts_in_folder(directory, no_run_list=None):
     no_run_list = no_run_list or []
 
-    files = Path.cwd().rglob(f"{directory}/*.py")
+    files = Path.cwd().rglob(f"{directory}/**/*.py")
 
     for file in sorted(files):
         if file.stem not in no_run_list:
