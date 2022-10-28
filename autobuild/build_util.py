@@ -60,14 +60,11 @@ def execute_notebook(f):
             timeout=TIMEOUT_SECS,
         )
     except (subprocess.TimeoutExpired, subprocess.CalledProcessError) as e:
-        if e is subprocess.CalledProcessError:
+        logging.exception(e)
 
-            logging.exception(e)
-
-            if "InversionException" in traceback.format_exc():
-                return
-            sys.exit(1)
-            raise e
+        if "InversionException" in traceback.format_exc():
+            return
+        sys.exit(1)
 
 
 def execute_notebooks_in_folder(directory, no_run_list):
