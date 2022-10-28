@@ -114,7 +114,6 @@ jobs:
 
   find_scripts:
       runs-on: ubuntu-latest
-      strategy:
       outputs:
         matrix: ${{ steps.script_matrix.outputs.matrix }}
       steps:
