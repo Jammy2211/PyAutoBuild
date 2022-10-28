@@ -218,8 +218,8 @@ jobs:
         export PATH=$PATH:$(pwd)/PyAutoBuild/autobuild
         AUTOBUILD_PATH="$(pwd)/PyAutoBuild/autobuild"
 
-        pushd "workspace/${{ matrix.project.parent_directory }}"
-        python3 "$AUTOBUILD_PATH/run_python.py" ${{ matrix.project.name }} ${{ matrix.project.directory }}
+        pushd workspace
+        python3 "$AUTOBUILD_PATH/run_python.py" ${{ matrix.project.name }} "${{ matrix.project.parent_directory }}/${{ matrix.project.directory }}"
 
   run_notebooks:
     runs-on: ubuntu-latest
@@ -296,8 +296,8 @@ jobs:
         pwd
         ls
 
-        pushd "workspace/${{ matrix.project.parent_directory }}"
-        python3 "$AUTOBUILD_PATH/run.py" ${{ matrix.project.name }} ${{ matrix.project.directory }}
+        pushd workspace
+        python3 "$AUTOBUILD_PATH/run.py" ${{ matrix.project.name }} "${{ matrix.project.parent_directory }}/${{ matrix.project.directory }}"
 
 #  release:
 #    runs-on: ubuntu-latest
