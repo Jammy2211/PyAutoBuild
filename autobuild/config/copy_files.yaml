@@ -6,3 +6,4 @@ autogalaxy_workspace:
 autolens_workspace:
 - imaging/advanced/chaining/hyper_mode/extensions.py
 autocti_workspace:
+autolens_test:
