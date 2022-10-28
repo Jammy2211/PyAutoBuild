@@ -218,8 +218,8 @@ jobs:
         export PATH=$PATH:$(pwd)/PyAutoBuild/autobuild
         AUTOBUILD_PATH="$(pwd)/PyAutoBuild/autobuild"
 
-        pushd "workspace/${{ matrix.project.parent_directory }}/${{ matrix.project.directory }}"
-        python3 "$AUTOBUILD_PATH/run_python.py" ${{ matrix.project.name }}
+        pushd "workspace/${{ matrix.project.parent_directory }}"
+        python3 "$AUTOBUILD_PATH/run_python.py" ${{ matrix.project.name }} ${{ matrix.project.directory }}
 
   run_notebooks:
     runs-on: ubuntu-latest
@@ -285,13 +285,19 @@ jobs:
     - name: Generate jupyter notebooks
       run: |
         export PYTHONPATH=$PYTHONPATH:$(pwd)/PyAutoBuild
-        pushd "$HOME/workspace"
-        python3 "$HOME/workspace/PyAutoBuild/autobuild/generate.py" ${{ matrix.project.name }}
+        AUTOBUILD_PATH="$(pwd)/PyAutoBuild/autobuild"
+        pushd "workspace"
+        python3 "$AUTOBUILD_PATH/generate.py" ${{ matrix.project.name }}
     - name: Run jupyter notebooks
       run: |
         export PYTHONPATH=$PYTHONPATH:$(pwd)/PyAutoBuild
-        pushd "$HOME/workspace/${{ matrix.project.parent_directory }}/${{ matrix.project.directory }}"
-        python3 "$HOME/workspace/PyAutoBuild/autobuild/run.py" ${{ matrix.project.name }}
+        AUTOBUILD_PATH="$(pwd)/PyAutoBuild/autobuild"
+
+        pwd
+        ls
+
+        pushd "workspace/${{ matrix.project.parent_directory }}"
+        python3 "$AUTOBUILD_PATH/run.py" ${{ matrix.project.name }} ${{ matrix.project.directory }}
 
 #  release:
 #    runs-on: ubuntu-latest

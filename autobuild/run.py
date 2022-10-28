@@ -9,6 +9,7 @@ import build_util
 os.environ["PYAUTOFIT_TEST_MODE"] = "1"
 
 project = sys.argv[1]
+directory = sys.argv[2]
 
 CONFIG_PATH = Path(__file__).parent / "config"
 
@@ -19,4 +20,6 @@ if __name__ == "__main__":
 
     build_util.execute_notebook("introduction.ipynb")
 
-    build_util.execute_notebooks_in_folder(no_run_list=no_run_dict[project],)
+    build_util.execute_notebooks_in_folder(
+        no_run_list=no_run_dict[project], directory=directory,
+    )
