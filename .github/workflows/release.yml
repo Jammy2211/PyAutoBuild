@@ -216,8 +216,11 @@ jobs:
       run: |
         export PYTHONPATH=$PYTHONPATH:$(pwd)/PyAutoBuild
         export PATH=$PATH:$(pwd)/PyAutoBuild/autobuild
+        echo "$HOME"
+        pwd
+        ls *
         ls "$HOME/*"
-        
+
         pushd "$HOME/workspace/${{ matrix.project.parent_directory }}/${{ matrix.project.directory }}"
         python3 "$HOME/PyAutoBuild/autobuild/run_python.py" ${{ matrix.project.name }}
 
