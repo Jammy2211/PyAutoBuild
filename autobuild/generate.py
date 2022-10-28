@@ -17,7 +17,7 @@ project = argv[1]
 with open(path.join(CONFIG_PATH, "copy_files.yaml"), "r+") as f:
     copy_files_dict = yaml.load(f)
 
-copy_files_list = copy_files_dict[project]
+copy_files_list = copy_files_dict[project] or []
 
 
 def is_copy_file(file_path):
