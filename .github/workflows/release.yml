@@ -222,7 +222,7 @@ jobs:
       matrix:
         python-version: [3.8]
         project:
-            ${{ fromJSON(needs.find_scripts.outputs.scripts_matrix) }}
+            ${{ fromJSON(needs.find_scripts.outputs.matrix) }}
     steps:
     - name: Configure
       id: configure
