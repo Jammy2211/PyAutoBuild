@@ -1,9 +1,9 @@
-autofit_workspace:
+autofit:
 - howtofit/chapter_1_introduction/gaussian.py
 - howtofit/chapter_1_introduction/profiles.py
 - howtofit/chapter_database/profiles.py
-autogalaxy_workspace:
-autolens_workspace:
+autogalaxy:
+autolens:
 - imaging/advanced/chaining/hyper_mode/extensions.py
 autocti_workspace:
 autolens_test:
