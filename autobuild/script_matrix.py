@@ -2,22 +2,22 @@
 import json
 import os
 import sys
+from pathlib import Path
 
 
-def make_script_matrix(directory, project):
-    _, directories, _ = list(os.walk(f"{project}/{directory}"))[0]
-    directory_dicts = [
-        {"project": project, "directory": directory}
-        for directory in directories + ["."]
-    ]
-    return directory_dicts
-
-
-def make_combined_script_matrix(directory, *projects):
+def make_script_matrix(project):
     return [
-        item for project in projects for item in make_script_matrix(directory, project)
+        {"name": project, "directory": path.name,}
+        for path in (Path(project) / "scripts").glob("*/")
     ]
+
+
+def make_combined_script_matrix(projects):
+    return [item for project in projects for item in make_script_matrix(project)]
 
 
 if __name__ == "__main__":
-    print(json.dumps(make_combined_script_matrix(*sys.argv[1:])))
+    projects = sys.argv[1:]
+
+    output = make_combined_script_matrix(projects)
+    print(json.dumps(output))

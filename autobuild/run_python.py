@@ -1,6 +1,9 @@
+#!/usr/bin/env python
+
 import os
-from os import path
 import sys
+from pathlib import Path
+
 import yaml
 
 import build_util
@@ -8,21 +11,14 @@ import build_util
 os.environ["PYAUTOFIT_TEST_MODE"] = "1"
 
 project = sys.argv[1]
-folder = sys.argv[2]
+directory = sys.argv[2]
 
-BUILD_PATH = os.getcwd()
-WORKSPACE_PATH = f"{os.getcwd()}/../{project}_workspace"
-SCRIPTS_ROOT_PATH = f"{WORKSPACE_PATH}/scripts"
-CONFIG_PATH = f"{BUILD_PATH}/autobuild/config"
+CONFIG_PATH = Path(__file__).parent / "config"
 
-with open(path.join(CONFIG_PATH, "no_run.yaml"), "r+") as f:
-    no_run_dict = yaml.load(f)
+with open(CONFIG_PATH / "no_run.yaml") as f:
+    no_run_dict = yaml.safe_load(f)
 
 if __name__ == "__main__":
-
     build_util.execute_scripts_in_folder(
-        workspace_path=WORKSPACE_PATH,
-        folder=folder,
-        root_path=f"{SCRIPTS_ROOT_PATH}/{folder}",
-        no_run_list=no_run_dict[project],
+        no_run_list=no_run_dict[project], directory=directory
     )

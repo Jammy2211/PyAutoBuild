@@ -1,8 +1,9 @@
 autofit:
-- ./howtofit/chapter_1_introduction/gaussian.py
-- ./howtofit/chapter_1_introduction/profiles.py
-- ./howtofit/chapter_database/profiles.py
+- howtofit/chapter_1_introduction/gaussian.py
+- howtofit/chapter_1_introduction/profiles.py
+- howtofit/chapter_database/profiles.py
 autogalaxy:
 autolens:
-- /imaging/advanced/chaining/hyper_mode/extensions.py
-autocti:
+- imaging/advanced/chaining/hyper_mode/extensions.py
+autocti_workspace:
+autolens_test:

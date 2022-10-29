@@ -1,6 +1,6 @@
-import os
 import glob
-import shutil
+import os
+from pathlib import Path
 
 import build_util
 
@@ -9,40 +9,20 @@ PROJECTS_ROOT_PATH = f"{WORKSPACE_PATH}/projects"
 
 PROJECTS_FOLDERS_OMIT = ["config", "dataset", "src"]
 
+
 def generate_project_folders():
+    for project_path in map(Path, glob.glob(f"{PROJECTS_ROOT_PATH}/*/")):
+        try:
+            os.remove(project_path / "temp.py")
+        except FileNotFoundError:
+            pass
 
-    os.chdir(PROJECTS_ROOT_PATH)
+        for f in glob.glob(f"{project_path}/*.ipynb*"):
+            os.remove(project_path / f)
 
-    for x in [t[0] for t in os.walk(".")]:
+        for python_file in map(Path, glob.glob(f"{project_path}/*.py")):
+            if python_file.name == "__init__.py":
+                continue
 
-        ### PROJECTS FOLDER ###
-
-        projects_path = f"{PROJECTS_ROOT_PATH}/{x}"
-
-        if not sum([folder in projects_path for folder in PROJECTS_FOLDERS_OMIT]):
-
-            ### Remove Old notebooks ###
-
-            for f in glob.glob(f"{projects_path}/*.ipynb"):
-                os.remove(f)
-            for f in glob.glob(f"{projects_path}/*.ipynb_checkpoints"):
-                shutil.rmtree(f)
-
-            ### Convert ###
-
-            os.chdir(projects_path)
-            for f in glob.glob(f"*.py"):
-                build_util.py_to_notebook(f)
-
-            for f in glob.glob(f"*.ipynb"):
-                build_util.uncomment_jupyter_magic(f)
-                os.system(f"git add -f {projects_path}/{f}")
-
-            if os.path.exists(f"{projects_path}/__init__.ipynb"):
-                os.remove(f"{projects_path}/__init__.ipynb")
-
-            if os.path.exists(f"{PROJECTS_ROOT_PATH}/__init__.ipynb"):
-                os.remove(f"{PROJECTS_ROOT_PATH}/__init__.ipynb")
-
-            for f in glob.glob(f"*.ipynb"):
-                os.system(f"git add -f {projects_path}/{f}")
+            new_filename = build_util.py_to_notebook(python_file)
+            os.system(f"git add -f {new_filename}")
