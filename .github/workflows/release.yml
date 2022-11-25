@@ -109,7 +109,7 @@ jobs:
               pip install -r optional_requirements.txt
             fi
             pip install pytest
-            python3 -m pytest
+#            python3 -m pytest
 
   find_scripts:
       runs-on: ubuntu-latest
