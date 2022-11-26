@@ -308,80 +308,80 @@ jobs:
         pushd workspace
       #  python3 "$AUTOBUILD_PATH/run.py" ${{ matrix.project.name }} "notebooks/${{ matrix.project.directory }}"
 
-# release:
-#   runs-on: ubuntu-latest
-#   env:
-#     TWINE_REPOSITORY: pypi
-#     TWINE_USERNAME: __token__
-#     TWINE_PASSWORD: ${{ secrets.PYPI }}
-#   needs:
-#     - run_scripts
-#     - run_notebooks
-#     - release_test_pypi
-#     - version_number
-#   strategy:
-#     matrix:
-#       project:
-#       - repository: rhayes777/PyAutoConf
-#         ref: master
-#         path: PyAutoConf
-#         pat: PAT_RICH
-#       - repository: rhayes777/PyAutoFit
-#         ref: master
-#         path: PyAutoFit
-#         pat: PAT_RICH
-#       - repository: Jammy2211/PyAutoArray
-#         ref: master
-#         path: PyAutoArray
-#         pat: PAT_JAMES
-#       - repository: Jammy2211/PyAutoGalaxy
-#         ref: master
-#         path: PyAutoGalaxy
-#         pat: PAT_JAMES
-#       - repository: Jammy2211/PyAutoLens
-#         ref: master
-#         path: PyAutoLens
-#         pat: PAT_JAMES
-#   steps:
-#   - uses: actions/checkout@v2
-#     with:
-#         path: PyAutoBuild
-#   - name: Checkout
-#     run: |
-#       git clone -b "${{ matrix.project.ref }}" "https://$PAT@github.com/${{ matrix.project.repository }}.git" "${{ matrix.project.path }}"
-#   - name: Set up Python ${{ matrix.python-version }}
-#     uses: actions/setup-python@v2
-#     with:
-#       python-version: ${{ matrix.python-version }}
-#   - name: Configure Git
-#     run: |
-#       git config --global user.email "richard@rghsoftware.co.uk"
-#       git config --global user.name "GitHub Actions bot"
-#   - name: Update version
-#     run: |
-#       pushd "${{ matrix.project.path }}"
-#       VERSION="${{ needs.version_number.outputs.version_number }}"
-#       sed -i "s/__version__ = [\.\"\'0-9]*/__version__ = \"$VERSION\"/g" */__init__.py
-#       git commit "-am 'Updated version in __init__ to $VERSION"
-#   - name: Tag
-#     run: |
-#       pushd "${{ matrix.project.path }}"
-#       VERSION="${{ needs.version_number.outputs.version_number }}"
-#       git tag -m "Release $VERSION" -a "$VERSION"
-#       PAT="${{ secrets[matrix.project.pat] }}"
-#       git remote set-url --push origin "https://$PAT@github.com/${{ matrix.project.repository }}.git"
-#       git push --tags
-#   - name: Build
-#     run: |
-#       pushd "${{ matrix.project.path }}"
-#       export VERSION="${{ needs.version_number.outputs.version_number }}"
-#       python3 -m pip install --upgrade build
-#       python3 -m build
-#   - name: Upload to PyPI
-#     run: |
-#       python3 -m pip install twine
-#       pushd "${{ matrix.project.path }}"
-#       python3 -m twine upload dist/*
+ release:
+   runs-on: ubuntu-latest
+   env:
+     TWINE_REPOSITORY: pypi
+     TWINE_USERNAME: __token__
+     TWINE_PASSWORD: ${{ secrets.PYPI }}
+   needs:
+     - run_scripts
+     - run_notebooks
+     - release_test_pypi
+     - version_number
+   strategy:
+     matrix:
+       project:
+       - repository: rhayes777/PyAutoConf
+         ref: master
+         path: PyAutoConf
+         pat: PAT_RICH
+       - repository: rhayes777/PyAutoFit
+         ref: master
+         path: PyAutoFit
+         pat: PAT_RICH
+       - repository: Jammy2211/PyAutoArray
+         ref: master
+         path: PyAutoArray
+         pat: PAT_JAMES
+       - repository: Jammy2211/PyAutoGalaxy
+         ref: master
+         path: PyAutoGalaxy
+         pat: PAT_JAMES
+       - repository: Jammy2211/PyAutoLens
+         ref: master
+         path: PyAutoLens
+         pat: PAT_JAMES
+   steps:
+   - uses: actions/checkout@v2
+     with:
+         path: PyAutoBuild
+   - name: Checkout
+     run: |
+       git clone -b "${{ matrix.project.ref }}" "https://$PAT@github.com/${{ matrix.project.repository }}.git" "${{ matrix.project.path }}"
+   - name: Set up Python ${{ matrix.python-version }}
+     uses: actions/setup-python@v2
+     with:
+       python-version: ${{ matrix.python-version }}
+   - name: Configure Git
+     run: |
+       git config --global user.email "richard@rghsoftware.co.uk"
+       git config --global user.name "GitHub Actions bot"
+   - name: Update version
+     run: |
+       pushd "${{ matrix.project.path }}"
+       VERSION="${{ needs.version_number.outputs.version_number }}"
+       sed -i "s/__version__ = [\.\"\'0-9]*/__version__ = \"$VERSION\"/g" */__init__.py
+       git commit "-am 'Updated version in __init__ to $VERSION"
+   - name: Tag
+     run: |
+       pushd "${{ matrix.project.path }}"
+       VERSION="${{ needs.version_number.outputs.version_number }}"
+       git tag -m "Release $VERSION" -a "$VERSION"
+       PAT="${{ secrets[matrix.project.pat] }}"
+       git remote set-url --push origin "https://$PAT@github.com/${{ matrix.project.repository }}.git"
+       git push --tags
+   - name: Build
+     run: |
+       pushd "${{ matrix.project.path }}"
+       export VERSION="${{ needs.version_number.outputs.version_number }}"
+       python3 -m pip install --upgrade build
+       python3 -m build
+   - name: Upload to PyPI
+     run: |
+       python3 -m pip install twine
+       pushd "${{ matrix.project.path }}"
+       python3 -m twine upload dist/*
 
 # release_workspaces:
 #   runs-on: ubuntu-latest
