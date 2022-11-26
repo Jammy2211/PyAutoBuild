@@ -11,7 +11,6 @@ autogalaxy:
 - tutorial_searches
 - example_0
 - example_1
-- wavelength_dependence
 - tutorial_4_models
 - tutorial_optional_manual
 autolens:
@@ -22,16 +21,15 @@ autolens:
 - tutorial_searches
 - example_0
 - example_1
-- wavelength_dependence
 - GetDist # Cant get it to install, even in optional requirements.
 - tutorial_optional_manual
 - features
 - results_4_galaxies.py
-- overview_7_multi_wavelength
 - parametric_to_pixelized
 - sie_to_power_law
 - tutorial_4_models
 - tutorial_4_lens_models
+- tutorial_6_model_fit # InversionException due to test mode
 autocti:
 - GetDist
 - noise_scaling
