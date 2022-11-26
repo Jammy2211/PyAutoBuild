@@ -6,20 +6,21 @@ autofit:
 - tutorial_5_expectation_propagation
 - Zeus
 - UltraNest
-- DynestyDynamic
+- DynestyDynamic # Waiting on new release to fix checkpoint.
+- GetDist # Cant get it to install, even in optional requirements.
 autogalaxy:
 - profiling
 - overview_10_clusters
 - tutorial_4_hierarchical_models
 - tutorial_5_expectation_propagation
 - Zeus
-- DynestyDynamic
+- DynestyDynamic # Waiting on new release to fix checkpoint.
+- GetDist # Cant get it to install, even in optional requirements.
 - EmceePlotter
 - tutorial_searches
 - example_0
 - example_1
 - wavelength_dependence
-- GetDist
 - tutorial_4_models
 - tutorial_optional_manual
 
@@ -29,13 +30,13 @@ autolens:
 - tutorial_4_hierarchical_models
 - tutorial_5_expectation_propagation
 - Zeus
-- DynestyDynamic
+- DynestyDynamic # Waiting on new release to fix checkpoint.
 - EmceePlotter
 - tutorial_searches
 - example_0
 - example_1
 - wavelength_dependence
-- GetDist
+- GetDist # Cant get it to install, even in optional requirements.
 - tutorial_optional_manual
 - features
 - results_4_galaxies.py

@@ -2,4 +2,3 @@ jupyterlab
 ipynb-py-convert
 ipykernel
 numpy==1.19
-getdist==1.4
