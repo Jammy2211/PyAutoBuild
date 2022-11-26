@@ -121,23 +121,33 @@ jobs:
           with:
             repository: Jammy2211/autofit_workspace
             path: autofit
+        - name: Checkout AutoGalaxy
+          uses: actions/checkout@v2
+          with:
+            repository: Jammy2211/autogalaxy_workspace
+            path: autogalaxy            
         - name: Checkout AutoLens
           uses: actions/checkout@v2
           with:
             repository: Jammy2211/autolens_workspace
-            path: autolens_test
+            path: autolens
+        - name: Checkout AutoFit Test
+          uses: actions/checkout@v2
+          with:
+            repository: Jammy2211/autofit_workspace_test
+            path: autofit_test
         - name: Checkout AutoLens Test
           uses: actions/checkout@v2
           with:
             repository: Jammy2211/autolens_workspace_test
-            path: autolens
+            path: autolens_test
         - uses: actions/checkout@v2
           with:
               path: PyAutoBuild
         - name: Make script matrix
           id: script_matrix
           run: |
-            matrix="$(./PyAutoBuild/autobuild/script_matrix.py autofit autolens autolens_test)"
+            matrix="$(./PyAutoBuild/autobuild/script_matrix.py autofit autogalaxy autolens autofit_test autolens_test)"
             echo "::set-output name=matrix::$matrix"
 
   run_scripts:
@@ -156,20 +166,30 @@ jobs:
     - name: Configure
       id: configure
       run: |
-        if [ ${{ matrix.project.name }} == "autolens" ]
+        if [ ${{ matrix.project.name }} == "autofit" ]
         then
-            echo "::set-output name=repository::Jammy2211/PyAutoLens"
-            echo "::set-output name=workspace_repository::Jammy2211/autolens_workspace"
-            echo "::set-output name=project::autolens"
-        elif [ ${{ matrix.project.name }} == "autolens_test" ]
-        then
-            echo "::set-output name=repository::Jammy2211/PyAutoLens"
-            echo "::set-output name=workspace_repository::Jammy2211/autolens_workspace_test"
-            echo "::set-output name=project::autolens"
-        else
             echo "::set-output name=repository::rhayes777/PyAutoFit"
             echo "::set-output name=workspace_repository::Jammy2211/autofit_workspace"
             echo "::set-output name=project::autofit"
+        elif [ ${{ matrix.project.name }} == "autogalaxy" ]
+        then
+            echo "::set-output name=repository::Jammy2211/Pyautogalaxy"
+            echo "::set-output name=workspace_repository::Jammy2211/autogalaxy_workspace"
+            echo "::set-output name=project::autogalaxy"            
+        elif [ ${{ matrix.project.name }} == "autolens" ]
+        then
+            echo "::set-output name=repository::Jammy2211/PyAutoLens"
+            echo "::set-output name=workspace_repository::Jammy2211/autolens_workspace"
+            echo "::set-output name=project::autolens"    
+        elif [ ${{ matrix.project.name }} == "autofit_test" ]
+        then
+            echo "::set-output name=repository::Jammy2211/Pyautofit"
+            echo "::set-output name=workspace_repository::Jammy2211/autofit_workspace_test"
+            echo "::set-output name=project::autofit"        
+        else
+            echo "::set-output name=repository::Jammy2211/PyAutoLens"
+            echo "::set-output name=workspace_repository::Jammy2211/autolens_workspace_test"
+            echo "::set-output name=project::autolens"
         fi
 
     - uses: actions/checkout@v2
@@ -226,20 +246,20 @@ jobs:
     - name: Configure
       id: configure
       run: |
-        if [ ${{ matrix.project.name }} == "autolens" ]
+        if [ ${{ matrix.project.name }} == "autofit" ]
         then
-            echo "::set-output name=repository::Jammy2211/PyAutoLens"
-            echo "::set-output name=workspace_repository::Jammy2211/autolens_workspace"
-            echo "::set-output name=project::autolens"
-        elif [ ${{ matrix.project.name }} == "autolens_test" ]
-        then
-            echo "::set-output name=repository::Jammy2211/PyAutoLens"
-            echo "::set-output name=workspace_repository::Jammy2211/autolens_workspace"
-            echo "::set-output name=project::autolens"
-        else
             echo "::set-output name=repository::rhayes777/PyAutoFit"
             echo "::set-output name=workspace_repository::Jammy2211/autofit_workspace"
             echo "::set-output name=project::autofit"
+        elif [ ${{ matrix.project.name }} == "autogalaxy" ]
+        then
+            echo "::set-output name=repository::Jammy2211/PyAutoGalaxy"
+            echo "::set-output name=workspace_repository::Jammy2211/autogalaxy_workspace"
+            echo "::set-output name=project::autogalaxy"
+        else
+            echo "::set-output name=repository::Jammy2211/PyAutoLens"
+            echo "::set-output name=workspace_repository::Jammy2211/autolens_workspace"
+            echo "::set-output name=project::autolens"
         fi
 
     - uses: actions/checkout@v2
