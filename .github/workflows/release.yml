@@ -43,7 +43,7 @@ jobs:
                 ref: master
                 path: PyAutoConf
               - repository: rhayes777/PyAutoFit
-                ref: feature/build
+                ref: master
                 path: PyAutoFit
               - repository: Jammy2211/PyAutoArray
                 ref: master
@@ -54,6 +54,9 @@ jobs:
               - repository: Jammy2211/PyAutoLens
                 ref: master
                 path: PyAutoLens
+              - repository: Jammy2211/PyAutoCTI
+                ref: master
+                path: PyAutoCTI
         steps:
         - uses: actions/checkout@v2
           with:
@@ -85,7 +88,7 @@ jobs:
         - name: Wait for packages to upload to Pypi
           shell: bash {0}   # So that we do not exit if a command gives a bad exit code
           run: |
-            export PACKAGES=("autoconf" "autoarray" "autofit" "autogalaxy" "autolens")
+            export PACKAGES=("autoconf" "autoarray" "autofit" "autogalaxy" "autolens", "autocti")
             export VERSION="${{ needs.version_number.outputs.version_number }}"
             for PACKAGE in ${PACKAGES[@]}; do
               python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple $PACKAGE==$VERSION
@@ -131,6 +134,11 @@ jobs:
           with:
             repository: Jammy2211/autolens_workspace
             path: autolens
+        - name: Checkout AutoCTI
+          uses: actions/checkout@v2
+          with:
+            repository: Jammy2211/autocti_workspace
+            path: autocti
         - name: Checkout AutoFit Test
           uses: actions/checkout@v2
           with:
@@ -147,7 +155,7 @@ jobs:
         - name: Make script matrix
           id: script_matrix
           run: |
-            matrix="$(./PyAutoBuild/autobuild/script_matrix.py autofit autogalaxy autolens autofit_test autolens_test)"
+            matrix="$(./PyAutoBuild/autobuild/script_matrix.py autofit autogalaxy autolens autocti autofit_test autolens_test)"
             echo "::set-output name=matrix::$matrix"
 
   run_scripts:
@@ -181,9 +189,14 @@ jobs:
             echo "::set-output name=repository::Jammy2211/PyAutoLens"
             echo "::set-output name=workspace_repository::Jammy2211/autolens_workspace"
             echo "::set-output name=project::autolens"
+        elif [ ${{ matrix.project.name }} == "autocti" ]
+        then
+            echo "::set-output name=repository::Jammy2211/PyAutoCTI"
+            echo "::set-output name=workspace_repository::Jammy2211/autocti_workspace"
+            echo "::set-output name=project::autocti"
         elif [ ${{ matrix.project.name }} == "autofit_test" ]
         then
-            echo "::set-output name=repository::Jammy2211/Pyautofit"
+            echo "::set-output name=repository::Jammy2211/PyAutoFit"
             echo "::set-output name=workspace_repository::Jammy2211/autofit_workspace_test"
             echo "::set-output name=project::autofit"
         else
@@ -256,10 +269,15 @@ jobs:
             echo "::set-output name=repository::Jammy2211/PyAutoGalaxy"
             echo "::set-output name=workspace_repository::Jammy2211/autogalaxy_workspace"
             echo "::set-output name=project::autogalaxy"
-        else
+        elif [ ${{ matrix.project.name }} == "autolens" ]
+        then
             echo "::set-output name=repository::Jammy2211/PyAutoLens"
             echo "::set-output name=workspace_repository::Jammy2211/autolens_workspace"
             echo "::set-output name=project::autolens"
+        else
+            echo "::set-output name=repository::Jammy2211/PyAutoCTI"
+            echo "::set-output name=workspace_repository::Jammy2211/autocti_workspace"
+            echo "::set-output name=project::autocti"
         fi
 
     - uses: actions/checkout@v2
@@ -342,6 +360,10 @@ jobs:
           ref: master
           path: PyAutoLens
           pat: PAT_JAMES
+        - repository: Jammy2211/PyAutoCTI
+          ref: master
+          path: PyAutoCTI
+          pat: PAT_JAMES
     steps:
     - uses: actions/checkout@v2
       with:
@@ -398,15 +420,18 @@ jobs:
       matrix:
         python-version: [3.8]
         workspace:
-          - repository: Jammy2211/autolens_workspace
-            name: autolens
-            path: autolens_workspace
+          - repository: Jammy2211/autofit_workspace
+            name: autofit
+            path: autofit_workspace          -
           - repository: Jammy2211/autogalaxy_workspace
             name: autogalaxy
             path: autogalaxy_workspace
-          - repository: Jammy2211/autofit_workspace
-            name: autofit
-            path: autofit_workspace
+          - repository: Jammy2211/autolens_workspace
+            name: autolens
+            path: autolens_workspace
+          - repository: Jammy2211/autocti_workspace
+            name: autocti
+            path: autocti_workspace
     steps:
     - uses: actions/checkout@v2
       with:
