@@ -30,7 +30,6 @@ def notebook_path_(script_path_):
 
 def copy_to_notebooks(source):
     target = notebook_path_(source)
-    print(f"{source} -> {target}")
     os.makedirs(target.parent, exist_ok=True)
     shutil.copy(source, target)
     os.system(f"git add -f {target}")

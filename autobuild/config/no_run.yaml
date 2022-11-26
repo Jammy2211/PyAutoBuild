@@ -6,12 +6,14 @@ autofit:
 - tutorial_5_expectation_propagation
 - Zeus
 - UltraNest
+- DynamicDynesty
 autogalaxy:
 - profiling
 - overview_10_clusters
 - tutorial_4_hierarchical_models
 - tutorial_5_expectation_propagation
 - Zeus
+- DynamicDynesty
 - EmceePlotter
 - tutorial_searches
 - example_0
@@ -20,12 +22,14 @@ autogalaxy:
 - GetDist
 - tutorial_4_models
 - tutorial_optional_manual
+
 autolens:
 - profiling
 - overview_10_clusters
 - tutorial_4_hierarchical_models
 - tutorial_5_expectation_propagation
 - Zeus
+- DynamicDynesty
 - EmceePlotter
 - tutorial_searches
 - example_0
