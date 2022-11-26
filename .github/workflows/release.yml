@@ -306,8 +306,7 @@ jobs:
         AUTOBUILD_PATH="$(pwd)/PyAutoBuild/autobuild"
 
         pushd workspace
-      #  python3 "$AUTOBUILD_PATH/run.py" ${{ matrix.project.name }} "notebooks/${{ matrix.project.directory }}"
-
+#        python3 "$AUTOBUILD_PATH/run.py" ${{ matrix.project.name }} "notebooks/${{ matrix.project.directory }}"
  release:
    runs-on: ubuntu-latest
    env:
