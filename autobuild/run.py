@@ -18,7 +18,7 @@ with open(CONFIG_PATH / "no_run.yaml") as f:
 
 if __name__ == "__main__":
 
-    build_util.execute_notebook("introduction.ipynb")
+ #   build_util.execute_notebook("introduction.ipynb")
 
     build_util.execute_notebooks_in_folder(
         no_run_list=no_run_dict[project], directory=directory,
