@@ -1,6 +1,5 @@
 autofit:
 - UltraNest # Optional Requirement Issue
-- DynestyDynamic # Waiting on new release to fix checkpoint.
 - GetDist # Cant get it to install, even in optional requirements.
 - Zeus # Test Model Iniitalization no good.
 - ZeusPlotter # Test Model Iniitalization no good.
@@ -8,7 +7,6 @@ autogalaxy:
 - profiling
 - tutorial_4_hierarchical_models
 - tutorial_5_expectation_propagation
-- DynestyDynamic # Waiting on new release to fix checkpoint.
 - Zeus # Test Model Iniitalization no good.
 - ZeusPlotter # Test Model Iniitalization no good.
 - GetDist # Cant get it to install, even in optional requirements.
@@ -21,7 +19,6 @@ autolens:
 - profiling
 - tutorial_4_hierarchical_models
 - tutorial_5_expectation_propagation
-- DynestyDynamic # Waiting on new release to fix checkpoint.
 - Zeus # Test Model Iniitalization no good.
 - ZeusPlotter # Test Model Iniitalization no good.
 - tutorial_searches
