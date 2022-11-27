@@ -1,15 +1,36 @@
-Steps to run tests:
+PyAutoBuild: PyAuto Build Server
+================================
 
-1) Set up all projects in directories above this one (e.g. PyAutoFit, PyAutoLens, autolens_workspace, etc.).
+This project performs automatic building, testing and deployment of projects in the PyAuto software family:
 
-2) Generate the Jupyter notebooks:
+- `PyAutoConf <https://github.com/rhayes777/PyAutoConf>`_
+- `PyAutoFit <https://github.com/rhayes777/PyAutoFit>`_
+- `PyAutoArray <https://github.com/Jammy2211/PyAutoArray>`_
+- `PyAutoGalay <https://github.com/Jammy2211/PyAutoGalay>`_
+- `PyAutoLens <https://github.com/Jammy2211/PyAutoLens>`_
+- `PyAutoCTI <https://github.com/Jammy2211/PyAutoCTI>`_
 
-.. code-block:: python
+It uses their associated workspaces:
 
-   python3 gen_ipynb_from_py.py
+- `autofit_workspace <https://github.com/Jammy2211/autofit_workspace>`_
+- `autogalaxy_workspace <https://github.com/Jammy2211/autogalaxy_workspace>`_
+- `autolens_workspace <https://github.com/Jammy2211/autolens_workspace>`_
+- `autocti_workspace <https://github.com/Jammy2211/autocti_workspace>`_
 
-3) Run the Jupyter notebooks:
+And their test workspaces:
 
-.. code-block:: python
+- `autofit_workspace_test <https://github.com/Jammy2211/autofit_workspace_test>`_
+- `autogalaxy_workspace_test <https://github.com/Jammy2211/autogalaxy_workspace_test>`_
+- `autolens_workspace_test <https://github.com/Jammy2211/autolens_workspace_test>`_
+- `autocti_workspace_test <https://github.com/Jammy2211/autocti_workspace_test>`_
 
-   python3 run_jupyter_notebooks.py
+The build pipeline includes the following tasks:
+
+- Package and release all projects to the test_pypi server.
+- Install all test packages via pip.
+- Run all project unit tests.
+- Run all workspace integration test scripts.
+- If successful, release packages to pypi.
+- Update workspaces with new test scripts.
+
+This automatically runs every 24 hours.
