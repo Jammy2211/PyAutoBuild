@@ -453,7 +453,7 @@ jobs:
         export PYTHONPATH=$PYTHONPATH:$(pwd)/PyAutoBuild
         AUTOBUILD_PATH="$(pwd)/PyAutoBuild/autobuild"
         pushd "workspace"
-        python3 "$AUTOBUILD_PATH/generate.py" ${{ matrix.project.name }}
+        python3 "$AUTOBUILD_PATH/generate.py" ${{ matrix.workspace.name }}
         pushd "${{ matrix.workspace.path}}"
         git add *.ipynb
         git commit -m "Updated notebooks"
