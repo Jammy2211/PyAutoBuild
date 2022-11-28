@@ -423,24 +423,20 @@ jobs:
         python-version: [3.8]
         workspace:
           - repository: Jammy2211/autofit_workspace
-            name: autofit
-            path: autofit_workspace          -
+            name: autofit      -
           - repository: Jammy2211/autogalaxy_workspace
             name: autogalaxy
-            path: autogalaxy_workspace
           - repository: Jammy2211/autolens_workspace
             name: autolens
-            path: autolens_workspace
           - repository: Jammy2211/autocti_workspace
             name: autocti
-            path: autocti_workspace
     steps:
     - uses: actions/checkout@v2
       with:
           path: PyAutoBuild
     - name: Checkout
       run: |
-        git clone -b main "https://$PAT@github.com/${{ matrix.workspace.repository }}.git" "${{ matrix.workspace.path }}"
+        git clone -b main "https://$PAT@github.com/${{ matrix.workspace.repository }}.git" workspace
     - name: Configure Git
       run: |
         git config --global user.email "richard@rghsoftware.co.uk"
