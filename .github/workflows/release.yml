@@ -453,10 +453,10 @@ jobs:
         pip install jupyter ipynb-py-convert
     - name: Update jupyter notebooks
       run: |
-        pushd PyAutoBuild
-        export PYTHONPATH=$PYTHONPATH:../
-        python3 "${{ matrix.workspace.name }}/generate.py"
-        popd
+        export PYTHONPATH=$PYTHONPATH:$(pwd)/PyAutoBuild
+        AUTOBUILD_PATH="$(pwd)/PyAutoBuild/autobuild"
+        pushd "workspace"
+        python3 "$AUTOBUILD_PATH/generate.py" ${{ matrix.project.name }}
         pushd "${{ matrix.workspace.path}}"
         git add *.ipynb
         git commit -m "Updated notebooks"
