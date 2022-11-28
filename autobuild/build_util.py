@@ -68,7 +68,7 @@ def execute_notebook(f):
 
 
 def execute_notebooks_in_folder(directory, no_run_list):
-    no_run_list.append("__init__")
+    no_run_list.extend(["__init__", "README"])
     files = list(Path.cwd().rglob(f"{directory}/**/*.ipynb"))
 
     print(f"Found {len(files)} notebooks")
@@ -98,7 +98,7 @@ def execute_script(f):
 
 def execute_scripts_in_folder(directory, no_run_list=None):
     no_run_list = no_run_list or []
-    no_run_list.append("__init__")
+    no_run_list.extend(["__init__", "README"])
 
     files = list(Path.cwd().rglob(f"{directory}/**/*.py"))
 
