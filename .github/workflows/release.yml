@@ -447,7 +447,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install Jupyter dependency
       run: |
-        pip install jupyter ipynb-py-convert
+        pip install jupyter ipynb-py-convert PyYAML
     - name: Update jupyter notebooks
       run: |
         export PYTHONPATH=$PYTHONPATH:$(pwd)/PyAutoBuild
