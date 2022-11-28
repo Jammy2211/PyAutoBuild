@@ -456,7 +456,7 @@ jobs:
         python3 "$AUTOBUILD_PATH/generate.py" ${{ matrix.workspace.name }}
         pushd "${{ matrix.workspace.path}}"
         git add *.ipynb
-        git commit -m "Updated notebooks"
+        git commit -m "Updated notebooks" || true
 #     - name: Release
 #       run: |
 #         cd "${{ matrix.workspace.path }}"
