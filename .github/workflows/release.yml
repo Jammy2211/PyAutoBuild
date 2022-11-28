@@ -7,6 +7,7 @@ on:
         description: 'Minor version to release'
         required: true
         default: '1'
+  push:
 
 jobs:
 #   version_number:
