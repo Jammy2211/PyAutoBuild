@@ -182,7 +182,7 @@ jobs:
             echo "::set-output name=project::autofit"
         elif [ ${{ matrix.project.name }} == "autogalaxy" ]
         then
-            echo "::set-output name=repository::Jammy2211/Pyautogalaxy"
+            echo "::set-output name=repository::Jammy2211/PyAutoGalaxy"
             echo "::set-output name=workspace_repository::Jammy2211/autogalaxy_workspace"
             echo "::set-output name=project::autogalaxy"
         elif [ ${{ matrix.project.name }} == "autolens" ]
@@ -197,7 +197,7 @@ jobs:
             echo "::set-output name=project::autocti"
         elif [ ${{ matrix.project.name }} == "autofit_test" ]
         then
-            echo "::set-output name=repository::Jammy2211/PyAutoFit"
+            echo "::set-output name=repository::rhayes777/PyAutoFit"
             echo "::set-output name=workspace_repository::Jammy2211/autofit_workspace_test"
             echo "::set-output name=project::autofit"
         else

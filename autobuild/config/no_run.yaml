@@ -3,12 +3,14 @@ autofit:
 - GetDist # Cant get it to install, even in optional requirements.
 - Zeus # Test Model Iniitalization no good.
 - ZeusPlotter # Test Model Iniitalization no good.
+- UltraNestPlotter # Test Model Iniitalization no good.
 autogalaxy:
 - profiling
 - tutorial_4_hierarchical_models
 - tutorial_5_expectation_propagation
 - Zeus # Test Model Iniitalization no good.
 - ZeusPlotter # Test Model Iniitalization no good.
+- UltraNestPlotter # Test Model Iniitalization no good.
 - GetDist # Cant get it to install, even in optional requirements.
 - tutorial_searches
 - example_0
@@ -21,6 +23,7 @@ autolens:
 - tutorial_5_expectation_propagation
 - Zeus # Test Model Iniitalization no good.
 - ZeusPlotter # Test Model Iniitalization no good.
+- UltraNestPlotter # Test Model Iniitalization no good.
 - tutorial_searches
 - example_0
 - example_1
