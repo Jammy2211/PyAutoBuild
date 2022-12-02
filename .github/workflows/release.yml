@@ -88,7 +88,7 @@ jobs:
         - name: Wait for packages to upload to Pypi
           shell: bash {0}   # So that we do not exit if a command gives a bad exit code
           run: |
-            export PACKAGES=("autoconf" "autoarray" "autofit" "autogalaxy" "autolens", "autocti")
+            export PACKAGES=("autoconf" "autoarray" "autofit" "autogalaxy" "autolens" "autocti")
             export VERSION="${{ needs.version_number.outputs.version_number }}"
             for PACKAGE in ${PACKAGES[@]}; do
               python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple $PACKAGE==$VERSION
