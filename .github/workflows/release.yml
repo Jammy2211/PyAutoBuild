@@ -112,7 +112,7 @@ jobs:
               pip install -r optional_requirements.txt
             fi
             pip install pytest
-#            python3 -m pytest
+            python3 -m pytest
 
   find_scripts:
       runs-on: ubuntu-latest
@@ -128,7 +128,7 @@ jobs:
           uses: actions/checkout@v2
           with:
             repository: Jammy2211/autogalaxy_workspace
-            path: autogalaxy            
+            path: autogalaxy
         - name: Checkout AutoLens
           uses: actions/checkout@v2
           with:
@@ -404,6 +404,7 @@ jobs:
         python3 -m pip install twine
         pushd "${{ matrix.project.path }}"
         python3 -m twine upload dist/*
+
   release_workspaces:
     runs-on: ubuntu-latest
     env:
@@ -421,24 +422,20 @@ jobs:
         python-version: [3.8]
         workspace:
           - repository: Jammy2211/autofit_workspace
-            name: autofit
-            path: autofit_workspace          -
+            name: autofit      -
           - repository: Jammy2211/autogalaxy_workspace
             name: autogalaxy
-            path: autogalaxy_workspace
           - repository: Jammy2211/autolens_workspace
             name: autolens
-            path: autolens_workspace
           - repository: Jammy2211/autocti_workspace
             name: autocti
-            path: autocti_workspace
     steps:
     - uses: actions/checkout@v2
       with:
           path: PyAutoBuild
     - name: Checkout
       run: |
-        git clone -b main "https://$PAT@github.com/${{ matrix.workspace.repository }}.git" "${{ matrix.workspace.path }}"
+        git clone -b main "https://$PAT@github.com/${{ matrix.workspace.repository }}.git" workspace
     - name: Configure Git
       run: |
         git config --global user.email "richard@rghsoftware.co.uk"
@@ -449,16 +446,16 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install Jupyter dependency
       run: |
-        pip install jupyter ipynb-py-convert
+        pip install jupyter ipynb-py-convert PyYAML
     - name: Update jupyter notebooks
       run: |
-        pushd PyAutoBuild
-        export PYTHONPATH=$PYTHONPATH:../
-        python3 "${{ matrix.workspace.name }}/generate.py"
-        popd
+        export PYTHONPATH=$PYTHONPATH:$(pwd)/PyAutoBuild
+        AUTOBUILD_PATH="$(pwd)/PyAutoBuild/autobuild"
+        pushd "workspace"
+        python3 "$AUTOBUILD_PATH/generate.py" ${{ matrix.workspace.name }}
         pushd "${{ matrix.workspace.path}}"
         git add *.ipynb
-        git commit -m "Updated notebooks"
+        git commit -m "Updated notebooks" || true
     - name: Release
       run: |
         cd "${{ matrix.workspace.path }}"
