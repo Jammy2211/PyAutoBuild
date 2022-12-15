@@ -110,6 +110,7 @@ jobs:
             then
               pip install Cython
               pip install -r optional_requirements.txt --ignore-installed sklearn scikit-learn
+              pip install scipy==1.8.1
             fi
             pip install pytest
             python3 -m pytest
