@@ -6,7 +6,7 @@ This project performs automatic building, testing and deployment of projects in 
 - `PyAutoConf <https://github.com/rhayes777/PyAutoConf>`_
 - `PyAutoFit <https://github.com/rhayes777/PyAutoFit>`_
 - `PyAutoArray <https://github.com/Jammy2211/PyAutoArray>`_
-- `PyAutoGalay <https://github.com/Jammy2211/PyAutoGalay>`_
+- `PyAutoGalaxy <https://github.com/Jammy2211/PyAutoGalay>`_
 - `PyAutoLens <https://github.com/Jammy2211/PyAutoLens>`_
 - `PyAutoCTI <https://github.com/Jammy2211/PyAutoCTI>`_
 

@@ -109,11 +109,10 @@ jobs:
             if test -f "optional_requirements.txt"
             then
               pip install Cython
-              pip install -r optional_requirements.txt
+              pip install -r optional_requirements.txt --ignore-installed sklearn scikit-learn
             fi
             pip install pytest
-            sleep 30
-#            python3 -m pytest
+            python3 -m pytest
 
   find_scripts:
       runs-on: ubuntu-latest
