@@ -230,7 +230,7 @@ jobs:
         then
             echo "Installing optional requirements"
             pip install Cython
-            python3 -m pip install -r "project/optional_requirements.txt"
+            python3 -m pip install -r "project/optional_requirements.txt"  --ignore-installed sklearn scikit-learn
         fi
     - name: Install project
       run: |
@@ -305,7 +305,7 @@ jobs:
         then
             echo "Installing optional requirements"
             pip install Cython
-            python3 -m pip install -r "project/optional_requirements.txt"
+            python3 -m pip install -r "project/optional_requirements.txt"  --ignore-installed sklearn scikit-learn
         fi
     - name: Install project
       run: |
