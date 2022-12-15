@@ -15,6 +15,7 @@ autogalaxy:
 - tutorial_searches
 - example_0
 - example_1
+- tutorial_6_science_case
 - tutorial_4_models
 - tutorial_optional_manual
 autolens:
@@ -36,6 +37,7 @@ autolens:
 - tutorial_4_models
 - tutorial_4_lens_models
 - tutorial_6_model_fit # InversionException due to test mode
+- tutorial_6_science_case
 autocti:
 - GetDist
 - noise_scaling
