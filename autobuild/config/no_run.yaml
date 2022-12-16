@@ -41,4 +41,5 @@ autolens:
 autocti:
 - GetDist
 - noise_scaling
+autofit_test: []
 autolens_test: []
