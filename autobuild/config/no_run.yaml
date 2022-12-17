@@ -18,6 +18,9 @@ autogalaxy:
 - tutorial_6_science_case
 - tutorial_4_models
 - tutorial_optional_manual
+- light_centre # GUI scripts cannot be run
+- mask # GUI scripts cannot be run
+- scaled_Dataset # GUI scripts cannot be run
 autolens:
 - profiling
 - tutorial_4_hierarchical_models
@@ -38,6 +41,11 @@ autolens:
 - tutorial_4_lens_models
 - tutorial_6_model_fit # InversionException due to test mode
 - tutorial_6_science_case
+- clump_centres # GUI scripts cannot be run
+- lens_light_centre # GUI scripts cannot be run
+- mask # GUI scripts cannot be run
+- positions # GUI scripts cannot be run
+- scaled_Dataset # GUI scripts cannot be run
 autocti:
 - GetDist
 - noise_scaling
