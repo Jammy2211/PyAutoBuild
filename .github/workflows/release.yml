@@ -109,8 +109,8 @@ jobs:
             if test -f "optional_requirements.txt"
             then
               export SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
-              pip install Cython --ignore-installed sklearn scikit-learn
-              pip install -r optional_requirements.txt --ignore-installed sklearn scikit-learn
+              pip install Cython
+              pip install -r optional_requirements.txt
               pip install scipy==1.8.1
             fi
             pip install pytest
@@ -231,8 +231,8 @@ jobs:
         then
             echo "Installing optional requirements"
             export SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
-            pip install Cython --ignore-installed sklearn scikit-learn
-            python3 -m pip install -r "project/optional_requirements.txt"  --ignore-installed sklearn scikit-learn
+            pip install Cython
+            python3 -m pip install -r "project/optional_requirements.txt"
         fi
     - name: Install project
       run: |
@@ -307,8 +307,8 @@ jobs:
         then
             echo "Installing optional requirements"
             export SKLEARN_ALLOW_DEPRECATED_SKLEARN_PACKAGE_INSTALL=True
-            pip install Cython --ignore-installed sklearn scikit-learn
-            python3 -m pip install -r "project/optional_requirements.txt"  --ignore-installed sklearn scikit-learn
+            pip install Cython
+            python3 -m pip install -r "project/optional_requirements.txt"
         fi
     - name: Install project
       run: |
