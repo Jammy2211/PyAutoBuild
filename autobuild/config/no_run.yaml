@@ -4,6 +4,7 @@ autofit:
 - Zeus # Test Model Iniitalization no good.
 - ZeusPlotter # Test Model Iniitalization no good.
 - UltraNestPlotter # Test Model Iniitalization no good.
+- tutorial_4_hierarchical # Can get sigma cannot be negative error due to test mode
 autogalaxy:
 - profiling
 - tutorial_4_hierarchical_models
@@ -20,7 +21,7 @@ autogalaxy:
 - tutorial_optional_manual
 - light_centre # GUI scripts cannot be run
 - mask # GUI scripts cannot be run
-- scaled_Dataset # GUI scripts cannot be run
+- scaled_dataset # GUI scripts cannot be run
 autolens:
 - profiling
 - tutorial_4_hierarchical_models
@@ -41,6 +42,7 @@ autolens:
 - tutorial_4_lens_models
 - tutorial_6_model_fit # InversionException due to test mode
 - tutorial_6_science_case
+- result_7_pixelization # InversionException due to test mode
 - clump_centres # GUI scripts cannot be run
 - lens_light_centre # GUI scripts cannot be run
 - mask # GUI scripts cannot be run
