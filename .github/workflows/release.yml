@@ -108,7 +108,7 @@ jobs:
             pushd "${{ matrix.project.path }}"
             if test -f "optional_requirements.txt"
             then
-              pip install Cython
+              pip install Cython --ignore-installed sklearn scikit-learn
               pip install -r optional_requirements.txt --ignore-installed sklearn scikit-learn
               pip install scipy==1.8.1
             fi
@@ -229,7 +229,7 @@ jobs:
         if [ -f "project/optional_requirements.txt" ]
         then
             echo "Installing optional requirements"
-            pip install Cython
+            pip install Cython --ignore-installed sklearn scikit-learn
             python3 -m pip install -r "project/optional_requirements.txt"  --ignore-installed sklearn scikit-learn
         fi
     - name: Install project
@@ -304,7 +304,7 @@ jobs:
         if [ -f "project/optional_requirements.txt" ]
         then
             echo "Installing optional requirements"
-            pip install Cython
+            pip install Cython --ignore-installed sklearn scikit-learn
             python3 -m pip install -r "project/optional_requirements.txt"  --ignore-installed sklearn scikit-learn
         fi
     - name: Install project
