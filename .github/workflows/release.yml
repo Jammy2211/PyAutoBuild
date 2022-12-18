@@ -43,7 +43,7 @@ jobs:
                 ref: main
                 path: PyAutoConf
               - repository: rhayes777/PyAutoFit
-                ref: main
+                ref: api_docs
                 path: PyAutoFit
               - repository: Jammy2211/PyAutoArray
                 ref: main
