@@ -103,7 +103,7 @@ jobs:
                 test_condition=$?
               done
             done
-        - name: Run unittests
+        - name: Tests
           run: |
             pushd "${{ matrix.project.path }}"
             if test -f "optional_requirements.txt"
