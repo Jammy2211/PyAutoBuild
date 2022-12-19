@@ -243,6 +243,13 @@ jobs:
         export PATH=$PATH:$(pwd)/PyAutoBuild/autobuild
         AUTOBUILD_PATH="$(pwd)/PyAutoBuild/autobuild"
 
+        if [[ ${{ matrix.project.name }} == *_test ]]
+        then
+            export PYAUTOFIT_TEST_MODE=0
+        else
+            export PYAUTOFIT_TEST_MODE=1
+        fi
+
         pushd workspace
         python3 "$AUTOBUILD_PATH/run_python.py" ${{ matrix.project.name }} "scripts/${{ matrix.project.directory }}"
 
@@ -324,6 +331,13 @@ jobs:
         python3 "$AUTOBUILD_PATH/generate.py" ${{ matrix.project.name }}
     - name: Run jupyter notebooks
       run: |
+        if [[ ${{ matrix.project.name }} == *_test ]]
+        then
+            export PYAUTOFIT_TEST_MODE=0
+        else
+            export PYAUTOFIT_TEST_MODE=1
+        fi
+
         export PYTHONPATH=$PYTHONPATH:$(pwd)/PyAutoBuild
         AUTOBUILD_PATH="$(pwd)/PyAutoBuild/autobuild"
 
