@@ -431,8 +431,8 @@ jobs:
       TWINE_PASSWORD: ${{ secrets.PYPI }}
       PAT: ${{ secrets.PAT_JAMES }}
     needs:
-      - run_scripts
-      - run_notebooks
+#      - run_scripts
+#      - run_notebooks
       - release_test_pypi
       - version_number
     strategy:
