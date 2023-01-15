@@ -351,8 +351,8 @@ jobs:
       TWINE_USERNAME: __token__
       TWINE_PASSWORD: ${{ secrets.PYPI }}
     needs:
-      - run_scripts
-      - run_notebooks
+#      - run_scripts
+#      - run_notebooks
       - release_test_pypi
       - version_number
     strategy:
