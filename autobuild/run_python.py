@@ -1,14 +1,10 @@
 #!/usr/bin/env python
 
-import os
 import sys
+import yaml
 from pathlib import Path
 
-import yaml
-
 import build_util
-
-os.environ["PYAUTOFIT_TEST_MODE"] = "1"
 
 project = sys.argv[1]
 directory = sys.argv[2]
