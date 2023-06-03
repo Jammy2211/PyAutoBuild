@@ -241,8 +241,6 @@ jobs:
         export PATH=$PATH:$(pwd)/PyAutoBuild/autobuild
         AUTOBUILD_PATH="$(pwd)/PyAutoBuild/autobuild"
 
-        source simulate_datasets_missing.sh
-
         if [[ ${{ matrix.project.name }} == *_test ]]
         then
             export PYAUTOFIT_TEST_MODE=0

@@ -22,6 +22,14 @@ autogalaxy:
 - light_centre # GUI scripts cannot be run
 - mask # GUI scripts cannot be run
 - scaled_dataset # GUI scripts cannot be run
+- tutorial_1_individual_models # Dont know how to handle samples of data not being on workspace.
+- tutorial_2_graphical_models # Dont know how to handle samples of data not being on workspace.
+- tutorial_3_graphical_benefits # Dont know how to handle samples of data not being on workspace.
+- tutorial_4_hierarchical_models # Dont know how to handle samples of data not being on workspace.
+- tutorial_5_expectation_propagation # Dont know how to handle samples of data not being on workspace.
+- tutorial_6_science_case # Dont know how to handle samples of data not being on workspace.
+- tutorial_optional_hierarchical_individual # Dont know how to handle samples of data not being on workspace.
+- tutorial_optional_search_chaining # Dont know how to handle samples of data not being on workspace.
 autolens:
 - profiling
 - tutorial_4_hierarchical_models
@@ -52,6 +60,14 @@ autolens:
 - api # Multiprocessing causing indefinite running?
 - mass_total__subhalo_nfw__source_parametric # Multiprocessing causing indefinite running?
 - mass_total__subhalo_nfw__source_pixelized # Multiprocessing causing indefinite running?
+- tutorial_1_individual_models # Dont know how to handle samples of data not being on workspace.
+- tutorial_2_graphical_models # Dont know how to handle samples of data not being on workspace.
+- tutorial_3_graphical_benefits # Dont know how to handle samples of data not being on workspace.
+- tutorial_4_hierarchical_models # Dont know how to handle samples of data not being on workspace.
+- tutorial_5_expectation_propagation # Dont know how to handle samples of data not being on workspace.
+- tutorial_6_science_case # Dont know how to handle samples of data not being on workspace.
+- tutorial_optional_hierarchical_individual # Dont know how to handle samples of data not being on workspace.
+- tutorial_optional_search_chaining # Dont know how to handle samples of data not being on workspace.
 autocti:
 - GetDist
 - noise_scaling
