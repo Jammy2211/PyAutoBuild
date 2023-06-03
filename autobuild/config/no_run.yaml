@@ -71,6 +71,7 @@ autolens:
 autocti:
 - GetDist
 - noise_scaling
+- database # plot scripts based on database will not have run fit to generate data.
 autofit_test:
 - Drawer # Only works with sensitivity mapper to not raise InitializerException.
 autolens_test: []
