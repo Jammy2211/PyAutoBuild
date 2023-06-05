@@ -106,8 +106,9 @@ def execute_scripts_in_folder(directory, no_run_list=None):
     print(f"Found {len(files)} scripts")
 
     for file in sorted(
-        files,
-        key=lambda f: ("simulators" not in [part.split(".")[0] for part in f.parts], f),
+            files,
+            key=lambda f: (
+            "simulators" not in [part.split(".")[0] for part in f.parts] or f.name != 'start_here.py', f),
     ):
         if file.stem not in no_run_list:
             execute_script(str(file))
