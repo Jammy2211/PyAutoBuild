@@ -22,7 +22,8 @@ def py_to_notebook(filename: Path):
     )
     new_filename = filename.with_suffix(".ipynb")
     subprocess.run(
-        ["ipynb-py-convert", "temp.py", new_filename], check=True,
+        ["ipynb-py-convert", "temp.py", new_filename],
+        check=True,
     )
     os.remove("temp.py")
     uncomment_jupyter_magic(new_filename)
@@ -84,10 +85,11 @@ def execute_script(f):
 
     try:
         subprocess.run(
-            args, check=True, timeout=TIMEOUT_SECS,
+            args,
+            check=True,
+            timeout=TIMEOUT_SECS,
         )
     except (subprocess.TimeoutExpired, subprocess.CalledProcessError) as e:
-
         logging.exception(e)
 
         if "inversion" in f:
@@ -101,9 +103,11 @@ def execute_scripts_in_folder(directory, no_run_list=None):
     no_run_list.extend(["__init__", "README"])
 
     files = list(Path.cwd().rglob(f"{directory}/**/*.py"))
-
     print(f"Found {len(files)} scripts")
 
-    for file in sorted(files):
+    for file in sorted(
+        files,
+        key=lambda f: ("simulators" not in f.parts, f),
+    ):
         if file.stem not in no_run_list:
             execute_script(str(file))
