@@ -107,7 +107,7 @@ def execute_scripts_in_folder(directory, no_run_list=None):
 
     for file in sorted(
         files,
-        key=lambda f: ("simulators" not in f.parts, f),
+        key=lambda f: ("simulators" not in [part.split(".")[0] for part in f.parts], f),
     ):
         if file.stem not in no_run_list:
             execute_script(str(file))
