@@ -7,6 +7,14 @@ on:
         description: 'Minor version to release'
         required: true
         default: '1'
+      skip_scripts:
+        description: 'Skip scripts'
+        required: false
+        default: 'false'
+      skip_notebooks:
+        description: 'Skip notebooks'
+        required: false
+        default: 'false'
 
 jobs:
   version_number:
@@ -116,6 +124,7 @@ jobs:
             python3 -m pytest
 
   find_scripts:
+      if: "${{ github.event.inputs.skip_scripts != 'true' }}"
       runs-on: ubuntu-latest
       outputs:
         matrix: ${{ steps.script_matrix.outputs.matrix }}
@@ -160,6 +169,7 @@ jobs:
             echo "::set-output name=matrix::$matrix"
 
   run_scripts:
+    if: "${{ github.event.inputs.skip_scripts != 'true' }}"
     runs-on: ubuntu-latest
     needs:
       - release_test_pypi
@@ -252,6 +262,7 @@ jobs:
         python3 "$AUTOBUILD_PATH/run_python.py" ${{ matrix.project.name }} "scripts/${{ matrix.project.directory }}"
 
   run_notebooks:
+    if: "${{ github.event.inputs.skip_notebooks != 'true' }}"
     runs-on: ubuntu-latest
     needs:
       - release_test_pypi
