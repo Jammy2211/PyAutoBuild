@@ -98,6 +98,17 @@ def execute_script(f):
         sys.exit(1)
 
 
+def find_scripts_in_folder(directory):
+    files = list(Path.cwd().rglob(f"{directory}/**/*.py"))
+    return sorted(
+        files,
+        key=lambda f: (
+            ("simulator" not in str(f), f.name != "start_here.py", str(f)),
+            f,
+        ),
+    )
+
+
 def execute_scripts_in_folder(directory, no_run_list=None):
     no_run_list = no_run_list or []
     no_run_list.extend(["__init__", "README"])
