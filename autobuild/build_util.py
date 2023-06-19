@@ -98,7 +98,24 @@ def execute_script(f):
         sys.exit(1)
 
 
-def find_scripts_in_folder(directory):
+def find_scripts_in_folder(directory: str) -> List[Path]:
+    """
+    Find all the Python scripts in a folder recursively.
+
+    Order the scripts such that:
+    - Any script with "simulator" in the path comes first
+    - Any script named "start_here.py" comes next
+    - Any other script comes last
+
+    Parameters
+    ----------
+    directory
+        The directory to search in
+
+    Returns
+    -------
+    A list of paths to the scripts
+    """
     files = list(Path.cwd().rglob(f"{directory}/**/*.py"))
     return sorted(
         files,
