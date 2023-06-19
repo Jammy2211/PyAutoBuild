@@ -113,16 +113,9 @@ def execute_scripts_in_folder(directory, no_run_list=None):
     no_run_list = no_run_list or []
     no_run_list.extend(["__init__", "README"])
 
-    files = list(Path.cwd().rglob(f"{directory}/**/*.py"))
+    files = find_scripts_in_folder(directory)
     print(f"Found {len(files)} scripts")
 
-    for file in sorted(
-        files,
-        key=lambda f: (
-            "simulators" not in [part.split(".")[0] for part in f.parts]
-            or f.name != "start_here.py",
-            f,
-        ),
-    ):
+    for file in files:
         if file.stem not in no_run_list:
             execute_script(str(file))
