@@ -98,20 +98,41 @@ def execute_script(f):
         sys.exit(1)
 
 
+def find_scripts_in_folder(directory: str) -> List[Path]:
+    """
+    Find all the Python scripts in a folder recursively.
+
+    Order the scripts such that:
+    - Any script with "simulator" in the path comes first
+    - Any script named "start_here.py" comes next
+    - Any other script comes last
+
+    Parameters
+    ----------
+    directory
+        The directory to search in
+
+    Returns
+    -------
+    A list of paths to the scripts
+    """
+    files = list(Path.cwd().rglob(f"{directory}/**/*.py"))
+    return sorted(
+        files,
+        key=lambda f: (
+            ("simulator" not in str(f), f.name != "start_here.py", str(f)),
+            f,
+        ),
+    )
+
+
 def execute_scripts_in_folder(directory, no_run_list=None):
     no_run_list = no_run_list or []
     no_run_list.extend(["__init__", "README"])
 
-    files = list(Path.cwd().rglob(f"{directory}/**/*.py"))
+    files = find_scripts_in_folder(directory)
     print(f"Found {len(files)} scripts")
 
-    for file in sorted(
-        files,
-        key=lambda f: (
-            "simulators" not in [part.split(".")[0] for part in f.parts]
-            or f.name != "start_here.py",
-            f,
-        ),
-    ):
+    for file in files:
         if file.stem not in no_run_list:
             execute_script(str(file))
