@@ -51,19 +51,19 @@ jobs:
                 ref: main
                 path: PyAutoConf
               - repository: rhayes777/PyAutoFit
-                ref: main
+                ref: feature/samples_no_pickle_fixed
                 path: PyAutoFit
               - repository: Jammy2211/PyAutoArray
                 ref: main
                 path: PyAutoArray
               - repository: Jammy2211/PyAutoGalaxy
-                ref: main
+                ref: feature/autofit_outputs
                 path: PyAutoGalaxy
               - repository: Jammy2211/PyAutoLens
-                ref: main
+                ref: feature/autofit_outputs
                 path: PyAutoLens
               - repository: Jammy2211/PyAutoCTI
-                ref: main
+                ref: feature/autofit_outputs
                 path: PyAutoCTI
         steps:
         - uses: actions/checkout@v2
@@ -386,7 +386,7 @@ jobs:
           path: PyAutoConf
           pat: PAT_RICH
         - repository: rhayes777/PyAutoFit
-          ref: main
+          ref: feature/samples_no_pickle_fixed
           path: PyAutoFit
           pat: PAT_RICH
         - repository: Jammy2211/PyAutoArray
@@ -394,15 +394,15 @@ jobs:
           path: PyAutoArray
           pat: PAT_JAMES
         - repository: Jammy2211/PyAutoGalaxy
-          ref: main
+          ref: feature/autofit_outputs
           path: PyAutoGalaxy
           pat: PAT_JAMES
         - repository: Jammy2211/PyAutoLens
-          ref: main
+          ref: feature/autofit_outputs
           path: PyAutoLens
           pat: PAT_JAMES
         - repository: Jammy2211/PyAutoCTI
-          ref: main
+          ref: feature/autofit_outputs
           path: PyAutoCTI
           pat: PAT_JAMES
     steps:
