@@ -54,7 +54,7 @@ jobs:
                 ref: main
                 path: PyAutoFit
               - repository: Jammy2211/PyAutoArray
-                ref: main
+                ref: feature/autofit_outputs
                 path: PyAutoArray
               - repository: Jammy2211/PyAutoGalaxy
                 ref: feature/autofit_outputs
@@ -116,7 +116,6 @@ jobs:
             pushd "${{ matrix.project.path }}"
             if test -f "optional_requirements.txt"
             then
-              pip install Cython==0.29.36
               pip install -r optional_requirements.txt
               pip install scipy==1.8.1
             fi
@@ -243,7 +242,6 @@ jobs:
         if [ -f "project/optional_requirements.txt" ]
         then
             echo "Installing optional requirements"
-            pip install Cython==0.29.36
             python3 -m pip install -r "project/optional_requirements.txt"
         fi
     - name: Install project
@@ -333,7 +331,6 @@ jobs:
         if [ -f "project/optional_requirements.txt" ]
         then
             echo "Installing optional requirements"
-            pip install Cython==0.29.36
             python3 -m pip install -r "project/optional_requirements.txt"
         fi
     - name: Install project
@@ -390,7 +387,7 @@ jobs:
           path: PyAutoFit
           pat: PAT_RICH
         - repository: Jammy2211/PyAutoArray
-          ref: main
+          ref: feature/autofit_outputs
           path: PyAutoArray
           pat: PAT_JAMES
         - repository: Jammy2211/PyAutoGalaxy
