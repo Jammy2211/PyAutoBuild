@@ -4,11 +4,6 @@ autofit:
 - ZeusPlotter # Test Model Iniitalization no good.
 - UltraNestPlotter # Test Model Iniitalization no good.
 - tutorial_4_hierarchical # Can get sigma cannot be negative error due to test mode
-- tutorial_1_fitting_multiple_datasets # dataset
-- tutorial_2_aggregator # database
-- tutorial_3_querying # database
-- tutorial_4_data_and_models # database
-- database
 autogalaxy:
 - profiling
 - tutorial_4_hierarchical_models
@@ -34,11 +29,6 @@ autogalaxy:
 - tutorial_6_science_case # Dont know how to handle samples of data not being on workspace.
 - tutorial_optional_hierarchical_individual # Dont know how to handle samples of data not being on workspace.
 - tutorial_optional_search_chaining # Dont know how to handle samples of data not being on workspace.
-- data_fitting # database
-- models # database
-- queries # database
-- samples # database
-- start_here
 autolens:
 - profiling
 - tutorial_4_hierarchical_models
@@ -77,20 +67,10 @@ autolens:
 - tutorial_6_science_case # Dont know how to handle samples of data not being on workspace.
 - tutorial_optional_hierarchical_individual # Dont know how to handle samples of data not being on workspace.
 - tutorial_optional_search_chaining # Dont know how to handle samples of data not being on workspace.
-- data_fitting # database
-- models # database
-- queries # database
-- samples # database
-- start_here
 autocti:
 - GetDist
 - noise_scaling
 - database # plot scripts based on database will not have run fit to generate data.
-- data_fitting # database
-- models # database
-- queries # database
-- samples # database
-- start_here
 autofit_test:
 - Drawer # Only works with sensitivity mapper to not raise InitializerException.
 autolens_test: []
