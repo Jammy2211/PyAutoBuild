@@ -62,9 +62,9 @@ jobs:
               - repository: Jammy2211/PyAutoLens
                 ref: science_v2
                 path: PyAutoLens
-#              - repository: Jammy2211/PyAutoCTI
-#                ref: science_v2
-#                path: PyAutoCTI
+              - repository: Jammy2211/PyAutoCTI
+                ref: science_v2
+                path: PyAutoCTI
         steps:
         - uses: actions/checkout@v2
           with:
@@ -96,8 +96,7 @@ jobs:
         - name: Wait for packages to upload to Pypi
           shell: bash {0}   # So that we do not exit if a command gives a bad exit code
           run: |
-#            export PACKAGES=("autoconf" "autoarray" "autofit" "autogalaxy" "autolens" "autocti" )
-            export PACKAGES=("autoconf" "autoarray" "autofit" "autogalaxy" "autolens")
+            export PACKAGES=("autoconf" "autoarray" "autofit" "autogalaxy" "autolens" "autocti")
             export VERSION="${{ needs.version_number.outputs.version_number }}"
             for PACKAGE in ${PACKAGES[@]}; do
               python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple $PACKAGE==$VERSION
@@ -143,11 +142,11 @@ jobs:
           with:
             repository: Jammy2211/autolens_workspace
             path: autolens
-#        - name: Checkout AutoCTI
-#          uses: actions/checkout@v2
-#          with:
-#            repository: Jammy2211/autocti_workspace
-#            path: autocti
+        - name: Checkout AutoCTI
+          uses: actions/checkout@v2
+          with:
+            repository: Jammy2211/autocti_workspace
+            path: autocti
         - name: Checkout AutoFit Test
           uses: actions/checkout@v2
           with:
@@ -164,8 +163,7 @@ jobs:
         - name: Make script matrix
           id: script_matrix
           run: |
-            matrix="$(./PyAutoBuild/autobuild/script_matrix.py autofit autogalaxy autolens autofit_test autolens_test)"
-#            matrix="$(./PyAutoBuild/autobuild/script_matrix.py autofit autogalaxy autolens autocti autofit_test autolens_test)"
+            matrix="$(./PyAutoBuild/autobuild/script_matrix.py autofit autogalaxy autolens autocti autofit_test autolens_test)"
             echo "::set-output name=matrix::$matrix"
 
   run_scripts:
@@ -200,11 +198,11 @@ jobs:
             echo "::set-output name=repository::Jammy2211/PyAutoLens"
             echo "::set-output name=workspace_repository::Jammy2211/autolens_workspace"
             echo "::set-output name=project::autolens"
-#        elif [ ${{ matrix.project.name }} == "autocti" ]
-#        then
-#            echo "::set-output name=repository::Jammy2211/PyAutoCTI"
-#            echo "::set-output name=workspace_repository::Jammy2211/autocti_workspace"
-#            echo "::set-output name=project::autocti"
+        elif [ ${{ matrix.project.name }} == "autocti" ]
+        then
+            echo "::set-output name=repository::Jammy2211/PyAutoCTI"
+            echo "::set-output name=workspace_repository::Jammy2211/autocti_workspace"
+            echo "::set-output name=project::autocti"
         elif [ ${{ matrix.project.name }} == "autofit_test" ]
         then
             echo "::set-output name=repository::rhayes777/PyAutoFit"
@@ -299,10 +297,10 @@ jobs:
             echo "::set-output name=repository::Jammy2211/PyAutoLens"
             echo "::set-output name=workspace_repository::Jammy2211/autolens_workspace"
             echo "::set-output name=project::autolens"
-#        else
-#            echo "::set-output name=repository::Jammy2211/PyAutoCTI"
-#            echo "::set-output name=workspace_repository::Jammy2211/autocti_workspace"
-#            echo "::set-output name=project::autocti"
+        else
+            echo "::set-output name=repository::Jammy2211/PyAutoCTI"
+            echo "::set-output name=workspace_repository::Jammy2211/autocti_workspace"
+            echo "::set-output name=project::autocti"
         fi
 
     - uses: actions/checkout@v2
@@ -400,10 +398,10 @@ jobs:
           ref: science_v2
           path: PyAutoLens
           pat: PAT_JAMES
-#        - repository: Jammy2211/PyAutoCTI
-#          ref: science_v2
-#          path: PyAutoCTI
-#          pat: PAT_JAMES
+        - repository: Jammy2211/PyAutoCTI
+          ref: science_v2
+          path: PyAutoCTI
+          pat: PAT_JAMES
     steps:
     - uses: actions/checkout@v2
       with:
@@ -467,8 +465,8 @@ jobs:
             name: autogalaxy
           - repository: Jammy2211/autolens_workspace
             name: autolens
-#          - repository: Jammy2211/autocti_workspace
-#            name: autocti
+          - repository: Jammy2211/autocti_workspace
+            name: autocti
     steps:
     - uses: actions/checkout@v2
       with:
