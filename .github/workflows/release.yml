@@ -115,6 +115,8 @@ jobs:
             then
               pip install -r requirements.txt
               pip install -r optional_requirements.txt
+              pip install jax==0.4.18
+              pip install jaxlib==0.4.18
             fi
             pip install pytest
             python3 -m pytest
@@ -231,6 +233,8 @@ jobs:
             echo "Installing optional requirements"
             python3 -m pip install -r "project/requirements.txt"
             python3 -m pip install -r "project/optional_requirements.txt"
+            python3 -m pip install jax==0.4.18
+            python3 -m pip install jaxlib==0.4.18
         fi
     - name: Install project
       if: "${{ github.event.inputs.skip_scripts != 'true' }}"
@@ -317,6 +321,8 @@ jobs:
             echo "Installing optional requirements"
             python3 -m pip install -r "project/requirements.txt"
             python3 -m pip install -r "project/optional_requirements.txt"
+            python3 -m pip install jax==0.4.18
+            python3 -m pip install jaxlib==0.4.18
         fi
     - name: Install project
       if: "${{ github.event.inputs.skip_notebooks != 'true' }}"
