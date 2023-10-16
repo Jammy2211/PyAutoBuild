@@ -45,7 +45,7 @@ jobs:
           TWINE_PASSWORD: ${{ secrets.TEST_PYPI }}
         strategy:
           matrix:
-            python-version: [3.8]
+            python-version: [3.11]
             project:
               - repository: rhayes777/PyAutoConf
                 ref: main
@@ -167,7 +167,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [3.8]
+        python-version: [3.11]
         project:
             ${{ fromJSON(needs.find_scripts.outputs.matrix) }}
     steps:
@@ -262,7 +262,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [3.8]
+        python-version: [3.11]
         project:
             ${{ fromJSON(needs.find_scripts.outputs.matrix) }}
     steps:
@@ -438,7 +438,7 @@ jobs:
       - version_number
     strategy:
       matrix:
-        python-version: [3.8]
+        python-version: [3.11]
         workspace:
           - repository: Jammy2211/autofit_workspace
             name: autofit      -
