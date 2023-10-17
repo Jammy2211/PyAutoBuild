@@ -67,6 +67,7 @@ autolens:
 - tutorial_6_science_case # Dont know how to handle samples of data not being on workspace.
 - tutorial_optional_hierarchical_individual # Dont know how to handle samples of data not being on workspace.
 - tutorial_optional_search_chaining # Dont know how to handle samples of data not being on workspace.
+- deflections # Output HDU not supported for VectorYX Detections.
 autocti:
 - GetDist
 - noise_scaling
