@@ -121,6 +121,8 @@ jobs:
             fi
             pip uninstall jax
             pip uninstall jaxlib
+            pip uninstall matplotlib
+            pip install matplotlib
             pip install pytest
             python3 -m pytest
 
@@ -248,6 +250,8 @@ jobs:
             python3 -m pip install -r "project/optional_requirements.txt"
             pip uninstall jax
             pip uninstall jaxlib
+            pip uninstall matplotlib
+            pip install matplotlib
         fi
     - name: Install project
       if: "${{ github.event.inputs.skip_scripts != 'true' }}"
@@ -340,6 +344,8 @@ jobs:
             python3 -m pip install -r "project/optional_requirements.txt"
             pip uninstall jax
             pip uninstall jaxlib
+            pip uninstall matplotlib
+            pip install matplotlib
         fi
     - name: Install project
       if: "${{ github.event.inputs.skip_notebooks != 'true' }}"
