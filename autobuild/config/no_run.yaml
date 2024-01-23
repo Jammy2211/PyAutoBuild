@@ -21,6 +21,7 @@ autogalaxy:
 - light_centre # GUI scripts cannot be run
 - mask # GUI scripts cannot be run
 - scaled_dataset # GUI scripts cannot be run
+- clump_centres # GUI scripts cannot be run
 - tutorial_1_individual_models # Dont know how to handle samples of data not being on workspace.
 - tutorial_2_graphical_models # Dont know how to handle samples of data not being on workspace.
 - tutorial_3_graphical_benefits # Dont know how to handle samples of data not being on workspace.
