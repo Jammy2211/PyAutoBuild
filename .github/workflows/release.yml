@@ -116,6 +116,7 @@ jobs:
             pushd "${{ matrix.project.path }}"
             if test -f "optional_requirements.txt"
             then
+              pip install scipy==1.7.3
               pip install -r requirements.txt
               pip install -r optional_requirements.txt
             fi
@@ -243,6 +244,7 @@ jobs:
         if [ -f "project/optional_requirements.txt" ]
         then
             echo "Installing optional requirements"
+            python3 -m pip install scipy==1.7.3
             python3 -m pip install -r "project/requirements.txt"
             python3 -m pip install -r "project/optional_requirements.txt"
             pip uninstall -y jax
@@ -336,6 +338,7 @@ jobs:
         if [ -f "project/optional_requirements.txt" ]
         then
             echo "Installing optional requirements"
+            python3 -m pip install scipy==1.7.3
             python3 -m pip install -r "project/requirements.txt"
             python3 -m pip install -r "project/optional_requirements.txt"
             pip uninstall -y jax
