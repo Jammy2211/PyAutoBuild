@@ -15,6 +15,10 @@ on:
         description: 'Skip notebooks'
         required: false
         default: 'false'
+      skip_release:
+        description: 'Skip release'
+        required: false
+        default: 'false'
 
 jobs:
   version_number:
@@ -409,6 +413,7 @@ jobs:
           pat: PAT_JAMES
     steps:
     - uses: actions/checkout@v2
+      if: "${{ github.event.inputs.skip_release != 'true' }}"
       with:
           path: PyAutoBuild
     - name: Checkout
@@ -416,19 +421,23 @@ jobs:
         git clone -b "${{ matrix.project.ref }}" "https://$PAT@github.com/${{ matrix.project.repository }}.git" "${{ matrix.project.path }}"
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
+      if: "${{ github.event.inputs.skip_release != 'true' }}"
       with:
         python-version: ${{ matrix.python-version }}
     - name: Configure Git
+      if: "${{ github.event.inputs.skip_release != 'true' }}"
       run: |
         git config --global user.email "richard@rghsoftware.co.uk"
         git config --global user.name "GitHub Actions bot"
     - name: Update version
+      if: "${{ github.event.inputs.skip_release != 'true' }}"
       run: |
         pushd "${{ matrix.project.path }}"
         VERSION="${{ needs.version_number.outputs.version_number }}"
         sed -i "s/__version__ = [\.\"\'0-9]*/__version__ = \"$VERSION\"/g" */__init__.py
         git commit "-am 'Updated version in __init__ to $VERSION"
     - name: Tag
+      if: "${{ github.event.inputs.skip_release != 'true' }}"
       run: |
         pushd "${{ matrix.project.path }}"
         VERSION="${{ needs.version_number.outputs.version_number }}"
@@ -437,12 +446,14 @@ jobs:
         git remote set-url --push origin "https://$PAT@github.com/${{ matrix.project.repository }}.git"
         git push --tags
     - name: Build
+      if: "${{ github.event.inputs.skip_release != 'true' }}"
       run: |
         pushd "${{ matrix.project.path }}"
         export VERSION="${{ needs.version_number.outputs.version_number }}"
         python3 -m pip install --upgrade build
         python3 -m build
     - name: Upload to PyPI
+      if: "${{ github.event.inputs.skip_release != 'true' }}"
       run: |
         python3 -m pip install twine
         pushd "${{ matrix.project.path }}"
@@ -474,23 +485,29 @@ jobs:
             name: autocti
     steps:
     - uses: actions/checkout@v2
+      if: "${{ github.event.inputs.skip_release != 'true' }}"
       with:
           path: PyAutoBuild
     - name: Checkout
+      if: "${{ github.event.inputs.skip_release != 'true' }}"
       run: |
         git clone -b main "https://$PAT@github.com/${{ matrix.workspace.repository }}.git" workspace
     - name: Configure Git
+      if: "${{ github.event.inputs.skip_release != 'true' }}"
       run: |
         git config --global user.email "richard@rghsoftware.co.uk"
         git config --global user.name "GitHub Actions bot"
     - name: Set up Python ${{ matrix.python-version }}
+      if: "${{ github.event.inputs.skip_release != 'true' }}"
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install Jupyter dependency
+      if: "${{ github.event.inputs.skip_release != 'true' }}"
       run: |
         pip install jupyter ipynb-py-convert PyYAML
     - name: Update jupyter notebooks
+      if: "${{ github.event.inputs.skip_release != 'true' }}"
       run: |
         export PYTHONPATH=$PYTHONPATH:$(pwd)/PyAutoBuild
         AUTOBUILD_PATH="$(pwd)/PyAutoBuild/autobuild"
@@ -499,6 +516,7 @@ jobs:
         git add *.ipynb
         git commit -m "Updated notebooks" || true
     - name: Release
+      if: "${{ github.event.inputs.skip_release != 'true' }}"
       run: |
         cd workspace
         git checkout release
