@@ -51,7 +51,7 @@ jobs:
                 ref: main
                 path: PyAutoConf
               - repository: rhayes777/PyAutoFit
-                ref: main
+                ref: feature/jax_no_build
                 path: PyAutoFit
               - repository: Jammy2211/PyAutoArray
                 ref: main
@@ -245,8 +245,6 @@ jobs:
             echo "Installing optional requirements"
             python3 -m pip install -r "project/requirements.txt"
             python3 -m pip install -r "project/optional_requirements.txt"
-            pip uninstall -y jax
-            pip uninstall -y jaxlib
             pip install matplotlib==3.6.0
         fi
     - name: Install project
@@ -338,8 +336,6 @@ jobs:
             echo "Installing optional requirements"
             python3 -m pip install -r "project/requirements.txt"
             python3 -m pip install -r "project/optional_requirements.txt"
-            pip uninstall -y jax
-            pip uninstall -y jaxlib
             pip install matplotlib==3.6.0
         fi
     - name: Install project
@@ -392,7 +388,7 @@ jobs:
           path: PyAutoConf
           pat: PAT_RICH
         - repository: rhayes777/PyAutoFit
-          ref: main
+          ref: feature/jax_no_build
           path: PyAutoFit
           pat: PAT_RICH
         - repository: Jammy2211/PyAutoArray
