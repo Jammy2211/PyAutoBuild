@@ -58,13 +58,13 @@ jobs:
                 ref: main
                 path: PyAutoFit
               - repository: Jammy2211/PyAutoArray
-                ref: main
+                ref: feature/data_offset
                 path: PyAutoArray
               - repository: Jammy2211/PyAutoGalaxy
                 ref: main
-                path: PyAutoGalaxy
+                path: feature/data_offset
               - repository: Jammy2211/PyAutoLens
-                ref: main
+                ref: feature/data_offset
                 path: PyAutoLens
               - repository: Jammy2211/PyAutoCTI
                 ref: main
@@ -396,15 +396,15 @@ jobs:
           path: PyAutoFit
           pat: PAT_RICH
         - repository: Jammy2211/PyAutoArray
-          ref: main
+          ref: feature/data_offset
           path: PyAutoArray
           pat: PAT_JAMES
         - repository: Jammy2211/PyAutoGalaxy
-          ref: main
+          ref: feature/data_offset
           path: PyAutoGalaxy
           pat: PAT_JAMES
         - repository: Jammy2211/PyAutoLens
-          ref: main
+          ref: feature/data_offset
           path: PyAutoLens
           pat: PAT_JAMES
         - repository: Jammy2211/PyAutoCTI
