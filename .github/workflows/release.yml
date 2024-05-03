@@ -61,7 +61,7 @@ jobs:
                 ref: feature/data_offset
                 path: PyAutoArray
               - repository: Jammy2211/PyAutoGalaxy
-                ref: main
+                ref: feature/data_offset
                 path: feature/data_offset
               - repository: Jammy2211/PyAutoLens
                 ref: feature/data_offset
