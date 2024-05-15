@@ -4,6 +4,7 @@ autofit:
 - ZeusPlotter # Test Model Iniitalization no good.
 - UltraNestPlotter # Test Model Iniitalization no good.
 - tutorial_4_hierarchical # Can get sigma cannot be negative error due to test mode
+- start_point # bug https://github.com/rhayes777/PyAutoFit/issues/1017
 autogalaxy:
 - profiling
 - tutorial_4_hierarchical_models
