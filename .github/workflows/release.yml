@@ -390,11 +390,11 @@ jobs:
         - repository: rhayes777/PyAutoConf
           ref: main
           path: PyAutoConf
-          pat: PAT_JAMES
+          pat: PAT_RICH
         - repository: rhayes777/PyAutoFit
           ref: main
           path: PyAutoFit
-          pat: PAT_JAMES
+          pat: PAT_RICH
         - repository: Jammy2211/PyAutoArray
           ref: main
           path: PyAutoArray
@@ -457,7 +457,7 @@ jobs:
       run: |
         python3 -m pip install twine
         pushd "${{ matrix.project.path }}"
-        python3 -m twine upload dist/*
+        python3 -m twine upload dist/* --username __token__ --password pypi-AgEIcHlwaS5vcmcCJGJhNjY0Mzk4LTM2NTYtNDEzYy05OTc1LTQzYWIyODlkYzBiNwACKlszLCI3Y2NjY2YwMy1lYTczLTRhMmYtOWQ4Yi05NDI5NzI4M2UwYjAiXQAABiB4HqZzjrof1xS0VlUwLzxpyQME81DDC_Z15DPWp99unw
 
   release_workspaces:
     runs-on: ubuntu-latest
