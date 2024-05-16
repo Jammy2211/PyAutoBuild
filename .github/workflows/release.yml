@@ -390,11 +390,11 @@ jobs:
         - repository: rhayes777/PyAutoConf
           ref: main
           path: PyAutoConf
-          pat: PAT_RICH
+          pat: PAT_JAMES
         - repository: rhayes777/PyAutoFit
           ref: main
           path: PyAutoFit
-          pat: PAT_RICH
+          pat: PAT_JAMES
         - repository: Jammy2211/PyAutoArray
           ref: main
           path: PyAutoArray
