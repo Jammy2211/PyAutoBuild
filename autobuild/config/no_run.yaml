@@ -78,7 +78,7 @@ autocti:
 - fit # plot script too much data.
 - database # plot scripts based on database will not have run fit to generate data.
 - fpa_quad_grid # Too much data for git.
-- fpa_vs_eper # Too much data for git.
+- fpr_vs_eper # Too much data for git.
 - overview_4_charge_injection_data # Data too large to store in workspace
 autofit_test:
 - Drawer # Only works with sensitivity mapper to not raise InitializerException.
