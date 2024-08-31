@@ -81,5 +81,7 @@ autocti:
 - fpr_vs_eper # Too much data for git.
 - overview_4_charge_injection_data # Data too large to store in workspace
 autofit_test:
+- simultaneous # https://github.com/rhayes777/PyAutoFit/issues/1041
+- hierarchical # https://github.com/rhayes777/PyAutoFit/issues/1041
 - Drawer # Only works with sensitivity mapper to not raise InitializerException.
 autolens_test: []
