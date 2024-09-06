@@ -12,6 +12,7 @@ def make_script_matrix(project):
             "directory": path.name,
         }
         for path in (Path(project) / "scripts").glob("*/")
+        if path.is_dir()
     ]
 
 
