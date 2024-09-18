@@ -80,6 +80,7 @@ autocti:
 - fpa_quad_grid # Too much data for git.
 - fpr_vs_eper # Too much data for git.
 - overview_4_charge_injection_data # Data too large to store in workspace
+- plot # Requires fit scirpt to run first.
 autofit_test:
 - Drawer # Only works with sensitivity mapper to not raise InitializerException.
 autolens_test: []
