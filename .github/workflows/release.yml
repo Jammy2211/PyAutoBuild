@@ -637,9 +637,3 @@ jobs:
         run: |
           cd workspace
           git push origin release
-      - name: Tag release
-        run: |
-          cd workspace
-          VERSION="${{ needs.version_number.outputs.version_number }}"
-          git tag -m "Release $VERSION" -a "$VERSION"
-          git push --tags
