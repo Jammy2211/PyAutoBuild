@@ -68,13 +68,19 @@ def execute_notebook(f):
         sys.exit(1)
 
 
-def execute_notebooks_in_folder(directory, no_run_list):
+def execute_notebooks_in_folder(
+    directory,
+    no_run_list,
+    visualise_list=None,
+):
     no_run_list.extend(["__init__", "README"])
     files = list(Path.cwd().rglob(f"{directory}/**/*.ipynb"))
 
     print(f"Found {len(files)} notebooks")
 
     for file in sorted(files):
+        if visualise_list is not None and file.stem not in visualise_list:
+            continue
         if file.stem not in no_run_list:
             execute_notebook(file)
 
