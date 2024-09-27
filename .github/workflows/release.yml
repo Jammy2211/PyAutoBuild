@@ -615,7 +615,7 @@ jobs:
           export PYTHONPATH=$PYTHONPATH:$(pwd)/PyAutoBuild
           AUTOBUILD_PATH="$(pwd)/PyAutoBuild/autobuild"
           pushd workspace
-          python3 "$AUTOBUILD_PATH/run.py" ${{ matrix.project.name }} "notebooks/${{ matrix.project.directory }}"
+          python3 "$AUTOBUILD_PATH/run.py" ${{ matrix.project.name }} "notebooks/${{ matrix.project.directory }}" --visualise
       - name: Configure Git
         run: |
           git config --global user.email "richard@rghsoftware.co.uk"
