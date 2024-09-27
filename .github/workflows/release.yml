@@ -41,135 +41,135 @@ jobs:
         id: version_number
 
   release_test_pypi:
-        runs-on: ubuntu-latest
-        needs: version_number
-        env:
-          TWINE_REPOSITORY: testpypi
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.TEST_PYPI }}
-        strategy:
-          matrix:
-            python-version: [3.11]
-            project:
-              - repository: rhayes777/PyAutoConf
-                ref: main
-                path: PyAutoConf
-              - repository: rhayes777/PyAutoFit
-                ref: main
-                path: PyAutoFit
-              - repository: Jammy2211/PyAutoArray
-                ref: main
-                path: PyAutoArray
-              - repository: Jammy2211/PyAutoGalaxy
-                ref: main
-                path: PyAutoGalaxy
-              - repository: Jammy2211/PyAutoLens
-                ref: main
-                path: PyAutoLens
-              - repository: Jammy2211/PyAutoCTI
-                ref: main
-                path: PyAutoCTI
-        steps:
-        - uses: actions/checkout@v2
-          with:
-              path: PyAutoBuild
-        - name: Checkout
-          uses: actions/checkout@v2
-          with:
-            repository: "${{ matrix.project.repository }}"
-            ref: "${{ matrix.project.ref }}"
-            path: "${{ matrix.project.path }}"
-        - name: Set up Python ${{ matrix.python-version }}
-          uses: actions/setup-python@v2
-          with:
-            python-version: ${{ matrix.python-version }}
-        - name: Build
-          run: |
-            pushd "${{ matrix.project.path }}"
-            export VERSION="${{ needs.version_number.outputs.version_number }}"
-            sed -i "s/__version__ = [\.\"\'0-9]*/__version__ = \"$VERSION\"/g" */__init__.py
-            python3 -m pip install --upgrade build
-            python3 -m build
-            popd
-        - name: Upload to test PyPI
-          run: |
-            python3 -m pip install twine
-            pushd "${{ matrix.project.path }}"
-            python3 -m twine upload --repository-url https://test.pypi.org/legacy/ dist/*
-            popd
-        - name: Wait for packages to upload to Pypi
-          shell: bash {0}   # So that we do not exit if a command gives a bad exit code
-          run: |
-            export PACKAGES=("autoconf" "autoarray" "autofit" "autogalaxy" "autolens" "autocti")
-            export VERSION="${{ needs.version_number.outputs.version_number }}"
-            for PACKAGE in ${PACKAGES[@]}; do
+    runs-on: ubuntu-latest
+    needs: version_number
+    env:
+      TWINE_REPOSITORY: testpypi
+      TWINE_USERNAME: __token__
+      TWINE_PASSWORD: ${{ secrets.TEST_PYPI }}
+    strategy:
+      matrix:
+        python-version: [ 3.11 ]
+        project:
+          - repository: rhayes777/PyAutoConf
+            ref: main
+            path: PyAutoConf
+          - repository: rhayes777/PyAutoFit
+            ref: main
+            path: PyAutoFit
+          - repository: Jammy2211/PyAutoArray
+            ref: main
+            path: PyAutoArray
+          - repository: Jammy2211/PyAutoGalaxy
+            ref: main
+            path: PyAutoGalaxy
+          - repository: Jammy2211/PyAutoLens
+            ref: main
+            path: PyAutoLens
+          - repository: Jammy2211/PyAutoCTI
+            ref: main
+            path: PyAutoCTI
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: PyAutoBuild
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          repository: "${{ matrix.project.repository }}"
+          ref: "${{ matrix.project.ref }}"
+          path: "${{ matrix.project.path }}"
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Build
+        run: |
+          pushd "${{ matrix.project.path }}"
+          export VERSION="${{ needs.version_number.outputs.version_number }}"
+          sed -i "s/__version__ = [\.\"\'0-9]*/__version__ = \"$VERSION\"/g" */__init__.py
+          python3 -m pip install --upgrade build
+          python3 -m build
+          popd
+      - name: Upload to test PyPI
+        run: |
+          python3 -m pip install twine
+          pushd "${{ matrix.project.path }}"
+          python3 -m twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+          popd
+      - name: Wait for packages to upload to Pypi
+        shell: bash {0}   # So that we do not exit if a command gives a bad exit code
+        run: |
+          export PACKAGES=("autoconf" "autoarray" "autofit" "autogalaxy" "autolens" "autocti")
+          export VERSION="${{ needs.version_number.outputs.version_number }}"
+          for PACKAGE in ${PACKAGES[@]}; do
+            python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple $PACKAGE==$VERSION
+            test_condition=$?
+            cnt=0
+            while [[ $test_condition != "0" ]]; do
+              echo "Failed to find package, retrying in 10 seconds.."
+              sleep 10
+              ((cnt=cnt+1))
+              [[ $cnt == "100" ]] && echo "Timed out, tried 100 times" && break
               python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple $PACKAGE==$VERSION
               test_condition=$?
-              cnt=0
-              while [[ $test_condition != "0" ]]; do
-                echo "Failed to find package, retrying in 10 seconds.."
-                sleep 10
-                ((cnt=cnt+1))
-                [[ $cnt == "100" ]] && echo "Timed out, tried 100 times" && break
-                python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple $PACKAGE==$VERSION
-                test_condition=$?
-              done
             done
-        - name: Tests
-          run: |
-            pushd "${{ matrix.project.path }}"
-            if test -f "optional_requirements.txt"
-            then
-              pip install -r requirements.txt
-              pip install -r optional_requirements.txt
-            fi
-            pip install matplotlib==3.6.0
-            pip install pytest
-            python3 -m pytest
+          done
+      - name: Tests
+        run: |
+          pushd "${{ matrix.project.path }}"
+          if test -f "optional_requirements.txt"
+          then
+            pip install -r requirements.txt
+            pip install -r optional_requirements.txt
+          fi
+          pip install matplotlib==3.6.0
+          pip install pytest
+          python3 -m pytest
 
   find_scripts:
-      runs-on: ubuntu-latest
-      outputs:
-        matrix: ${{ steps.script_matrix.outputs.matrix }}
-      steps:
-        - name: Checkout AutoFit
-          uses: actions/checkout@v2
-          with:
-            repository: Jammy2211/autofit_workspace
-            path: autofit
-        - name: Checkout AutoGalaxy
-          uses: actions/checkout@v2
-          with:
-            repository: Jammy2211/autogalaxy_workspace
-            path: autogalaxy
-        - name: Checkout AutoLens
-          uses: actions/checkout@v2
-          with:
-            repository: Jammy2211/autolens_workspace
-            path: autolens
-        - name: Checkout AutoCTI
-          uses: actions/checkout@v2
-          with:
-            repository: Jammy2211/autocti_workspace
-            path: autocti
-        - name: Checkout AutoFit Test
-          uses: actions/checkout@v2
-          with:
-            repository: Jammy2211/autofit_workspace_test
-            path: autofit_test
-        - name: Checkout AutoLens Test
-          uses: actions/checkout@v2
-          with:
-            repository: Jammy2211/autolens_workspace_test
-            path: autolens_test
-        - uses: actions/checkout@v2
-          with:
-              path: PyAutoBuild
-        - name: Make script matrix
-          id: script_matrix
-          run: |
-            matrix="$(./PyAutoBuild/autobuild/script_matrix.py autofit autogalaxy autolens autocti autofit_test autolens_test)"
-            echo "::set-output name=matrix::$matrix"
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.script_matrix.outputs.matrix }}
+    steps:
+      - name: Checkout AutoFit
+        uses: actions/checkout@v2
+        with:
+          repository: Jammy2211/autofit_workspace
+          path: autofit
+      - name: Checkout AutoGalaxy
+        uses: actions/checkout@v2
+        with:
+          repository: Jammy2211/autogalaxy_workspace
+          path: autogalaxy
+      - name: Checkout AutoLens
+        uses: actions/checkout@v2
+        with:
+          repository: Jammy2211/autolens_workspace
+          path: autolens
+      - name: Checkout AutoCTI
+        uses: actions/checkout@v2
+        with:
+          repository: Jammy2211/autocti_workspace
+          path: autocti
+      - name: Checkout AutoFit Test
+        uses: actions/checkout@v2
+        with:
+          repository: Jammy2211/autofit_workspace_test
+          path: autofit_test
+      - name: Checkout AutoLens Test
+        uses: actions/checkout@v2
+        with:
+          repository: Jammy2211/autolens_workspace_test
+          path: autolens_test
+      - uses: actions/checkout@v2
+        with:
+          path: PyAutoBuild
+      - name: Make script matrix
+        id: script_matrix
+        run: |
+          matrix="$(./PyAutoBuild/autobuild/script_matrix.py autofit autogalaxy autolens autocti autofit_test autolens_test)"
+          echo "::set-output name=matrix::$matrix"
 
   run_scripts:
     runs-on: ubuntu-latest
@@ -180,198 +180,97 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [3.11]
+        python-version: [ 3.11 ]
         project:
-            ${{ fromJSON(needs.find_scripts.outputs.matrix) }}
+          ${{ fromJSON(needs.find_scripts.outputs.matrix) }}
     steps:
-    - name: Configure
-      if: "${{ github.event.inputs.skip_scripts != 'true' }}"
-      id: configure
-      run: |
-        if [ ${{ matrix.project.name }} == "autofit" ]
-        then
-            echo "::set-output name=repository::rhayes777/PyAutoFit"
-            echo "::set-output name=workspace_repository::Jammy2211/autofit_workspace"
-            echo "::set-output name=project::autofit"
-        elif [ ${{ matrix.project.name }} == "autogalaxy" ]
-        then
-            echo "::set-output name=repository::Jammy2211/PyAutoGalaxy"
-            echo "::set-output name=workspace_repository::Jammy2211/autogalaxy_workspace"
-            echo "::set-output name=project::autogalaxy"
-        elif [ ${{ matrix.project.name }} == "autolens" ]
-        then
-            echo "::set-output name=repository::Jammy2211/PyAutoLens"
-            echo "::set-output name=workspace_repository::Jammy2211/autolens_workspace"
-            echo "::set-output name=project::autolens"
-        elif [ ${{ matrix.project.name }} == "autocti" ]
-        then
-            echo "::set-output name=repository::Jammy2211/PyAutoCTI"
-            echo "::set-output name=workspace_repository::Jammy2211/autocti_workspace"
-            echo "::set-output name=project::autocti"
-        elif [ ${{ matrix.project.name }} == "autofit_test" ]
-        then
-            echo "::set-output name=repository::rhayes777/PyAutoFit"
-            echo "::set-output name=workspace_repository::Jammy2211/autofit_workspace_test"
-            echo "::set-output name=project::autofit"
-        else
-            echo "::set-output name=repository::Jammy2211/PyAutoLens"
-            echo "::set-output name=workspace_repository::Jammy2211/autolens_workspace_test"
-            echo "::set-output name=project::autolens"
-        fi
+      - name: Configure
+        if: "${{ github.event.inputs.skip_scripts != 'true' }}"
+        id: configure
+        run: |
+          if [ ${{ matrix.project.name }} == "autofit" ]
+          then
+              echo "::set-output name=repository::rhayes777/PyAutoFit"
+              echo "::set-output name=workspace_repository::Jammy2211/autofit_workspace"
+              echo "::set-output name=project::autofit"
+          elif [ ${{ matrix.project.name }} == "autogalaxy" ]
+          then
+              echo "::set-output name=repository::Jammy2211/PyAutoGalaxy"
+              echo "::set-output name=workspace_repository::Jammy2211/autogalaxy_workspace"
+              echo "::set-output name=project::autogalaxy"
+          elif [ ${{ matrix.project.name }} == "autolens" ]
+          then
+              echo "::set-output name=repository::Jammy2211/PyAutoLens"
+              echo "::set-output name=workspace_repository::Jammy2211/autolens_workspace"
+              echo "::set-output name=project::autolens"
+          elif [ ${{ matrix.project.name }} == "autocti" ]
+          then
+              echo "::set-output name=repository::Jammy2211/PyAutoCTI"
+              echo "::set-output name=workspace_repository::Jammy2211/autocti_workspace"
+              echo "::set-output name=project::autocti"
+          elif [ ${{ matrix.project.name }} == "autofit_test" ]
+          then
+              echo "::set-output name=repository::rhayes777/PyAutoFit"
+              echo "::set-output name=workspace_repository::Jammy2211/autofit_workspace_test"
+              echo "::set-output name=project::autofit"
+          else
+              echo "::set-output name=repository::Jammy2211/PyAutoLens"
+              echo "::set-output name=workspace_repository::Jammy2211/autolens_workspace_test"
+              echo "::set-output name=project::autolens"
+          fi
 
-    - uses: actions/checkout@v2
-      if: "${{ github.event.inputs.skip_scripts != 'true' }}"
-      with:
+      - uses: actions/checkout@v2
+        if: "${{ github.event.inputs.skip_scripts != 'true' }}"
+        with:
           path: PyAutoBuild
-    - name: Checkout project
-      if: "${{ github.event.inputs.skip_scripts != 'true' }}"
-      uses: actions/checkout@v2
-      with:
-        repository: "${{ steps.configure.outputs.repository }}"
-        path: project
-    - name: Checkout workspace
-      if: "${{ github.event.inputs.skip_scripts != 'true' }}"
-      uses: actions/checkout@v2
-      with:
-        repository: ${{ steps.configure.outputs.workspace_repository }}
-        ref: main
-        path: workspace
-    - name: Set up Python ${{ matrix.python-version }}
-      if: "${{ github.event.inputs.skip_scripts != 'true' }}"
-      uses: actions/setup-python@v2
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install optional requirements
-      if: "${{ github.event.inputs.skip_scripts != 'true' }}"
-      run: |
-        if [ -f "project/optional_requirements.txt" ]
-        then
-            echo "Installing optional requirements"
-            python3 -m pip install -r "project/requirements.txt"
-            python3 -m pip install -r "project/optional_requirements.txt"
-            pip install matplotlib==3.6.0
-        fi
-    - name: Install project
-      if: "${{ github.event.inputs.skip_scripts != 'true' }}"
-      run: |
-        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple "${{ steps.configure.outputs.project }}==${{ needs.version_number.outputs.version_number }}"
-    - name: Run Python scripts
-      if: "${{ github.event.inputs.skip_scripts != 'true' }}"
-      run: |
-        export PYTHONPATH=$PYTHONPATH:$(pwd)/PyAutoBuild
-        export PATH=$PATH:$(pwd)/PyAutoBuild/autobuild
-        AUTOBUILD_PATH="$(pwd)/PyAutoBuild/autobuild"
-
-        if [[ ${{ matrix.project.name }} == *_test ]]
-        then
-            export PYAUTOFIT_TEST_MODE=0
-        else
-            export PYAUTOFIT_TEST_MODE=1
-        fi
-
-        pushd workspace
-        python3 "$AUTOBUILD_PATH/run_python.py" ${{ matrix.project.name }} "scripts/${{ matrix.project.directory }}"
-
-  run_notebooks:
-    runs-on: ubuntu-latest
-    needs:
-      - release_test_pypi
-      - version_number
-      - find_scripts
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: [3.11]
-        project:
-            ${{ fromJSON(needs.find_scripts.outputs.matrix) }}
-    steps:
-    - name: Configure
-      if: "${{ github.event.inputs.skip_notebooks != 'true' }}"
-      id: configure
-      run: |
-        if [ ${{ matrix.project.name }} == "autofit" ]
-        then
-            echo "::set-output name=repository::rhayes777/PyAutoFit"
-            echo "::set-output name=workspace_repository::Jammy2211/autofit_workspace"
-            echo "::set-output name=project::autofit"
-        elif [ ${{ matrix.project.name }} == "autogalaxy" ]
-        then
-            echo "::set-output name=repository::Jammy2211/PyAutoGalaxy"
-            echo "::set-output name=workspace_repository::Jammy2211/autogalaxy_workspace"
-            echo "::set-output name=project::autogalaxy"
-        elif [ ${{ matrix.project.name }} == "autolens" ]
-        then
-            echo "::set-output name=repository::Jammy2211/PyAutoLens"
-            echo "::set-output name=workspace_repository::Jammy2211/autolens_workspace"
-            echo "::set-output name=project::autolens"
-        else
-            echo "::set-output name=repository::Jammy2211/PyAutoCTI"
-            echo "::set-output name=workspace_repository::Jammy2211/autocti_workspace"
-            echo "::set-output name=project::autocti"
-        fi
-
-    - uses: actions/checkout@v2
-      if: "${{ github.event.inputs.skip_notebooks != 'true' }}"
-      with:
-          path: PyAutoBuild
-    - name: Checkout project
-      if: "${{ github.event.inputs.skip_notebooks != 'true' }}"
-      uses: actions/checkout@v2
-      with:
-        repository: "${{ steps.configure.outputs.repository }}"
-        path: project
-    - name: Checkout workspace
-      if: "${{ github.event.inputs.skip_notebooks != 'true' }}"
-      uses: actions/checkout@v2
-      with:
-        repository: ${{ steps.configure.outputs.workspace_repository }}
-        ref: main
-        path: workspace
-    - name: Set up Python ${{ matrix.python-version }}
-      if: "${{ github.event.inputs.skip_notebooks != 'true' }}"
-      uses: actions/setup-python@v2
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install optional requirements
-      if: "${{ github.event.inputs.skip_notebooks != 'true' }}"
-      run: |
-        if [ -f "project/optional_requirements.txt" ]
-        then
-            echo "Installing optional requirements"
-            python3 -m pip install -r "project/requirements.txt"
-            python3 -m pip install -r "project/optional_requirements.txt"
-            pip install matplotlib==3.6.0
-        fi
-    - name: Install project
-      if: "${{ github.event.inputs.skip_notebooks != 'true' }}"
-      run: |
-        python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple "${{ steps.configure.outputs.project }}==${{ needs.version_number.outputs.version_number }}"
-    - name: Install Jupyter dependency
-      if: "${{ github.event.inputs.skip_notebooks != 'true' }}"
-      run: |
-        python3 -m pip install jupyter ipynb-py-convert
-    - name: Generate jupyter notebooks
-      if: "${{ github.event.inputs.skip_notebooks != 'true' }}"
-      run: |
-        export PYTHONPATH=$PYTHONPATH:$(pwd)/PyAutoBuild
-        AUTOBUILD_PATH="$(pwd)/PyAutoBuild/autobuild"
-        pushd "workspace"
-        python3 "$AUTOBUILD_PATH/generate.py" ${{ matrix.project.name }}
-    - name: Run jupyter notebooks
-      if: "${{ github.event.inputs.skip_notebooks != 'true' }}"
-      run: |
-        if [[ ${{ matrix.project.name }} == *_test ]]
-        then
-            export PYAUTOFIT_TEST_MODE=0
-        else
-            export PYAUTOFIT_TEST_MODE=1
-        fi
-
-        export PYTHONPATH=$PYTHONPATH:$(pwd)/PyAutoBuild
-        AUTOBUILD_PATH="$(pwd)/PyAutoBuild/autobuild"
-
-        pushd workspace
-        python3 "$AUTOBUILD_PATH/run.py" ${{ matrix.project.name }} "notebooks/${{ matrix.project.directory }}"
+      - name: Checkout project
+        if: "${{ github.event.inputs.skip_scripts != 'true' }}"
+        uses: actions/checkout@v2
+        with:
+          repository: "${{ steps.configure.outputs.repository }}"
+          path: project
+      - name: Checkout workspace
+        if: "${{ github.event.inputs.skip_scripts != 'true' }}"
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ steps.configure.outputs.workspace_repository }}
+          ref: main
+          path: workspace
+      - name: Set up Python ${{ matrix.python-version }}
+        if: "${{ github.event.inputs.skip_scripts != 'true' }}"
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install optional requirements
+        if: "${{ github.event.inputs.skip_scripts != 'true' }}"
+        run: |
+          if [ -f "project/optional_requirements.txt" ]
+          then
+              echo "Installing optional requirements"
+              python3 -m pip install -r "project/requirements.txt"
+              python3 -m pip install -r "project/optional_requirements.txt"
+              pip install matplotlib==3.6.0
+          fi
+      - name: Install project
+        if: "${{ github.event.inputs.skip_scripts != 'true' }}"
+        run: |
+          python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple "${{ steps.configure.outputs.project }}==${{ needs.version_number.outputs.version_number }}"
+      - name: Run Python scripts
+        if: "${{ github.event.inputs.skip_scripts != 'true' }}"
+        run: |
+          export PYTHONPATH=$PYTHONPATH:$(pwd)/PyAutoBuild
+          export PATH=$PATH:$(pwd)/PyAutoBuild/autobuild
+          AUTOBUILD_PATH="$(pwd)/PyAutoBuild/autobuild"
+          
+          if [[ ${{ matrix.project.name }} == *_test ]]
+          then
+              export PYAUTOFIT_TEST_MODE=0
+          else
+              export PYAUTOFIT_TEST_MODE=1
+          fi
+          
+          pushd workspace
+          python3 "$AUTOBUILD_PATH/run_python.py" ${{ matrix.project.name }} "scripts/${{ matrix.project.directory }}"
 
   release:
     runs-on: ubuntu-latest
@@ -387,141 +286,191 @@ jobs:
     strategy:
       matrix:
         project:
-        - repository: rhayes777/PyAutoConf
-          ref: main
-          path: PyAutoConf
-          pat: PAT_RICH
-        - repository: rhayes777/PyAutoFit
-          ref: main
-          path: PyAutoFit
-          pat: PAT_RICH
-        - repository: Jammy2211/PyAutoArray
-          ref: main
-          path: PyAutoArray
-          pat: PAT_JAMES
-        - repository: Jammy2211/PyAutoGalaxy
-          ref: main
-          path: PyAutoGalaxy
-          pat: PAT_JAMES
-        - repository: Jammy2211/PyAutoLens
-          ref: main
-          path: PyAutoLens
-          pat: PAT_JAMES
-        - repository: Jammy2211/PyAutoCTI
-          ref: main
-          path: PyAutoCTI
-          pat: PAT_JAMES
+          - repository: rhayes777/PyAutoConf
+            ref: main
+            path: PyAutoConf
+            pat: PAT_RICH
+          - repository: rhayes777/PyAutoFit
+            ref: main
+            path: PyAutoFit
+            pat: PAT_RICH
+          - repository: Jammy2211/PyAutoArray
+            ref: main
+            path: PyAutoArray
+            pat: PAT_JAMES
+          - repository: Jammy2211/PyAutoGalaxy
+            ref: main
+            path: PyAutoGalaxy
+            pat: PAT_JAMES
+          - repository: Jammy2211/PyAutoLens
+            ref: main
+            path: PyAutoLens
+            pat: PAT_JAMES
+          - repository: Jammy2211/PyAutoCTI
+            ref: main
+            path: PyAutoCTI
+            pat: PAT_JAMES
     steps:
-    - uses: actions/checkout@v2
-      if: "${{ github.event.inputs.skip_release != 'true' }}"
-      with:
+      - uses: actions/checkout@v2
+        if: "${{ github.event.inputs.skip_release != 'true' }}"
+        with:
           path: PyAutoBuild
-    - name: Checkout
-      run: |
-        git clone -b "${{ matrix.project.ref }}" "https://$PAT@github.com/${{ matrix.project.repository }}.git" "${{ matrix.project.path }}"
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
-      if: "${{ github.event.inputs.skip_release != 'true' }}"
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Configure Git
-      if: "${{ github.event.inputs.skip_release != 'true' }}"
-      run: |
-        git config --global user.email "richard@rghsoftware.co.uk"
-        git config --global user.name "GitHub Actions bot"
-    - name: Update version
-      if: "${{ github.event.inputs.skip_release != 'true' }}"
-      run: |
-        pushd "${{ matrix.project.path }}"
-        VERSION="${{ needs.version_number.outputs.version_number }}"
-        sed -i "s/__version__ = [\.\"\'0-9]*/__version__ = \"$VERSION\"/g" */__init__.py
-        git commit "-am 'Updated version in __init__ to $VERSION"
-    - name: Tag
-      if: "${{ github.event.inputs.skip_release != 'true' }}"
-      run: |
-        pushd "${{ matrix.project.path }}"
-        VERSION="${{ needs.version_number.outputs.version_number }}"
-        git tag -m "Release $VERSION" -a "$VERSION"
-        PAT="${{ secrets[matrix.project.pat] }}"
-        git remote set-url --push origin "https://$PAT@github.com/${{ matrix.project.repository }}.git"
-        git push --tags
-    - name: Build
-      if: "${{ github.event.inputs.skip_release != 'true' }}"
-      run: |
-        pushd "${{ matrix.project.path }}"
-        export VERSION="${{ needs.version_number.outputs.version_number }}"
-        python3 -m pip install --upgrade build
-        python3 -m build
-    - name: Upload to PyPI
-      if: "${{ github.event.inputs.skip_release != 'true' }}"
-      run: |
-        python3 -m pip install twine
-        pushd "${{ matrix.project.path }}"
-        python3 -m twine upload dist/*
+      - name: Checkout
+        run: |
+          git clone -b "${{ matrix.project.ref }}" "https://$PAT@github.com/${{ matrix.project.repository }}.git" "${{ matrix.project.path }}"
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        if: "${{ github.event.inputs.skip_release != 'true' }}"
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Configure Git
+        if: "${{ github.event.inputs.skip_release != 'true' }}"
+        run: |
+          git config --global user.email "richard@rghsoftware.co.uk"
+          git config --global user.name "GitHub Actions bot"
+      - name: Update version
+        if: "${{ github.event.inputs.skip_release != 'true' }}"
+        run: |
+          pushd "${{ matrix.project.path }}"
+          VERSION="${{ needs.version_number.outputs.version_number }}"
+          sed -i "s/__version__ = [\.\"\'0-9]*/__version__ = \"$VERSION\"/g" */__init__.py
+          git commit "-am 'Updated version in __init__ to $VERSION"
+      - name: Tag
+        if: "${{ github.event.inputs.skip_release != 'true' }}"
+        run: |
+          pushd "${{ matrix.project.path }}"
+          VERSION="${{ needs.version_number.outputs.version_number }}"
+          git tag -m "Release $VERSION" -a "$VERSION"
+          PAT="${{ secrets[matrix.project.pat] }}"
+          git remote set-url --push origin "https://$PAT@github.com/${{ matrix.project.repository }}.git"
+          git push --tags
+      - name: Build
+        if: "${{ github.event.inputs.skip_release != 'true' }}"
+        run: |
+          pushd "${{ matrix.project.path }}"
+          export VERSION="${{ needs.version_number.outputs.version_number }}"
+          python3 -m pip install --upgrade build
+          python3 -m build
+      - name: Upload to PyPI
+        if: "${{ github.event.inputs.skip_release != 'true' }}"
+        run: |
+          python3 -m pip install twine
+          pushd "${{ matrix.project.path }}"
+          python3 -m twine upload dist/*
 
-  release_workspaces:
+  run_notebooks_and_release_workspaces:
     runs-on: ubuntu-latest
     env:
       TWINE_REPOSITORY: pypi
       TWINE_USERNAME: __token__
       TWINE_PASSWORD: ${{ secrets.PYPI }}
-      PAT: ${{ secrets.PAT_JAMES }}
     needs:
       - run_scripts
-      - run_notebooks
       - release_test_pypi
       - version_number
+      - find_scripts
     strategy:
+      fail-fast: false
       matrix:
-        python-version: [3.11]
-        workspace:
-          - repository: Jammy2211/autofit_workspace
-            name: autofit      -
-          - repository: Jammy2211/autogalaxy_workspace
-            name: autogalaxy
-          - repository: Jammy2211/autolens_workspace
-            name: autolens
-          - repository: Jammy2211/autocti_workspace
-            name: autocti
+        python-version: [ 3.11 ]
+        project:
+          - name: autofit
+            repository: rhayes777/PyAutoFit
+            workspace_repository: Jammy2211/autofit_workspace
+            pat: PAT_RICH
+          - name: autogalaxy
+            repository: Jammy2211/PyAutoGalaxy
+            workspace_repository: Jammy2211/autogalaxy_workspace
+            pat: PAT_JAMES
+          - name: autolens
+            repository: Jammy2211/PyAutoLens
+            workspace_repository: Jammy2211/autolens_workspace
+            pat: PAT_JAMES
+          - name: autocti
+            repository: Jammy2211/PyAutoCTI
+            workspace_repository: Jammy2211/autocti_workspace
+            pat: PAT_JAMES
     steps:
-    - uses: actions/checkout@v2
-      if: "${{ github.event.inputs.skip_release != 'true' }}"
-      with:
+      - name: Configure
+        id: configure
+        run: |
+          echo "::set-output name=repository::${{ matrix.project.repository }}"
+          echo "::set-output name=workspace_repository::${{ matrix.project.workspace_repository }}"
+          echo "::set-output name=project::${{ matrix.project.name }}"
+          echo "::set-output name=pat::${{ matrix.project.pat }}"
+      - uses: actions/checkout@v2
+        with:
           path: PyAutoBuild
-    - name: Checkout
-      if: "${{ github.event.inputs.skip_release != 'true' }}"
-      run: |
-        git clone -b main "https://$PAT@github.com/${{ matrix.workspace.repository }}.git" workspace
-    - name: Configure Git
-      if: "${{ github.event.inputs.skip_release != 'true' }}"
-      run: |
-        git config --global user.email "richard@rghsoftware.co.uk"
-        git config --global user.name "GitHub Actions bot"
-    - name: Set up Python ${{ matrix.python-version }}
-      if: "${{ github.event.inputs.skip_release != 'true' }}"
-      uses: actions/setup-python@v2
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install Jupyter dependency
-      if: "${{ github.event.inputs.skip_release != 'true' }}"
-      run: |
-        pip install jupyter ipynb-py-convert PyYAML
-    - name: Update jupyter notebooks
-      if: "${{ github.event.inputs.skip_release != 'true' }}"
-      run: |
-        export PYTHONPATH=$PYTHONPATH:$(pwd)/PyAutoBuild
-        AUTOBUILD_PATH="$(pwd)/PyAutoBuild/autobuild"
-        pushd workspace
-        python3 "$AUTOBUILD_PATH/generate.py" ${{ matrix.workspace.name }}
-        git add *.ipynb
-        git commit -m "Updated notebooks" || true
-    - name: Release
-      if: "${{ github.event.inputs.skip_release != 'true' }}"
-      run: |
-        cd workspace
-        git checkout release
-        git merge main
-        VERSION="${{ needs.version_number.outputs.version_number }}"
-        git tag -m "Release $VERSION" -a "$VERSION"
-        git push
-        git push --tags
+      - name: Checkout project
+        uses: actions/checkout@v2
+        with:
+          repository: "${{ steps.configure.outputs.repository }}"
+          path: project
+      - name: Checkout workspace
+        run: |
+          PAT="${{ secrets[steps.configure.outputs.pat] }}"
+          git clone -b main "https://$PAT@github.com/${{ steps.configure.outputs.workspace_repository }}.git" workspace
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install optional requirements
+        run: |
+          if [ -f "project/optional_requirements.txt" ]
+          then
+            echo "Installing optional requirements"
+            python3 -m pip install -r "project/requirements.txt"
+            python3 -m pip install -r "project/optional_requirements.txt"
+            pip install matplotlib==3.6.0
+          fi
+      - name: Install project
+        run: |
+          python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple "${{ steps.configure.outputs.project }}==${{ needs.version_number.outputs.version_number }}"
+      - name: Install Jupyter dependency
+        run: |
+          python3 -m pip install jupyter ipynb-py-convert
+      - name: Generate Jupyter notebooks
+        run: |
+          export PYTHONPATH=$PYTHONPATH:$(pwd)/PyAutoBuild
+          AUTOBUILD_PATH="$(pwd)/PyAutoBuild/autobuild"
+          pushd "workspace"
+          python3 "$AUTOBUILD_PATH/generate.py" ${{ matrix.project.name }}
+      - name: Run Jupyter notebooks
+        run: |
+          if [[ ${{ matrix.project.name }} == *_test ]]
+          then
+            export PYAUTOFIT_TEST_MODE=0
+          else
+            export PYAUTOFIT_TEST_MODE=1
+          fi
+          export PYTHONPATH=$PYTHONPATH:$(pwd)/PyAutoBuild
+          AUTOBUILD_PATH="$(pwd)/PyAutoBuild/autobuild"
+          pushd workspace
+          python3 "$AUTOBUILD_PATH/run.py" ${{ matrix.project.name }} "notebooks/${{ matrix.project.directory }}"
+      - name: Configure Git
+        run: |
+          git config --global user.email "richard@rghsoftware.co.uk"
+          git config --global user.name "GitHub Actions bot"
+      - name: Switch to release branch
+        run: |
+          cd workspace
+          git checkout release
+      - name: Merge main into release
+        run: |
+          cd workspace
+          git merge main
+      - name: Commit visualizations
+        run: |
+          cd workspace
+          git add .
+          git commit -m "Updated notebooks with visualizations" || true
+      - name: Push to release branch
+        run: |
+          cd workspace
+          git push origin release
+      - name: Tag release
+        run: |
+          cd workspace
+          VERSION="${{ needs.version_number.outputs.version_number }}"
+          git tag -m "Release $VERSION" -a "$VERSION"
+          git push --tags
