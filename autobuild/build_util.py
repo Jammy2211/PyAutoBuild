@@ -79,8 +79,15 @@ def execute_notebooks_in_folder(
     print(f"Found {len(files)} notebooks")
 
     for file in sorted(files):
-        if visualise_list is not None and file.stem not in visualise_list:
-            continue
+        if visualise_list is not None:
+            without_suffix = str(file.with_suffix(""))
+            if not any(
+                map(
+                    without_suffix.endswith,
+                    visualise_list,
+                )
+            ):
+                continue
         if file.stem not in no_run_list:
             execute_notebook(file)
 
