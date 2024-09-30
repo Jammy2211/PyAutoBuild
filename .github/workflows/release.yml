@@ -19,6 +19,10 @@ on:
         description: 'Skip release'
         required: false
         default: 'false'
+      update_notebook_visualisations:
+        description: 'Update notebook visualisations'
+        required: false
+        default: 'false'
 
 jobs:
   version_number:
@@ -525,3 +529,130 @@ jobs:
         git tag -m "Release $VERSION" -a "$VERSION"
         git push
         git push --tags
+        
+
+  run_notebooks_and_release_workspaces:
+    runs-on: ubuntu-latest
+    env:
+      TWINE_REPOSITORY: pypi
+      TWINE_USERNAME: __token__
+      TWINE_PASSWORD: ${{ secrets.PYPI }}
+    needs:
+      - run_scripts
+      - release_test_pypi
+      - version_number
+      - find_scripts
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [ 3.11 ]
+        project:
+          - name: autofit
+            repository: rhayes777/PyAutoFit
+            workspace_repository: Jammy2211/autofit_workspace
+            pat: PAT_RICH
+          - name: autogalaxy
+            repository: Jammy2211/PyAutoGalaxy
+            workspace_repository: Jammy2211/autogalaxy_workspace
+            pat: PAT_JAMES
+          - name: autolens
+            repository: Jammy2211/PyAutoLens
+            workspace_repository: Jammy2211/autolens_workspace
+            pat: PAT_JAMES
+          - name: autocti
+            repository: Jammy2211/PyAutoCTI
+            workspace_repository: Jammy2211/autocti_workspace
+            pat: PAT_JAMES
+    steps:
+      - name: Configure
+        id: configure
+        if: "${{ github.event.inputs.update_notebook_visualisations == 'true' }}"
+        run: |
+          echo "::set-output name=repository::${{ matrix.project.repository }}"
+          echo "::set-output name=workspace_repository::${{ matrix.project.workspace_repository }}"
+          echo "::set-output name=project::${{ matrix.project.name }}"
+          echo "::set-output name=pat::${{ matrix.project.pat }}"
+      - uses: actions/checkout@v2
+        if: "${{ github.event.inputs.update_notebook_visualisations == 'true' }}"
+        with:
+          path: PyAutoBuild
+      - name: Checkout project
+        if: "${{ github.event.inputs.update_notebook_visualisations == 'true' }}"
+        uses: actions/checkout@v2
+        with:
+          repository: "${{ steps.configure.outputs.repository }}"
+          path: project
+      - name: Checkout workspace
+        if: "${{ github.event.inputs.update_notebook_visualisations == 'true' }}"
+        run: |
+          PAT="${{ secrets[steps.configure.outputs.pat] }}"
+          git clone -b main "https://$PAT@github.com/${{ steps.configure.outputs.workspace_repository }}.git" workspace
+      - name: Set up Python ${{ matrix.python-version }}
+        if: "${{ github.event.inputs.update_notebook_visualisations == 'true' }}"
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install optional requirements
+        if: "${{ github.event.inputs.update_notebook_visualisations == 'true' }}"
+        run: |
+          if [ -f "project/optional_requirements.txt" ]
+          then
+            echo "Installing optional requirements"
+            python3 -m pip install -r "project/requirements.txt"
+            python3 -m pip install -r "project/optional_requirements.txt"
+            pip install matplotlib==3.6.0
+          fi
+      - name: Install project
+        if: "${{ github.event.inputs.update_notebook_visualisations == 'true' }}"
+        run: |
+          python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple "${{ steps.configure.outputs.project }}==${{ needs.version_number.outputs.version_number }}"
+      - name: Install Jupyter dependency
+        if: "${{ github.event.inputs.update_notebook_visualisations == 'true' }}"
+        run: |
+          python3 -m pip install jupyter ipynb-py-convert
+      - name: Generate Jupyter notebooks
+        if: "${{ github.event.inputs.update_notebook_visualisations == 'true' }}"
+        run: |
+          export PYTHONPATH=$PYTHONPATH:$(pwd)/PyAutoBuild
+          AUTOBUILD_PATH="$(pwd)/PyAutoBuild/autobuild"
+          pushd "workspace"
+          python3 "$AUTOBUILD_PATH/generate.py" ${{ matrix.project.name }}
+      - name: Run Jupyter notebooks
+        if: "${{ github.event.inputs.update_notebook_visualisations == 'true' }}"
+        run: |
+          if [[ ${{ matrix.project.name }} == *_test ]]
+          then
+            export PYAUTOFIT_TEST_MODE=0
+          else
+            export PYAUTOFIT_TEST_MODE=1
+          fi
+          export PYTHONPATH=$PYTHONPATH:$(pwd)/PyAutoBuild
+          AUTOBUILD_PATH="$(pwd)/PyAutoBuild/autobuild"
+          pushd workspace
+          python3 "$AUTOBUILD_PATH/run.py" ${{ matrix.project.name }} "notebooks/${{ matrix.project.directory }}" --visualise
+      - name: Configure Git
+        if: "${{ github.event.inputs.update_notebook_visualisations == 'true' }}"
+        run: |
+          git config --global user.email "richard@rghsoftware.co.uk"
+          git config --global user.name "GitHub Actions bot"
+      - name: Switch to release branch
+        if: "${{ github.event.inputs.update_notebook_visualisations == 'true' }}"
+        run: |
+          cd workspace
+          git checkout release
+      - name: Merge main into release
+        if: "${{ github.event.inputs.update_notebook_visualisations == 'true' }}"
+        run: |
+          cd workspace
+          git merge main
+      - name: Commit visualizations
+        if: "${{ github.event.inputs.update_notebook_visualisations == 'true' }}"
+        run: |
+          cd workspace
+          git add .
+          git commit -m "Updated notebooks with visualizations" || true
+      - name: Push to release branch
+        if: "${{ github.event.inputs.update_notebook_visualisations == 'true' }}"
+        run: |
+          cd workspace
+          git push origin release
