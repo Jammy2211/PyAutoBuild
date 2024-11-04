@@ -22,7 +22,7 @@ autogalaxy:
 - light_centre # GUI scripts cannot be run
 - mask # GUI scripts cannot be run
 - scaled_dataset # GUI scripts cannot be run
-- clump_centres # GUI scripts cannot be run
+- extra_galaxies_centres # GUI scripts cannot be run
 - tutorial_1_individual_models # Dont know how to handle samples of data not being on workspace.
 - tutorial_2_graphical_models # Dont know how to handle samples of data not being on workspace.
 - tutorial_3_graphical_benefits # Dont know how to handle samples of data not being on workspace.
@@ -32,6 +32,7 @@ autogalaxy:
 - tutorial_optional_hierarchical_individual # Dont know how to handle samples of data not being on workspace.
 - tutorial_optional_search_chaining # Dont know how to handle samples of data not being on workspace.
 - tutorial_5_model_fit.py # Preloads fail as Rectangular grid isnt really well defined.
+- VoronoiDrawer # Cant do Voronoi NN
 autolens:
 - profiling
 - tutorial_4_hierarchical_models
@@ -53,7 +54,7 @@ autolens:
 - tutorial_6_model_fit # InversionException due to test mode
 - tutorial_6_science_case
 - result_7_pixelization # InversionException due to test mode
-- clump_centres # GUI scripts cannot be run
+- extra_galaxies_centres # GUI scripts cannot be run
 - lens_light_centre # GUI scripts cannot be run
 - mask # GUI scripts cannot be run
 - positions # GUI scripts cannot be run
@@ -72,6 +73,7 @@ autolens:
 - tutorial_optional_search_chaining # Dont know how to handle samples of data not being on workspace.
 - deflections # Output HDU not supported for VectorYX Detections.
 - deflections_source_snr # Output HDU not supported for VectorYX Detections.
+- VoronoiDrawer # Cant do Voronoi NN
 autocti:
 - GetDist
 - noise_scaling
