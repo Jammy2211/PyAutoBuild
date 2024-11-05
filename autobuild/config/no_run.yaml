@@ -20,8 +20,8 @@ autogalaxy:
 - tutorial_4_models
 - tutorial_optional_manual
 - light_centre # GUI scripts cannot be run
+- mask_extra_galaxies # GUI scripts cannot be run
 - mask # GUI scripts cannot be run
-- scaled_dataset # GUI scripts cannot be run
 - extra_galaxies_centres # GUI scripts cannot be run
 - tutorial_1_individual_models # Dont know how to handle samples of data not being on workspace.
 - tutorial_2_graphical_models # Dont know how to handle samples of data not being on workspace.
@@ -55,10 +55,10 @@ autolens:
 - tutorial_6_science_case
 - result_7_pixelization # InversionException due to test mode
 - extra_galaxies_centres # GUI scripts cannot be run
+- mask_extra_galaxies # GUI scripts cannot be run
 - lens_light_centre # GUI scripts cannot be run
 - mask # GUI scripts cannot be run
 - positions # GUI scripts cannot be run
-- scaled_dataset # GUI scripts cannot be run
 - results_7_pixelization.py # InversionException in test mode
 - api # Multiprocessing causing indefinite running?
 - mass_total__subhalo_nfw__source_parametric # Multiprocessing causing indefinite running?
