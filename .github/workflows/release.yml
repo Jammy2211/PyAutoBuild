@@ -448,6 +448,7 @@ jobs:
         git tag -m "Release $VERSION" -a "$VERSION"
         PAT="${{ secrets[matrix.project.pat] }}"
         git remote set-url --push origin "https://$PAT@github.com/${{ matrix.project.repository }}.git"
+        git push
         git push --tags
     - name: Build
       if: "${{ github.event.inputs.skip_release != 'true' }}"
