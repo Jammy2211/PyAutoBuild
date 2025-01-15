@@ -15,14 +15,12 @@ It uses their associated workspaces:
 - `autofit_workspace <https://github.com/Jammy2211/autofit_workspace>`_
 - `autogalaxy_workspace <https://github.com/Jammy2211/autogalaxy_workspace>`_
 - `autolens_workspace <https://github.com/Jammy2211/autolens_workspace>`_
-- `autocti_workspace <https://github.com/Jammy2211/autocti_workspace>`_
 
 And their test workspaces:
 
 - `autofit_workspace_test <https://github.com/Jammy2211/autofit_workspace_test>`_
 - `autogalaxy_workspace_test <https://github.com/Jammy2211/autogalaxy_workspace_test>`_
 - `autolens_workspace_test <https://github.com/Jammy2211/autolens_workspace_test>`_
-- `autocti_workspace_test <https://github.com/Jammy2211/autocti_workspace_test>`_
 
 The build pipeline includes the following tasks:
 
