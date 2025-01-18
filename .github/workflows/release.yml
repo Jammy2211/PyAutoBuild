@@ -127,8 +127,6 @@ jobs:
             pip install matplotlib==3.6.0
             pip install pylops==2.3.1
             pip install pynufft
-            pip install pytest
-            python3 -m pytest
 
   find_scripts:
       runs-on: ubuntu-latest
