@@ -125,7 +125,7 @@ jobs:
               pip install -r optional_requirements.txt
             fi
             pip install matplotlib==3.6.0
-            pip install pylops==1.18.3
+            pip install pylops==2.3.1
             pip install pynufft
             pip install pytest
             python3 -m pytest
@@ -243,7 +243,7 @@ jobs:
             python3 -m pip install -r "project/requirements.txt"
             python3 -m pip install -r "project/optional_requirements.txt"
             pip install matplotlib==3.6.0
-            pip install pylops==1.18.3
+            pip install pylops==2.3.1
             pip install pynufft
         fi
     - name: Install project
@@ -332,7 +332,7 @@ jobs:
             python3 -m pip install -r "project/requirements.txt"
             python3 -m pip install -r "project/optional_requirements.txt"
             pip install matplotlib==3.6.0
-            pip install pylops==1.18.3
+            pip install pylops==2.3.1
             pip install pynufft
         fi
     - name: Install project
@@ -581,7 +581,7 @@ jobs:
             python3 -m pip install -r "project/requirements.txt"
             python3 -m pip install -r "project/optional_requirements.txt"
             pip install matplotlib==3.6.0
-            pip install pylops==1.18.3
+            pip install pylops==2.3.1
             pip install pynufft
           fi
       - name: Install project
