@@ -71,7 +71,7 @@ def execute_notebook(f):
 def execute_notebooks_in_folder(
     directory,
     no_run_list,
-    visualise_list=None,
+    visualise_dict=None,
 ):
     no_run_list.extend(["__init__", "README"])
     files = list(Path.cwd().rglob(f"{directory}/**/*.ipynb"))
@@ -79,12 +79,12 @@ def execute_notebooks_in_folder(
     print(f"Found {len(files)} notebooks")
 
     for file in sorted(files):
-        if visualise_list is not None:
+        if visualise_dict is not None:
             without_suffix = str(file.with_suffix(""))
             if not any(
                 map(
                     without_suffix.endswith,
-                    visualise_list,
+                    visualise_dict,
                 )
             ):
                 continue
