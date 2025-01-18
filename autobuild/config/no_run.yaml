@@ -76,4 +76,6 @@ autolens:
 - VoronoiDrawer # Cant do Voronoi NN
 autofit_test:
 - Drawer # Only works with sensitivity mapper to not raise InitializerException.
+- session/general # Session mostly works but not maintaining currently.
+- session/multi_analysis # Session mostly works but not maintaining currently.
 autolens_test: []
