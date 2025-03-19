@@ -33,6 +33,8 @@ autogalaxy:
 - tutorial_optional_search_chaining # Dont know how to handle samples of data not being on workspace.
 - tutorial_5_model_fit.py # Preloads fail as Rectangular grid isnt really well defined.
 - VoronoiDrawer # Cant do Voronoi NN
+- fits_make.py # Test mode does not output .fits images.
+- png_make.py # Test mode does not output .png images.
 autolens:
 - profiling
 - tutorial_4_hierarchical_models
@@ -74,6 +76,8 @@ autolens:
 - deflections # Output HDU not supported for VectorYX Detections.
 - deflections_source_snr # Output HDU not supported for VectorYX Detections.
 - VoronoiDrawer # Cant do Voronoi NN
+- fits_make.py # Test mode does not output .fits images.
+- png_make.py # Test mode does not output .png images.
 autofit_test:
 - Drawer # Only works with sensitivity mapper to not raise InitializerException.
 - session/general # Session mostly works but not maintaining currently.
