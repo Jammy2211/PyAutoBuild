@@ -56,10 +56,10 @@ jobs:
             python-version: [3.9]
             project:
               - repository: rhayes777/PyAutoConf
-                ref: feature/setup_cfg
+                ref: main
                 path: PyAutoConf
               - repository: rhayes777/PyAutoFit
-                ref: feature/setup_cfg
+                ref: main
                 path: PyAutoFit
               - repository: Jammy2211/PyAutoArray
                 ref: main
@@ -381,11 +381,11 @@ jobs:
       matrix:
         project:
         - repository: rhayes777/PyAutoConf
-          ref: feature/setup_cfg
+          ref: main
           path: PyAutoConf
           pat: PAT_RICH
         - repository: rhayes777/PyAutoFit
-          ref: feature/setup_cfg
+          ref: main
           path: PyAutoFit
           pat: PAT_RICH
         - repository: Jammy2211/PyAutoArray
