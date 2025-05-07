@@ -94,7 +94,7 @@ jobs:
             popd
         - name: Upload to test PyPI
           run: |
-            python3 -m pip install twine
+            python3 -m pip install twine==4.0.2
             pushd "${{ matrix.project.path }}"
             python3 -m twine upload --repository-url https://test.pypi.org/legacy/ dist/*
             popd
@@ -445,7 +445,7 @@ jobs:
     - name: Upload to PyPI
       if: "${{ github.event.inputs.skip_release != 'true' }}"
       run: |
-        python3 -m pip install twine
+        python3 -m pip install twine==4.0.2
         pushd "${{ matrix.project.path }}"
         python3 -m twine upload dist/*
 
