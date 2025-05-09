@@ -119,7 +119,10 @@ jobs:
         - name: Tests
           run: |
             pushd "${{ matrix.project.path }}"
-            pip install .[optional]
+            if test -f "optional_requirements.txt"
+            then
+              pip install -r optional_requirements.txt
+            fi
             pip install matplotlib==3.6.0
             pip install pylops==2.3.1
             pip install pynufft
@@ -233,12 +236,14 @@ jobs:
     - name: Install optional requirements
       if: "${{ github.event.inputs.skip_scripts != 'true' }}"
       run: |
-        echo "Installing optional requirements"
-#            python3 -m pip install -r "project/optional_requirements.txt"
-        pip install .[optional]
-        pip install matplotlib==3.6.0
-        pip install pylops==2.3.1
-        pip install pynufft
+        if [ -f "project/optional_requirements.txt" ]
+        then
+            echo "Installing optional requirements"
+            python3 -m pip install -r "project/optional_requirements.txt"
+            pip install matplotlib==3.6.0
+            pip install pylops==2.3.1
+            pip install pynufft
+        fi
     - name: Install project
       if: "${{ github.event.inputs.skip_scripts != 'true' }}"
       run: |
@@ -319,12 +324,14 @@ jobs:
     - name: Install optional requirements
       if: "${{ github.event.inputs.skip_notebooks != 'true' }}"
       run: |
-        echo "Installing optional requirements"
- #       python3 -m pip install -r "project/optional_requirements.txt"
-        pip install .[optional]
-        pip install matplotlib==3.6.0
-        pip install pylops==2.3.1
-        pip install pynufft
+        if [ -f "project/optional_requirements.txt" ]
+        then
+            echo "Installing optional requirements"
+            python3 -m pip install -r "project/optional_requirements.txt"
+            pip install matplotlib==3.6.0
+            pip install pylops==2.3.1
+            pip install pynufft
+        fi
     - name: Install project
       if: "${{ github.event.inputs.skip_notebooks != 'true' }}"
       run: |
@@ -565,12 +572,14 @@ jobs:
       - name: Install optional requirements
         if: "${{ github.event.inputs.update_notebook_visualisations == 'true' }}"
         run: |
-          echo "Installing optional requirements"
-   #       python3 -m pip install -r "project/optional_requirements.txt"
-          pip install .[optional]
-          pip install matplotlib==3.6.0
-          pip install pylops==2.3.1
-          pip install pynufft
+          if [ -f "project/optional_requirements.txt" ]
+          then
+            echo "Installing optional requirements"
+            python3 -m pip install -r "project/optional_requirements.txt"
+            pip install matplotlib==3.6.0
+            pip install pylops==2.3.1
+            pip install pynufft
+          fi
       - name: Install project
         if: "${{ github.event.inputs.update_notebook_visualisations == 'true' }}"
         run: |
