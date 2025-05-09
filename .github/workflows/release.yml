@@ -96,7 +96,7 @@ jobs:
           run: |
             python3 -m pip install twine==6.0.1
             pushd "${{ matrix.project.path }}"
-            python3 -m twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+            python3 -m twine upload --repository-url https://test.pypi.org/legacy/ --verbose dist/*
             popd
         - name: Wait for packages to upload to Pypi
           shell: bash {0}   # So that we do not exit if a command gives a bad exit code
@@ -447,7 +447,7 @@ jobs:
       run: |
         python3 -m pip install twine==6.0.1
         pushd "${{ matrix.project.path }}"
-        python3 -m twine upload dist/*
+        python3 -m twine upload --verbose dist/*
 
   release_workspaces:
     runs-on: ubuntu-latest
