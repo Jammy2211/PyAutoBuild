@@ -121,7 +121,6 @@ jobs:
             pushd "${{ matrix.project.path }}"
             if test -f "optional_requirements.txt"
             then
-              pip install -r requirements.txt
               pip install -r optional_requirements.txt
             fi
             pip install matplotlib==3.6.0
@@ -240,7 +239,6 @@ jobs:
         if [ -f "project/optional_requirements.txt" ]
         then
             echo "Installing optional requirements"
-            python3 -m pip install -r "project/requirements.txt"
             python3 -m pip install -r "project/optional_requirements.txt"
             pip install matplotlib==3.6.0
             pip install pylops==2.3.1
@@ -329,7 +327,6 @@ jobs:
         if [ -f "project/optional_requirements.txt" ]
         then
             echo "Installing optional requirements"
-            python3 -m pip install -r "project/requirements.txt"
             python3 -m pip install -r "project/optional_requirements.txt"
             pip install matplotlib==3.6.0
             pip install pylops==2.3.1
@@ -578,7 +575,6 @@ jobs:
           if [ -f "project/optional_requirements.txt" ]
           then
             echo "Installing optional requirements"
-            python3 -m pip install -r "project/requirements.txt"
             python3 -m pip install -r "project/optional_requirements.txt"
             pip install matplotlib==3.6.0
             pip install pylops==2.3.1
