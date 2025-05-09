@@ -233,14 +233,11 @@ jobs:
     - name: Install optional requirements
       if: "${{ github.event.inputs.skip_scripts != 'true' }}"
       run: |
-        if [ -f "project/optional_requirements.txt" ]
-        then
-            echo "Installing optional requirements"
-            python3 -m pip install -r "project/optional_requirements.txt"
-            pip install matplotlib==3.6.0
-            pip install pylops==2.3.1
-            pip install pynufft
-        fi
+          echo "Installing optional requirements"
+          pip install .[optional]
+          pip install matplotlib==3.6.0
+          pip install pylops==2.3.1
+          pip install pynufft
     - name: Install project
       if: "${{ github.event.inputs.skip_scripts != 'true' }}"
       run: |
