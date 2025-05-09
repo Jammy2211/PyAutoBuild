@@ -105,6 +105,7 @@ jobs:
             export VERSION="${{ needs.version_number.outputs.version_number }}"
             for PACKAGE in ${PACKAGES[@]}; do
               python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple $PACKAGE==$VERSION
+              python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple $PACKAGE[optional]==$VERSION
               test_condition=$?
               cnt=0
               while [[ $test_condition != "0" ]]; do
@@ -113,13 +114,13 @@ jobs:
                 ((cnt=cnt+1))
                 [[ $cnt == "100" ]] && echo "Timed out, tried 100 times" && break
                 python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple $PACKAGE==$VERSION
+                python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple $PACKAGE[optional]==$VERSION
                 test_condition=$?
               done
             done
         - name: Tests
           run: |
             pushd "${{ matrix.project.path }}"
-            pip install .[optional]
             pip install matplotlib==3.6.0
             pip install pylops==2.3.1
             pip install pynufft
@@ -234,7 +235,6 @@ jobs:
       if: "${{ github.event.inputs.skip_scripts != 'true' }}"
       run: |
           echo "Installing optional requirements"
-          pip install .[optional]
           pip install matplotlib==3.6.0
           pip install pylops==2.3.1
           pip install pynufft
@@ -319,7 +319,6 @@ jobs:
       if: "${{ github.event.inputs.skip_notebooks != 'true' }}"
       run: |
         echo "Installing optional requirements"
-        pip install .[optional]
         pip install matplotlib==3.6.0
         pip install pylops==2.3.1
         pip install pynufft
@@ -564,7 +563,6 @@ jobs:
         if: "${{ github.event.inputs.update_notebook_visualisations == 'true' }}"
         run: |
           echo "Installing optional requirements"
-          pip install .[optional]
           pip install matplotlib==3.6.0
           pip install pylops==2.3.1
           pip install pynufft
