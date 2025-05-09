@@ -56,19 +56,19 @@ jobs:
             python-version: [3.11]
             project:
               - repository: rhayes777/PyAutoConf
-                ref: feature/pyproject_toml
+                ref: main
                 path: PyAutoConf
               - repository: rhayes777/PyAutoFit
                 ref: feature/pyproject_toml
                 path: PyAutoFit
               - repository: Jammy2211/PyAutoArray
-                ref: feature/pyproject_toml
+                ref: main
                 path: PyAutoArray
               - repository: Jammy2211/PyAutoGalaxy
-                ref: feature/pyproject_toml
+                ref: main
                 path: PyAutoGalaxy
               - repository: Jammy2211/PyAutoLens
-                ref: feature/pyproject_toml
+                ref: main
                 path: PyAutoLens
         steps:
         - uses: actions/checkout@v2
@@ -381,7 +381,7 @@ jobs:
       matrix:
         project:
         - repository: rhayes777/PyAutoConf
-          ref: feature/pyproject_toml
+          ref: main
           path: PyAutoConf
           pat: PAT_RICH
         - repository: rhayes777/PyAutoFit
@@ -389,15 +389,15 @@ jobs:
           path: PyAutoFit
           pat: PAT_RICH
         - repository: Jammy2211/PyAutoArray
-          ref: feature/pyproject_toml
+          ref: main
           path: PyAutoArray
           pat: PAT_JAMES
         - repository: Jammy2211/PyAutoGalaxy
-          ref: feature/pyproject_toml
+          ref: main
           path: PyAutoGalaxy
           pat: PAT_JAMES
         - repository: Jammy2211/PyAutoLens
-          ref: feature/pyproject_toml
+          ref: main
           path: PyAutoLens
           pat: PAT_JAMES
     steps:
