@@ -121,6 +121,7 @@ jobs:
         - name: Tests
           run: |
             pushd "${{ matrix.project.path }}"
+            export JAX_ENABLE_X64=True
             pip install matplotlib==3.6.0
             pip install pytest
             python3 -m pytest
@@ -243,6 +244,7 @@ jobs:
       run: |
         export PYTHONPATH=$PYTHONPATH:$(pwd)/PyAutoBuild
         export PATH=$PATH:$(pwd)/PyAutoBuild/autobuild
+        export JAX_ENABLE_X64=True
         AUTOBUILD_PATH="$(pwd)/PyAutoBuild/autobuild"
 
         if [[ ${{ matrix.project.name }} == *_test ]]
@@ -340,6 +342,7 @@ jobs:
         else
             export PYAUTOFIT_TEST_MODE=1
         fi
+        export JAX_ENABLE_X64=True
 
         export PYTHONPATH=$PYTHONPATH:$(pwd)/PyAutoBuild
         AUTOBUILD_PATH="$(pwd)/PyAutoBuild/autobuild"
