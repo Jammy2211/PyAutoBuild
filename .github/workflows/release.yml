@@ -59,7 +59,7 @@ jobs:
                 ref: main
                 path: PyAutoConf
               - repository: rhayes777/PyAutoFit
-                ref: feature/pyproject_toml
+                ref: main
                 path: PyAutoFit
               - repository: Jammy2211/PyAutoArray
                 ref: main
@@ -366,7 +366,7 @@ jobs:
           path: PyAutoConf
           pat: PAT_RICH
         - repository: rhayes777/PyAutoFit
-          ref: feature/pyproject_toml
+          ref: main
           path: PyAutoFit
           pat: PAT_RICH
         - repository: Jammy2211/PyAutoArray
