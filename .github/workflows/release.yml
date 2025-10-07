@@ -59,7 +59,7 @@ jobs:
                 ref: main
                 path: PyAutoConf
               - repository: rhayes777/PyAutoFit
-                ref: main
+                ref: feature/build_fixes
                 path: PyAutoFit
               - repository: Jammy2211/PyAutoArray
                 ref: main
@@ -123,6 +123,7 @@ jobs:
             pushd "${{ matrix.project.path }}"
             export JAX_ENABLE_X64=True
             pip install matplotlib==3.6.0
+            pip install pynufft==2025.1.1
             pip install pytest
             python3 -m pytest
 
@@ -235,6 +236,7 @@ jobs:
       run: |
           echo "Installing optional requirements"
           pip install matplotlib==3.6.0
+          pip install pynufft==2025.1.1
     - name: Install project
       if: "${{ github.event.inputs.skip_scripts != 'true' }}"
       run: |
@@ -318,6 +320,7 @@ jobs:
       run: |
         echo "Installing optional requirements"
         pip install matplotlib==3.6.0
+        pip install pynufft==2025.1.1
     - name: Install project
       if: "${{ github.event.inputs.skip_notebooks != 'true' }}"
       run: |
@@ -369,7 +372,7 @@ jobs:
           path: PyAutoConf
           pat: PAT_RICH
         - repository: rhayes777/PyAutoFit
-          ref: main
+          ref: feature/build_fixes
           path: PyAutoFit
           pat: PAT_RICH
         - repository: Jammy2211/PyAutoArray
@@ -561,6 +564,7 @@ jobs:
         run: |
           echo "Installing optional requirements"
           pip install matplotlib==3.6.0
+          pip install pynufft==2025.1.1
       - name: Install project
         if: "${{ github.event.inputs.update_notebook_visualisations == 'true' }}"
         run: |
