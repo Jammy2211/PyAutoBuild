@@ -49,8 +49,6 @@ if __name__ == "__main__":
 
         build_util.py_to_notebook(start_here_file)
 
-    fff
-
     scripts_path = Path(f"{WORKSPACE_PATH}/scripts")
     notebooks_path = notebook_path_(scripts_path)
 
