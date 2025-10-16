@@ -104,7 +104,6 @@ jobs:
             export PACKAGES=("autoconf" "autoarray" "autofit" "autogalaxy" "autolens")
             export VERSION="${{ needs.version_number.outputs.version_number }}"
             for PACKAGE in ${PACKAGES[@]}; do
-              python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple $PACKAGE==$VERSION
               python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple $PACKAGE[optional]==$VERSION
               test_condition=$?
               cnt=0
@@ -113,7 +112,6 @@ jobs:
                 sleep 10
                 ((cnt=cnt+1))
                 [[ $cnt == "100" ]] && echo "Timed out, tried 100 times" && break
-                python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple $PACKAGE==$VERSION
                 python3 -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple $PACKAGE[optional]==$VERSION
                 test_condition=$?
               done

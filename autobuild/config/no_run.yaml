@@ -35,6 +35,7 @@ autogalaxy:
 - VoronoiDrawer # Cant do Voronoi NN
 - fits_make.py # Test mode does not output .fits images.
 - png_make.py # Test mode does not output .png images.
+- pixelization.py # beta
 autolens:
 - profiling
 - tutorial_4_hierarchical_models
@@ -78,6 +79,7 @@ autolens:
 - VoronoiDrawer # Cant do Voronoi NN
 - fits_make.py # Test mode does not output .fits images.
 - png_make.py # Test mode does not output .png images.
+- pixelization.py # beta
 autofit_test:
 - Drawer # Only works with sensitivity mapper to not raise InitializerException.
 - session/general # Session mostly works but not maintaining currently.

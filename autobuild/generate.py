@@ -38,6 +38,19 @@ def copy_to_notebooks(source):
 if __name__ == "__main__":
     generate_autofit.generate_project_folders()
 
+    path = Path(".")
+
+    start_here_files = [
+        f for f in path.glob("start_here*.py")
+        if f.name != "welcome.py"
+    ]
+
+    for start_here_file in start_here_files:
+
+        build_util.py_to_notebook(start_here_file)
+
+    fff
+
     scripts_path = Path(f"{WORKSPACE_PATH}/scripts")
     notebooks_path = notebook_path_(scripts_path)
 
