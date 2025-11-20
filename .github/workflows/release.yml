@@ -123,6 +123,7 @@ jobs:
             pip install matplotlib==3.6.0
             pip install pynufft==2025.1.1
             pip install pytest
+            pip install numba
             python3 -m pytest
 
   find_scripts:
@@ -235,6 +236,7 @@ jobs:
           echo "Installing optional requirements"
           pip install matplotlib==3.6.0
           pip install pynufft==2025.1.1
+          pip install numba
     - name: Install project
       if: "${{ github.event.inputs.skip_scripts != 'true' }}"
       run: |
@@ -319,6 +321,7 @@ jobs:
         echo "Installing optional requirements"
         pip install matplotlib==3.6.0
         pip install pynufft==2025.1.1
+        pip install numba
     - name: Install project
       if: "${{ github.event.inputs.skip_notebooks != 'true' }}"
       run: |
@@ -563,6 +566,7 @@ jobs:
           echo "Installing optional requirements"
           pip install matplotlib==3.6.0
           pip install pynufft==2025.1.1
+          pip install numba
       - name: Install project
         if: "${{ github.event.inputs.update_notebook_visualisations == 'true' }}"
         run: |
