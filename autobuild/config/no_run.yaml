@@ -6,80 +6,29 @@ autofit:
 - tutorial_4_hierarchical # Can get sigma cannot be negative error due to test mode
 - start_point # bug https://github.com/rhayes777/PyAutoFit/issues/1017
 autogalaxy:
-- profiling
-- tutorial_4_hierarchical_models
-- tutorial_5_expectation_propagation
-- Zeus # Test Model Iniitalization no good.
-- ZeusPlotter # Test Model Iniitalization no good.
-- UltraNestPlotter # Test Model Iniitalization no good.
-- GetDist # Cant get it to install, even in optional requirements.
 - tutorial_searches
-- example_0
-- example_1
-- tutorial_6_science_case
-- tutorial_4_models
-- tutorial_optional_manual
 - light_centre # GUI scripts cannot be run
 - mask_extra_galaxies # GUI scripts cannot be run
 - mask # GUI scripts cannot be run
 - extra_galaxies_centres # GUI scripts cannot be run
-- tutorial_1_individual_models # Dont know how to handle samples of data not being on workspace.
-- tutorial_2_graphical_models # Dont know how to handle samples of data not being on workspace.
-- tutorial_3_graphical_benefits # Dont know how to handle samples of data not being on workspace.
-- tutorial_4_hierarchical_models # Dont know how to handle samples of data not being on workspace.
-- tutorial_5_expectation_propagation # Dont know how to handle samples of data not being on workspace.
-- tutorial_6_science_case # Dont know how to handle samples of data not being on workspace.
-- tutorial_optional_hierarchical_individual # Dont know how to handle samples of data not being on workspace.
-- tutorial_optional_search_chaining # Dont know how to handle samples of data not being on workspace.
-- tutorial_5_model_fit.py # Preloads fail as RectangularMagnification grid isnt really well defined.
-- VoronoiDrawer # Cant do Voronoi NN
 - fits_make.py # Test mode does not output .fits images.
 - png_make.py # Test mode does not output .png images.
-- pixelization.py # beta
 autolens:
-- profiling
-- tutorial_4_hierarchical_models
-- tutorial_5_expectation_propagation
-- Zeus # Test Model Iniitalization no good.
-- ZeusPlotter # Test Model Iniitalization no good.
-- UltraNestPlotter # Test Model Iniitalization no good.
 - tutorial_searches
-- example_0
-- example_1
-- GetDist # Cant get it to install, even in optional requirements.
-- tutorial_optional_manual
 - features
-- results_4_galaxies.py
-- parametric_to_pixelized
-- sie_to_power_law
-- tutorial_4_models
-- tutorial_4_lens_models
+- tutorial_5_borders # Cant get right masks, need proper update.
 - tutorial_6_model_fit # InversionException due to test mode
-- tutorial_6_science_case
-- result_7_pixelization # InversionException due to test mode
 - extra_galaxies_centres # GUI scripts cannot be run
 - mask_extra_galaxies # GUI scripts cannot be run
 - lens_light_centre # GUI scripts cannot be run
 - mask # GUI scripts cannot be run
 - positions # GUI scripts cannot be run
-- results_7_pixelization.py # InversionException in test mode
-- api # Multiprocessing causing indefinite running?
-- mass_total__subhalo_nfw__source_parametric # Multiprocessing causing indefinite running?
-- mass_total__subhalo_nfw__source_pixelized # Multiprocessing causing indefinite running?
-- tutorial_1_individual_models # Dont know how to handle samples of data not being on workspace.
-- tutorial_2_graphical_models # Dont know how to handle samples of data not being on workspace.
-- tutorial_3_graphical_benefits # Dont know how to handle samples of data not being on workspace.
-- tutorial_4_hierarchical_models # Dont know how to handle samples of data not being on workspace.
-- tutorial_5_expectation_propagation # Dont know how to handle samples of data not being on workspace.
-- tutorial_6_science_case # Dont know how to handle samples of data not being on workspace.
-- tutorial_optional_hierarchical_individual # Dont know how to handle samples of data not being on workspace.
-- tutorial_optional_search_chaining # Dont know how to handle samples of data not being on workspace.
 - deflections # Output HDU not supported for VectorYX Detections.
 - deflections_source_snr # Output HDU not supported for VectorYX Detections.
-- VoronoiDrawer # Cant do Voronoi NN
-- fits_make.py # Test mode does not output .fits images.
-- png_make.py # Test mode does not output .png images.
-- pixelization.py # beta
+- fits_make # Test mode does not output .fits images.
+- png_make # Test mode does not output .png images.
+- time_delays # Test mode does not support cosmology ift
+- source_reconstruction # csv file not output in test mode.
 autofit_test:
 - Drawer # Only works with sensitivity mapper to not raise InitializerException.
 - session/general # Session mostly works but not maintaining currently.
